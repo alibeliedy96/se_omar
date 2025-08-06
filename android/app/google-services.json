@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "827259260882",
+    "project_id": "malath-dev",
+    "storage_bucket": "malath-dev.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:827259260882:android:dae5bdb21e85c7f046820b",
+        "android_client_info": {
+          "package_name": "com.serv.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBbl_xMVQs-GLyW8sNbIumJAJbyXo15OpY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
