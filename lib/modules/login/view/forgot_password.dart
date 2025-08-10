@@ -55,7 +55,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                     CommonTextFieldView(
                       controller: _emailController,
                       titleText: Loc.alized.your_mail,
-                      errorText: _errorEmail,
+                      // errorText: _errorEmail,
                       padding: const EdgeInsets.only(
                           left: 24, right: 24, bottom: 24),
                       hintText: Loc.alized.enter_your_email,

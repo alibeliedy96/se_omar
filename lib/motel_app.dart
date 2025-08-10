@@ -9,7 +9,7 @@ import 'package:mr_omar/language/app_localizations.dart';
 import 'package:mr_omar/logic/controllers/theme_provider.dart';
 import 'package:mr_omar/main.dart';
 import 'package:mr_omar/modules/bottom_tab/bottom_tab_screen.dart';
-import 'package:mr_omar/modules/login/login_screen.dart';
+import 'package:mr_omar/modules/login/view/login/login_screen.dart';
 import 'package:mr_omar/modules/splash/introduction_screen.dart';
 import 'package:mr_omar/modules/splash/splash_screen.dart';
 import 'package:mr_omar/routes/routes.dart';

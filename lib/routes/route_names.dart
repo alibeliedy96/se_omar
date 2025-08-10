@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:mr_omar/models/hotel_list_data.dart';
 import 'package:mr_omar/modules/bottom_tab/bottom_tab_screen.dart';
@@ -8,11 +7,9 @@ import 'package:mr_omar/modules/hotel_detailes/hotel_detailes.dart';
 import 'package:mr_omar/modules/hotel_detailes/reviews_list_screen.dart';
 import 'package:mr_omar/modules/hotel_detailes/room_booking_screen.dart';
 import 'package:mr_omar/modules/hotel_detailes/search_screen.dart';
-import 'package:mr_omar/modules/login/change_password.dart';
-import 'package:mr_omar/modules/login/forgot_password.dart';
-import 'package:mr_omar/modules/login/login_screen.dart';
-import 'package:mr_omar/modules/login/sign_up_screen.dart';
-import 'package:mr_omar/modules/profile/country_screen.dart';
+import 'package:mr_omar/modules/login/view/change_password.dart';
+import 'package:mr_omar/modules/login/view/login/login_screen.dart';
+ import 'package:mr_omar/modules/profile/country_screen.dart';
 import 'package:mr_omar/modules/profile/currency_screen.dart';
 import 'package:mr_omar/modules/profile/edit_profile.dart';
 import 'package:mr_omar/modules/profile/hepl_center_screen.dart';
@@ -22,6 +19,8 @@ import 'package:mr_omar/modules/profile/settings_screen.dart';
 import 'package:mr_omar/routes/routes.dart';
 
 import '../modules/choose_available_days_to_book/presentation/view/choose_available_days_screen.dart';
+import '../modules/login/view/forgot_password.dart';
+import '../modules/login/view/sign_up_Screen.dart';
 
 class NavigationServices {
   NavigationServices(this.context);

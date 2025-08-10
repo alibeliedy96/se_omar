@@ -5,12 +5,14 @@ import 'package:mr_omar/constants/themes.dart';
 class CommonTextFieldView extends StatelessWidget {
   final String? titleText;
   final String hintText;
-  final String? errorText;
   final bool isObscureText, isAllowTopTitleView;
   final EdgeInsetsGeometry padding;
   final Function(String)? onChanged;
   final TextInputType keyboardType;
   final TextEditingController? controller;
+
+  final String? Function(String?)? validator;
+
 
   const CommonTextFieldView({
     Key? key,
@@ -20,9 +22,9 @@ class CommonTextFieldView extends StatelessWidget {
     this.onChanged,
     this.keyboardType = TextInputType.text,
     this.isAllowTopTitleView = true,
-    this.errorText,
     this.titleText = '',
     this.controller,
+    this.validator,
   }) : super(key: key);
 
   @override
@@ -34,8 +36,7 @@ class CommonTextFieldView extends StatelessWidget {
         children: [
           if (isAllowTopTitleView && titleText != '')
             Padding(
-              padding:
-                  const EdgeInsets.only(left: 16, right: 16, top: 4, bottom: 4),
+              padding: const EdgeInsets.only(left: 16, right: 16, top: 4, bottom: 4),
               child: Text(
                 titleText ?? "",
                 style: TextStyles(context).description(),
@@ -53,7 +54,8 @@ class CommonTextFieldView extends StatelessWidget {
               child: SizedBox(
                 height: 48,
                 child: Center(
-                  child: TextField(
+
+                  child: TextFormField(
                     controller: controller,
                     maxLines: 1,
                     onChanged: onChanged,
@@ -63,12 +65,13 @@ class CommonTextFieldView extends StatelessWidget {
                     onEditingComplete: () {
                       FocusScope.of(context).nextFocus();
                     },
+
+                    validator: validator,
                     decoration: InputDecoration(
-                      errorText: null,
+
                       border: InputBorder.none,
                       hintText: hintText,
-                      hintStyle:
-                          TextStyle(color: Theme.of(context).disabledColor),
+                      hintStyle: TextStyle(color: Theme.of(context).disabledColor),
                     ),
                     keyboardType: keyboardType,
                   ),
@@ -76,17 +79,7 @@ class CommonTextFieldView extends StatelessWidget {
               ),
             ),
           ),
-          if (errorText != null && errorText != '')
-            Padding(
-              padding:
-                  const EdgeInsets.only(left: 16, right: 16, top: 4, bottom: 4),
-              child: Text(
-                errorText ?? "",
-                style: TextStyles(context).description().copyWith(
-                      color: AppTheme.redErrorColor,
-                    ),
-              ),
-            )
+
         ],
       ),
     );

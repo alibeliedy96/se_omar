@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:mr_omar/constants/text_styles.dart';
 import 'package:mr_omar/constants/themes.dart';
 import 'package:mr_omar/language/app_localizations.dart';
-import 'package:mr_omar/modules/login/facebook_twitter_button_view.dart';
 import 'package:mr_omar/routes/route_names.dart';
 import 'package:mr_omar/utils/validator.dart';
 import 'package:mr_omar/widgets/common_appbar_view.dart';
@@ -10,7 +9,7 @@ import 'package:mr_omar/widgets/common_button.dart';
 import 'package:mr_omar/widgets/common_text_field_view.dart';
 import 'package:mr_omar/widgets/remove_focuse.dart';
 
-import '../../constants/localfiles.dart';
+import '../../../constants/localfiles.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);
@@ -55,7 +54,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     const SizedBox(height: 20,),
                     CommonTextFieldView(
                       controller: _fnameController,
-                      errorText: _errorFName,
+                      // errorText: _errorFName,
                       padding: const EdgeInsets.only(
                           bottom: 16, left: 24, right: 24),
                       titleText: Loc.alized.first_name,
@@ -65,7 +64,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     ),
                     CommonTextFieldView(
                       controller: _lnameController,
-                      errorText: _errorLName,
+                      // errorText: _errorLName,
                       padding: const EdgeInsets.only(
                           bottom: 16, left: 24, right: 24),
                       titleText: Loc.alized.last_name,
@@ -75,7 +74,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     ),
                     CommonTextFieldView(
                       controller: _emailController,
-                      errorText: _errorEmail,
+                      // errorText: _errorEmail,
                       titleText: Loc.alized.your_mail,
                       padding: const EdgeInsets.only(
                           left: 24, right: 24, bottom: 16),
@@ -85,7 +84,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     ),
                     CommonTextFieldView(
                       controller: _phoneController,
-                      errorText: _errorPhone,
+                      // errorText: _errorPhone,
                       titleText: Loc.alized.your_phone,
                       padding: const EdgeInsets.only(
                           left: 24, right: 24, bottom: 16),
@@ -100,7 +99,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       hintText: Loc.alized.enter_password,
                       isObscureText: true,
                       onChanged: (String txt) {},
-                      errorText: _errorPassword,
+                      // errorText: _errorPassword,
                       controller: _passwordController,
                     ),
                     CommonButton(

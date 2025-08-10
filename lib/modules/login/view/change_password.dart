@@ -68,7 +68,7 @@ class _ChangepasswordScreenState extends State<ChangepasswordScreen> {
                       keyboardType: TextInputType.visiblePassword,
                       isObscureText: true,
                       onChanged: (String txt) {},
-                      errorText: _errorNewPassword,
+                      // errorText: _errorNewPassword,
                     ),
                     CommonTextFieldView(
                       controller: _confirmController,
@@ -79,7 +79,7 @@ class _ChangepasswordScreenState extends State<ChangepasswordScreen> {
                       keyboardType: TextInputType.visiblePassword,
                       isObscureText: true,
                       onChanged: (String txt) {},
-                      errorText: _errorConfirmPassword,
+                      // errorText: _errorConfirmPassword,
                     ),
                     CommonButton(
                       padding: const EdgeInsets.only(
