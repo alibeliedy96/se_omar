@@ -11,7 +11,11 @@ import 'package:mr_omar/routes/route_names.dart';
 import 'package:mr_omar/widgets/common_appbar_view.dart';
 import 'package:mr_omar/widgets/common_card.dart';
 import 'package:mr_omar/widgets/remove_focuse.dart';
-import '../../models/setting_list_data.dart';
+
+import '../../../core/cache/cache_helper.dart';
+import '../../../models/setting_list_data.dart';
+import '../../../utils/app_constants.dart';
+
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({Key? key}) : super(key: key);
@@ -26,8 +30,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    List<SettingsListData> settingsList = SettingsListData.settingsList;
-
     return Scaffold(
       body: RemoveFocuse(
         onClick: () {
@@ -45,46 +47,51 @@ class _SettingsScreenState extends State<SettingsScreen> {
               titleText: Loc.alized.setting_text,
             ),
             Expanded(
-              child: ListView.separated(
-                padding: const EdgeInsets.only(top: 16),
-                itemCount: settingsList.length,
-                separatorBuilder: (context, index) => const Padding(
-                  padding: EdgeInsets.only(left: 16, right: 16),
-                  child: Divider(
-                    height: 1,
-                  ),
-                ),
-                itemBuilder: (context, index) {
-                  if (index == 1) {
-                    return _themeUI(settingsList[index]);
+              child: FutureBuilder<List<SettingsListData>>(
+                future: SettingsListData.getSettingsList(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
                   }
-                  return InkWell(
-                    onTap: () {
-                      if (index == 6) {
+                  if (snapshot.hasError) {
+                    return Center(child: Text('Error: ${snapshot.error}'));
+                  }
 
-                      } else if (index == 5) {
-                        // NavigationServices(context)
-                        //     .gotoCountryScreen()
-                        //     .then((value) {
-                        //   if (value is String && value != "") {
-                        //     setState(() {
-                        //       country = value;
-                        //     });
-                        //   }
-                        // });
-                      } else if (index == 2) {
-                        _getFontPopUI();
-                      } else if (index == 3) {
-                        _getColorPopUI();
-                      } else if (index == 4) {
-                        _getLanguageUI();
-                      } else if (index == 8) {
-                        _gotoLoginScreen();
+                  final settingsList = snapshot.data ?? [];
+
+                  return ListView.separated(
+                    padding: const EdgeInsets.only(top: 16),
+                    itemCount: settingsList.length,
+                    separatorBuilder: (context, index) => const Padding(
+                      padding: EdgeInsets.only(left: 16, right: 16),
+                      child: Divider(height: 1),
+                    ),
+                    itemBuilder: (context, index) {
+                      if (index == 1) {
+                        return _themeUI(settingsList[index]);
                       }
-                    },
-                    child: Column(
-                      children: <Widget>[
-                        Padding(
+                      return InkWell(
+                        onTap: () async {
+                          final token = await CacheHelper.getData(key: AppConstants.token);
+                          if (index == 6) {
+                            // TODO: Action for index 6
+                          } else if (index == 5) {
+                            // TODO: Action for index 5
+                          } else if (index == 2) {
+                            _getFontPopUI();
+                          } else if (index == 3) {
+                            _getColorPopUI();
+                          } else if (index == 4) {
+                            _getLanguageUI();
+                          } else if (index == 8) {
+                            if(token !=null) {
+                              _gotoLoginScreen();
+                            }else{
+                              NavigationServices(Get.context!).gotoLoginScreen();
+                            }
+                          }
+                        },
+                        child: Padding(
                           padding: const EdgeInsets.only(left: 8, right: 16),
                           child: Row(
                             children: <Widget>[
@@ -94,23 +101,24 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                   child: Text(
                                     settingsList[index].titleTxt,
                                     style: const TextStyle(
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 16),
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 16,
+                                    ),
                                   ),
                                 ),
                               ),
                               Padding(
-                                          padding: const EdgeInsets.all(16),
-                                          child: Icon(
-                                              settingsList[index].iconData,
-                                              color:
-                                                  AppTheme.secondaryTextColor),
-                                        )
+                                padding: const EdgeInsets.all(16),
+                                child: Icon(
+                                  settingsList[index].iconData,
+                                  color: AppTheme.secondaryTextColor,
+                                ),
+                              ),
                             ],
                           ),
                         ),
-                      ],
-                    ),
+                      );
+                    },
                   );
                 },
               ),
@@ -120,6 +128,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       ),
     );
   }
+
 
   Widget _themeUI(SettingsListData data) {
     final themeProvider = Get.find<ThemeController>();

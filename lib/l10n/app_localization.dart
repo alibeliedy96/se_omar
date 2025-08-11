@@ -176,6 +176,30 @@ abstract class AppLocalizations {
   /// **'Password'**
   String get password;
 
+  /// No description provided for @enter_password_confirmation.
+  ///
+  /// In en, this message translates to:
+  /// **'enter password confirmation'**
+  String get enter_password_confirmation;
+
+  /// No description provided for @password_confirmation.
+  ///
+  /// In en, this message translates to:
+  /// **'password confirmation'**
+  String get password_confirmation;
+
+  /// No description provided for @passwords_do_not_match.
+  ///
+  /// In en, this message translates to:
+  /// **'passwords do not match'**
+  String get passwords_do_not_match;
+
+  /// No description provided for @fullName.
+  ///
+  /// In en, this message translates to:
+  /// **'Full name'**
+  String get fullName;
+
   /// No description provided for @forgot_your_password.
   ///
   /// In en, this message translates to:
@@ -1097,13 +1121,13 @@ abstract class AppLocalizations {
   /// No description provided for @valid_new_password.
   ///
   /// In en, this message translates to:
-  /// **'We cannot allow less than 6 lengths of the password, please enter a valid new password'**
+  /// **'We cannot allow less than 8 lengths of the password, please enter a valid new password'**
   String get valid_new_password;
 
   /// No description provided for @valid_password.
   ///
   /// In en, this message translates to:
-  /// **'We cannot allow less than 6 lengths of the password, please enter a valid password'**
+  /// **'We cannot allow less than 8 lengths of the password, please enter a valid password'**
   String get valid_password;
 
   /// No description provided for @password_not_match.

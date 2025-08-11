@@ -9,18 +9,15 @@ import 'package:mr_omar/modules/hotel_detailes/room_booking_screen.dart';
 import 'package:mr_omar/modules/hotel_detailes/search_screen.dart';
 import 'package:mr_omar/modules/login/view/change_password.dart';
 import 'package:mr_omar/modules/login/view/login/login_screen.dart';
- import 'package:mr_omar/modules/profile/country_screen.dart';
-import 'package:mr_omar/modules/profile/currency_screen.dart';
-import 'package:mr_omar/modules/profile/edit_profile.dart';
-import 'package:mr_omar/modules/profile/hepl_center_screen.dart';
-import 'package:mr_omar/modules/profile/how_do_screen.dart';
-import 'package:mr_omar/modules/profile/invite_screen.dart';
-import 'package:mr_omar/modules/profile/settings_screen.dart';
+import 'package:mr_omar/modules/profile/view/edit_profile.dart';
+import 'package:mr_omar/modules/profile/view/how_do_screen.dart';
 import 'package:mr_omar/routes/routes.dart';
 
 import '../modules/choose_available_days_to_book/presentation/view/choose_available_days_screen.dart';
 import '../modules/login/view/forgot_password.dart';
-import '../modules/login/view/sign_up_Screen.dart';
+import '../modules/login/view/register/sign_up_Screen.dart';
+import '../modules/profile/view/hepl_center_screen.dart';
+import '../modules/profile/view/settings_screen.dart';
 
 class NavigationServices {
   NavigationServices(this.context);
@@ -117,19 +114,6 @@ class NavigationServices {
     return await _pushMaterialPageRoute(const ChangepasswordScreen());
   }
 
-  Future<dynamic> gotoInviteFriend() async {
-    return await _pushMaterialPageRoute(const InviteFriend());
-  }
-
-  Future<dynamic> gotoCurrencyScreen() async {
-    return await _pushMaterialPageRoute(const CurrencyScreen(),
-        fullscreenDialog: true);
-  }
-
-  Future<dynamic> gotoCountryScreen() async {
-    return await _pushMaterialPageRoute(const CountryScreen(),
-        fullscreenDialog: true);
-  }
 
   Future<dynamic> gotoHowDoScreen() async {
     return await _pushMaterialPageRoute(const HowDoScreen());

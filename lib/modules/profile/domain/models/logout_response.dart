@@ -1,17 +1,17 @@
 class LogoutResponse {
-  int? status;
+  bool? success;
   String? message;
 
-  LogoutResponse({this.status, this.message});
+  LogoutResponse({this.success, this.message});
 
   LogoutResponse.fromJson(Map<String, dynamic> json) {
-    status = json['status'];
+    success = json['success'];
     message = json['message'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['status'] = status;
+    final Map<String, dynamic> data =   <String, dynamic>{};
+    data['success'] = success;
     data['message'] = message;
     return data;
   }

@@ -8,7 +8,8 @@ import 'package:mr_omar/modules/bottom_tab/components/tab_button_ui.dart';
 import 'package:mr_omar/widgets/common_card.dart';
 import '../explore/home_explore.dart';
 import '../myTrips/my_trips_screen.dart';
-import '../profile/profile_screen.dart';
+import '../profile/view/profile_screen.dart';
+
 
 class BottomTabScreen extends StatefulWidget {
   const BottomTabScreen({Key? key}) : super(key: key);

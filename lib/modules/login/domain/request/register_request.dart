@@ -1,58 +1,37 @@
 class RegisterRequest {
-  String? fullname;
-  String? fullnameAr;
-  String? email;
-  String? phone;
-  String? dob;
-  String? gender;
-  String? role;
-  String? timezone;
-  var country;
-  var city;
-  var nationality;
-  String? workfield;
-  String? experience;
-  String? nos;
-  var language;
-  String? achievement;
-  String? idNumber;
-  String? age;
-  String? qualification;
-  String? about;
-  String? about_ar;
-  String? experienceInclude;
-  String? price;
-  List<int>? fields;
-  List<int>? languages;
-  bool? isSocial;
+  final String name;
+  final String email;
+  final String phoneNumber;
+  final String password;
+  final String passwordConfirmation;
 
-  RegisterRequest({this.fullname,this.languages, this.fullnameAr, this.email, this.phone, this.dob, this.gender, this.role, this.timezone,
-      this.country, this.city,this.about_ar, this.price,this.nationality,this.experienceInclude, this.about, this.workfield,
-    this.experience, this.nos, this.qualification, this.achievement, this.idNumber, this.language, this.age, this.isSocial,
-    this.fields});
-
+  RegisterRequest({
+    required this.name,
+    required this.email,
+    required this.phoneNumber,
+    required this.password,
+    required this.passwordConfirmation,
+  });
 
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['fullName'] = fullname;
-    data['fullNameAr'] = fullnameAr;
-    data['email'] = email;
-    data['phone'] = phone;
-    data['password'] = "12345678";
+    return {
+      "name": name,
+      "email": email,
+      "phone_number": phoneNumber,
+      "password": password,
+      "password_confirmation": passwordConfirmation,
+    };
+  }
 
-    if(dob!=null) data['dob'] = dob;
-    if(gender!=null)  data['gender'] = gender;
-    if(role!=null)  data['role'] = role;
-     if(idNumber!=null) data['identity'] = idNumber;
-     if(qualification!=null) data['qualification'] = qualification;
-     if(country!=null) data['country'] = country;
-    if(nationality!=null)  data['nationality'] = nationality;
-    if(city!=null)  data['city'] = city;
-    if (experience !=null)  data['experience'] = experience;
-    if (fields != null) data['fields'] = fields;
-    if (languages != null) data['languages'] = languages;
 
-    return data;
+  factory RegisterRequest.fromJson(Map<String, dynamic> json) {
+    return RegisterRequest(
+      name: json["name"],
+      email: json["email"],
+      phoneNumber: json["phone_number"],
+      password: json["password"],
+      passwordConfirmation: json["password_confirmation"],
+    );
   }
 }

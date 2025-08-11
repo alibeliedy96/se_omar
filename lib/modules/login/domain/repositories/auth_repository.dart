@@ -4,7 +4,6 @@ import '../../../../core/api/error/error_handler/failure.dart';
 
 import '../../../../utils/help_me.dart';
 import '../models/login_or_register_response.dart';
-import '../models/logout_response.dart';
 import '../request/login_request.dart';
 import '../request/register_request.dart';
 import '../../../../../../core/api/shared/shared_methods.dart';
@@ -27,26 +26,8 @@ class AuthRepository implements AuthRepositoryInterface{
 
     );
   }
-  @override
-  Future<Either<Failure, LogoutResponse>> deleteAccount() async {
-    return await handleResponse(
-      endPoint: EndPoints.deleteAccount,
-      asObject: (e) => LogoutResponse.fromJson(e),
-      method: DioMethod.post,
 
-    );
-  }
-  @override
-  Future<Either<Failure,LogoutResponse>> logout() async {
-    return await handleResponse(
-      endPoint: EndPoints.LOGOUT_URI,
-      asObject: (e) => LogoutResponse.fromJson(e),
-      method: DioMethod.post,
 
-      // page: page,
-
-    );
-  }
 
 
 

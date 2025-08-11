@@ -3,7 +3,7 @@ import 'package:mr_omar/constants/text_styles.dart';
 import 'package:mr_omar/constants/themes.dart';
 import 'package:mr_omar/widgets/common_appbar_view.dart';
 import 'package:mr_omar/widgets/remove_focuse.dart';
-import '../../models/setting_list_data.dart';
+import '../../../models/setting_list_data.dart';
 
 class HowDoScreen extends StatefulWidget {
   final String title;

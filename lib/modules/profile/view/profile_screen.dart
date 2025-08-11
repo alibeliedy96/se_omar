@@ -5,7 +5,8 @@ import 'package:mr_omar/constants/themes.dart';
 import 'package:mr_omar/language/app_localizations.dart';
 import 'package:mr_omar/routes/route_names.dart';
 import 'package:mr_omar/widgets/bottom_top_move_animation_view.dart';
-import '../../models/setting_list_data.dart';
+
+import '../../../models/setting_list_data.dart';
 
 class ProfileScreen extends StatefulWidget {
   final AnimationController animationController;

@@ -6,7 +6,7 @@ import 'package:mr_omar/language/app_localizations.dart';
 import 'package:mr_omar/widgets/common_appbar_view.dart';
 import 'package:mr_omar/widgets/common_card.dart';
 import 'package:mr_omar/widgets/remove_focuse.dart';
-import '../../models/setting_list_data.dart';
+import '../../../models/setting_list_data.dart';
 
 class EditProfile extends StatefulWidget {
   const EditProfile({Key? key}) : super(key: key);

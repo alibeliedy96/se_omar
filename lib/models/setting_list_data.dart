@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:mr_omar/core/cache/cache_helper.dart';
 import 'package:mr_omar/language/app_localizations.dart';
+import 'package:mr_omar/utils/app_constants.dart';
 
 class SettingsListData {
   String titleTxt;
@@ -62,49 +64,42 @@ class SettingsListData {
           iconData: FontAwesomeIcons.gear,
         )
       ];
-  static List<SettingsListData> get settingsList => [
-        SettingsListData(
-          titleTxt: Loc.alized.notifications,
-          isSelected: false,
-          iconData: FontAwesomeIcons.solidBell,
-        ),
-        SettingsListData(
-          titleTxt: Loc.alized.theme_mode,
-          isSelected: false,
-          iconData: FontAwesomeIcons.skyatlas,
-        ),
-        SettingsListData(
-          titleTxt: Loc.alized.fonts,
-          isSelected: false,
-          iconData: FontAwesomeIcons.font,
-        ),
-        SettingsListData(
-          titleTxt: Loc.alized.color,
-          isSelected: false,
-          iconData: Icons.color_lens,
-        ),
-        SettingsListData(
-          titleTxt: Loc.alized.language,
-          isSelected: false,
-          iconData: Icons.translate_outlined,
-        ),
-        // SettingsListData(
-        //   titleTxt: Loc.alized.country,
-        //   isSelected: false,
-        //   iconData: FontAwesomeIcons.userGroup,
-        // ),
-        // SettingsListData(
-        //   titleTxt: Loc.alized.currency,
-        //   isSelected: false,
-        //   iconData: FontAwesomeIcons.gift,
-        // ),
-        SettingsListData(
-          titleTxt: Loc.alized.terms_of_services,
-          isSelected: false,
-          iconData: Directionality.of(Get.context!) == TextDirection.rtl
-              ? Icons.keyboard_arrow_left
-              : Icons.keyboard_arrow_right,
-        ),
+  static Future<List<SettingsListData>> getSettingsList() async {
+    final token = await CacheHelper.getData(key: AppConstants.token);
+
+    final list = [
+      SettingsListData(
+        titleTxt: Loc.alized.notifications,
+        isSelected: false,
+        iconData: FontAwesomeIcons.solidBell,
+      ),
+      SettingsListData(
+        titleTxt: Loc.alized.theme_mode,
+        isSelected: false,
+        iconData: FontAwesomeIcons.skyatlas,
+      ),
+      SettingsListData(
+        titleTxt: Loc.alized.fonts,
+        isSelected: false,
+        iconData: FontAwesomeIcons.font,
+      ),
+      SettingsListData(
+        titleTxt: Loc.alized.color,
+        isSelected: false,
+        iconData: Icons.color_lens,
+      ),
+      SettingsListData(
+        titleTxt: Loc.alized.language,
+        isSelected: false,
+        iconData: Icons.translate_outlined,
+      ),
+      SettingsListData(
+        titleTxt: Loc.alized.terms_of_services,
+        isSelected: false,
+        iconData: Directionality.of(Get.context!) == TextDirection.rtl
+            ? Icons.keyboard_arrow_left
+            : Icons.keyboard_arrow_right,
+      ),
       SettingsListData(
         titleTxt: Loc.alized.privacy_policy,
         isSelected: false,
@@ -112,22 +107,41 @@ class SettingsListData {
             ? Icons.keyboard_arrow_left
             : Icons.keyboard_arrow_right,
       ),
+      SettingsListData(
+        titleTxt: Loc.alized.give_us_feedbacks,
+        isSelected: false,
+        iconData: Directionality.of(Get.context!) == TextDirection.rtl
+            ? Icons.keyboard_arrow_left
+            : Icons.keyboard_arrow_right,
+      ),
+    ];
 
-    SettingsListData(
-          titleTxt: Loc.alized.give_us_feedbacks,
-          isSelected: false,
-      iconData: Directionality.of(Get.context!) == TextDirection.rtl
-          ? Icons.keyboard_arrow_left
-          : Icons.keyboard_arrow_right,
-        ),
+
+    if (token != null) {
+      list.add(
         SettingsListData(
           titleTxt: Loc.alized.log_out,
           isSelected: false,
           iconData: Directionality.of(Get.context!) == TextDirection.rtl
               ? Icons.keyboard_arrow_left
               : Icons.keyboard_arrow_right,
-        )
-      ];
+        ),
+      );
+    }else{
+      list.add(
+        SettingsListData(
+          titleTxt: Loc.alized.login,
+          isSelected: false,
+          iconData: Directionality.of(Get.context!) == TextDirection.rtl
+              ? Icons.keyboard_arrow_left
+              : Icons.keyboard_arrow_right,
+        ),
+      );
+    }
+
+    return list;
+  }
+
 
   static List<SettingsListData> currencyList = [
     SettingsListData(

@@ -49,6 +49,18 @@ class AppLocalizationsAr extends AppLocalizations {
   String get password => 'كلمه السر';
 
   @override
+  String get enter_password_confirmation => 'أدخل تأكيد كلمة المرور';
+
+  @override
+  String get password_confirmation => 'تأكيد كلمة المرور';
+
+  @override
+  String get passwords_do_not_match => 'كلمات المرور لا تتطابق';
+
+  @override
+  String get fullName => 'الاسم كامل';
+
+  @override
   String get forgot_your_password => 'نسيت رقمك السري؟';
 
   @override
@@ -519,11 +531,11 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get valid_new_password =>
-      'لا يمكننا السماح بأقل من 6 أطوال لكلمة المرور ، يرجى إدخال كلمة مرور جديدة صالحة';
+      'لا يمكننا السماح بأقل من 8 أطوال لكلمة المرور ، يرجى إدخال كلمة مرور جديدة صالحة';
 
   @override
   String get valid_password =>
-      'لا يمكننا السماح بأقل من 6 أطوال لكلمة المرور ، يرجى إدخال كلمة مرور صالحة';
+      'لا يمكننا السماح بأقل من 8 أطوال لكلمة المرور ، يرجى إدخال كلمة مرور صالحة';
 
   @override
   String get password_not_match =>

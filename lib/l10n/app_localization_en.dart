@@ -50,6 +50,18 @@ class AppLocalizationsEn extends AppLocalizations {
   String get password => 'Password';
 
   @override
+  String get enter_password_confirmation => 'enter password confirmation';
+
+  @override
+  String get password_confirmation => 'password confirmation';
+
+  @override
+  String get passwords_do_not_match => 'passwords do not match';
+
+  @override
+  String get fullName => 'Full name';
+
+  @override
   String get forgot_your_password => 'Forgot your Password?';
 
   @override
@@ -520,11 +532,11 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get valid_new_password =>
-      'We cannot allow less than 6 lengths of the password, please enter a valid new password';
+      'We cannot allow less than 8 lengths of the password, please enter a valid new password';
 
   @override
   String get valid_password =>
-      'We cannot allow less than 6 lengths of the password, please enter a valid password';
+      'We cannot allow less than 8 lengths of the password, please enter a valid password';
 
   @override
   String get password_not_match =>
