@@ -6,9 +6,9 @@ import 'package:mr_omar/language/app_localizations.dart';
 import 'package:mr_omar/logic/controllers/theme_provider.dart';
 import 'package:mr_omar/modules/bottom_tab/components/tab_button_ui.dart';
 import 'package:mr_omar/widgets/common_card.dart';
-import '../explore/home_explore.dart';
+import '../explore/view/home_explore/home_explore.dart';
 import '../myTrips/my_trips_screen.dart';
-import '../profile/view/profile_screen.dart';
+import '../profile/view/profile/profile_screen.dart';
 
 
 class BottomTabScreen extends StatefulWidget {

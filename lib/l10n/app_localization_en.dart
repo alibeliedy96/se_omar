@@ -447,6 +447,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get light => 'light';
 
   @override
+  String get save => 'save';
+
+  @override
   String get dark => 'dark';
 
   @override

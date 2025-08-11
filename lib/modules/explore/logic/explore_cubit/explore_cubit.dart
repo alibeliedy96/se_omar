@@ -10,21 +10,21 @@ import '../../../bottom_tab/bottom_tab_screen.dart';
 import '../../domain/models/login_or_register_response.dart';
 import '../../domain/request/login_request.dart';
 import '../../domain/request/register_request.dart';
-import '../../domain/services/auth_service.dart';
+import '../../domain/services/explore_service.dart';
 
 
-enum AuthApiTypes {  loadInitialData,  login,resendCode,verifyOtp,register }
+enum ExploreApiTypes {  loadInitialData,  login,resendCode,verifyOtp,register }
 
-class AuthCubit extends BaseCubit<AuthApiTypes>   {
-  final AuthService  repo;
-  AuthCubit({required this.repo}): super(AuthApiTypes.loadInitialData);
-  static AuthCubit get() => getIt<AuthCubit>();
+class ExploreCubit extends BaseCubit<ExploreApiTypes>   {
+  final ExploreService  repo;
+  ExploreCubit({required this.repo}): super(ExploreApiTypes.loadInitialData);
+  static ExploreCubit get() => getIt<ExploreCubit>();
 
   /// login
   Future login({required LoginRequestModel loginBody,required context }) async {
 
     return await fastFire<LoginOrRegisterResponse>(
-    type: AuthApiTypes.login,
+    type: ExploreApiTypes.login,
     fun: () {
       return repo.login(loginBody:loginBody);
     },
@@ -82,7 +82,7 @@ class AuthCubit extends BaseCubit<AuthApiTypes>   {
 
 
     return   await fastFire<LoginOrRegisterResponse>(
-      type: AuthApiTypes.register,
+      type: ExploreApiTypes.register,
       fun: () {
         return repo.registerUser(register: register);
       },

@@ -446,6 +446,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get light => 'ضوء';
 
   @override
+  String get save => 'حفظ';
+
+  @override
   String get dark => 'داكن';
 
   @override

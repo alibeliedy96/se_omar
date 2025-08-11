@@ -1,17 +1,20 @@
-class GetProfileResponse {
+class LoginOrRegisterResponse {
   bool? success;
-  GetProfileData? data;
+  String? message;
+  LoginOrRegisterData? data;
 
-  GetProfileResponse({this.success, this.data});
+  LoginOrRegisterResponse({this.success, this.message, this.data});
 
-  GetProfileResponse.fromJson(Map<String, dynamic> json) {
+  LoginOrRegisterResponse.fromJson(Map<String, dynamic> json) {
     success = json['success'];
-    data = json['data'] != null ? GetProfileData.fromJson(json['data']) : null;
+    message = json['message'];
+    data = json['data'] != null ? LoginOrRegisterData.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['success'] = success;
+    data['message'] = message;
     if (this.data != null) {
       data['data'] = this.data!.toJson();
     }
@@ -19,7 +22,28 @@ class GetProfileResponse {
   }
 }
 
-class GetProfileData {
+class LoginOrRegisterData {
+  User? user;
+  String? token;
+
+  LoginOrRegisterData({this.user, this.token});
+
+  LoginOrRegisterData.fromJson(Map<String, dynamic> json) {
+    user = json['user'] != null ? User.fromJson(json['user']) : null;
+    token = json['token'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (user != null) {
+      data['user'] = user!.toJson();
+    }
+    data['token'] = token;
+    return data;
+  }
+}
+
+class User {
   int? id;
   String? name;
   String? email;
@@ -28,7 +52,7 @@ class GetProfileData {
   String? createdAt;
   String? updatedAt;
 
-  GetProfileData(
+  User(
       {this.id,
         this.name,
         this.email,
@@ -37,7 +61,7 @@ class GetProfileData {
         this.createdAt,
         this.updatedAt});
 
-  GetProfileData.fromJson(Map<String, dynamic> json) {
+  User.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
     email = json['email'];

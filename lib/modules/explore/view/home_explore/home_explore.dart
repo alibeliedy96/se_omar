@@ -10,10 +10,10 @@ import 'package:mr_omar/widgets/bottom_top_move_animation_view.dart';
 import 'package:mr_omar/widgets/common_button.dart';
 import 'package:mr_omar/widgets/common_card.dart';
 import 'package:mr_omar/widgets/common_search_bar.dart';
-import '../../models/hotel_list_data.dart';
-import 'home_explore_slider_view.dart';
-import 'popular_list_view.dart';
-import 'title_view.dart';
+import '../../../../models/hotel_list_data.dart';
+import '../../home_explore_slider_view.dart';
+import '../../popular_list_view.dart';
+import '../../title_view.dart';
 
 class HomeExploreScreen extends StatefulWidget {
   final AnimationController animationController;

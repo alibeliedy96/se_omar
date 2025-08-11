@@ -40,6 +40,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
       body: RemoveFocuse(
         onClick: () => FocusScope.of(context).unfocus(),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             CommonAppbarView(
               iconData: Icons.arrow_back,

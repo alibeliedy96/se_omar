@@ -5,22 +5,23 @@ import '../../../../utils/app_constants.dart';
 import '../../../../utils/base_cubit/base_cubit.dart';
 import '../../../../utils/help_me.dart';
 import '../../../../utils/uti.dart';
-import '../../domain/models/get_profile_response.dart';
+import '../../domain/models/profile_response.dart';
 import '../../domain/models/logout_response.dart';
+import '../../domain/request/edit_profile_request.dart';
 import '../../domain/services/profile_service.dart';
 
 
-enum ProfileApiTypes { loadInitialData,getProfile,logout}
+enum ProfileApiTypes { loadInitialData,getProfile,logout,editProfile}
 
 class ProfileCubit extends BaseCubit<ProfileApiTypes>   {
   final ProfileService  repo;
   ProfileCubit({required this.repo}): super(ProfileApiTypes.loadInitialData);
   static ProfileCubit get() => getIt<ProfileCubit>();
 
-  /// login
-  Future login({required context }) async {
+  /// get profile
+  Future getProfile({required context, required   Function(ProfileResponse response)? onSuccess }) async {
 
-    return await fastFire<GetProfileResponse>(
+    return await fastFire<ProfileResponse>(
     type: ProfileApiTypes.getProfile,
     fun: () {
       return repo.getProfile();
@@ -29,7 +30,7 @@ class ProfileCubit extends BaseCubit<ProfileApiTypes>   {
 
 
       if(r.success ==true) {
-
+        onSuccess?.call(r);
         saveUserData(r.data!);
 
       }
@@ -86,6 +87,33 @@ class ProfileCubit extends BaseCubit<ProfileApiTypes>   {
       onFailure: (l) {
 
         UTI.showSnackBar(navigatorKey.currentContext!, l.message, 'error');
+      },
+    );
+
+  }
+
+  /// edit profile
+  Future  editProfile(
+      {required context,required EditProfileRequest editProfile}
+      ) async {
+
+
+    return   await fastFire<ProfileResponse>(
+      type: ProfileApiTypes.editProfile,
+      fun: () {
+        return repo.editProfile(editProfileRequest: editProfile);
+      },
+      onSuccess: (r) {
+        if(r.success ==true) {
+          UTI.showSnackBar(context, r.message, 'success');
+
+          saveUserData(r.data!);
+
+        }
+      },
+      onFailure: (l) {
+        UTI.showSnackBar(context, l.message, 'error');
+        printLog("error   is ${l.message}");
       },
     );
 

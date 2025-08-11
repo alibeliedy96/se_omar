@@ -5,14 +5,14 @@ import 'package:mr_omar/widgets/common_button.dart';
 import 'package:mr_omar/widgets/common_text_field_view.dart';
 import 'package:mr_omar/widgets/remove_focuse.dart';
 
-class ChangepasswordScreen extends StatefulWidget {
-  const ChangepasswordScreen({Key? key}) : super(key: key);
+class ChangePasswordScreen extends StatefulWidget {
+  const ChangePasswordScreen({Key? key}) : super(key: key);
 
   @override
-  State<ChangepasswordScreen> createState() => _ChangepasswordScreenState();
+  State<ChangePasswordScreen> createState() => _ChangePasswordScreenState();
 }
 
-class _ChangepasswordScreenState extends State<ChangepasswordScreen> {
+class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   String _errorNewPassword = '';
   String _errorConfirmPassword = '';
   final TextEditingController _newController = TextEditingController();

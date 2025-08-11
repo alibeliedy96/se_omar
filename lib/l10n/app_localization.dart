@@ -950,6 +950,12 @@ abstract class AppLocalizations {
   /// **'light'**
   String get light;
 
+  /// No description provided for @save.
+  ///
+  /// In en, this message translates to:
+  /// **'save'**
+  String get save;
+
   /// No description provided for @dark.
   ///
   /// In en, this message translates to:

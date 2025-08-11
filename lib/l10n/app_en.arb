@@ -142,6 +142,7 @@
     "notifications":"Notifications",
     "theme_mode": "Theme Mode",
     "light":"light",
+    "save":"save",
     "dark":"dark",
     "system":"system",
     "fonts":"Fonts",

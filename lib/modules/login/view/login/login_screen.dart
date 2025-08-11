@@ -46,6 +46,8 @@ class _LoginScreenState extends State<LoginScreen> {
       body: RemoveFocuse(
         onClick: () => FocusScope.of(context).unfocus(),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             CommonAppbarView(
               iconData: Icons.arrow_back,
@@ -89,6 +91,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
                       // 5. The login button is now wrapped in your BlockBuilder
                       BlockBuilderWidget<AuthCubit, AuthApiTypes>(
+                       disposeCubitAfterUse: true,
                         types: const [AuthApiTypes.login],
                         loading: (_) => _loginButton(context, loading: true),
                         body: (_) => _loginButton(context, loading: false),

@@ -7,9 +7,9 @@ import 'package:mr_omar/modules/hotel_detailes/hotel_detailes.dart';
 import 'package:mr_omar/modules/hotel_detailes/reviews_list_screen.dart';
 import 'package:mr_omar/modules/hotel_detailes/room_booking_screen.dart';
 import 'package:mr_omar/modules/hotel_detailes/search_screen.dart';
-import 'package:mr_omar/modules/login/view/change_password.dart';
+import 'package:mr_omar/modules/profile/view/change_password/change_password.dart';
 import 'package:mr_omar/modules/login/view/login/login_screen.dart';
-import 'package:mr_omar/modules/profile/view/edit_profile.dart';
+import 'package:mr_omar/modules/profile/view/edit_profile/edit_profile.dart';
 import 'package:mr_omar/modules/profile/view/how_do_screen.dart';
 import 'package:mr_omar/routes/routes.dart';
 
@@ -17,7 +17,7 @@ import '../modules/choose_available_days_to_book/presentation/view/choose_availa
 import '../modules/login/view/forgot_password.dart';
 import '../modules/login/view/register/sign_up_Screen.dart';
 import '../modules/profile/view/hepl_center_screen.dart';
-import '../modules/profile/view/settings_screen.dart';
+import '../modules/profile/view/settings/settings_screen.dart';
 
 class NavigationServices {
   NavigationServices(this.context);
@@ -111,7 +111,7 @@ class NavigationServices {
   }
 
   Future<dynamic> gotoChangepasswordScreen() async {
-    return await _pushMaterialPageRoute(const ChangepasswordScreen());
+    return await _pushMaterialPageRoute(const ChangePasswordScreen());
   }
 
 
