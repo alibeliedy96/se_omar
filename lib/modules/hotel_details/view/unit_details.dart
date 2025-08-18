@@ -7,37 +7,46 @@ import 'package:mr_omar/constants/localfiles.dart';
 import 'package:mr_omar/constants/text_styles.dart';
 import 'package:mr_omar/constants/themes.dart';
 import 'package:mr_omar/language/app_localizations.dart';
-import 'package:mr_omar/modules/hotel_detailes/review_data_view.dart';
+import 'package:mr_omar/modules/hotel_details/domain/models/unit_details_response.dart';
+import 'package:mr_omar/modules/hotel_details/review_data_view.dart';
+import 'package:mr_omar/modules/hotel_details/view/unit_details_controller.dart';
 import 'package:mr_omar/routes/route_names.dart';
 import 'package:mr_omar/widgets/common_button.dart';
 import 'package:mr_omar/widgets/common_card.dart';
-import '../../models/hotel_list_data.dart';
-import 'hotel_roome_list.dart';
-import 'rating_view.dart';
+import '../../../models/hotel_list_data.dart';
+import '../../../widgets/base_cached_image_widget.dart';
+import 'widgets/unit_images_list.dart';
+import '../rating_view.dart';
 
-class HotelDetailes extends StatefulWidget {
-  final HotelListData hotelData;
+class HotelDetails extends StatefulWidget {
+  final String unitId  ;
 
-  const HotelDetailes({Key? key, required this.hotelData}) : super(key: key);
+  const HotelDetails({Key? key, required this.unitId,  }) : super(key: key);
   @override
-  State<HotelDetailes> createState() => _HotelDetailesState();
+  State<HotelDetails> createState() => _HotelDetailsState();
 }
 
-class _HotelDetailesState extends State<HotelDetailes>
+class _HotelDetailsState extends State<HotelDetails>
     with TickerProviderStateMixin {
   ScrollController scrollController = ScrollController(initialScrollOffset: 0);
-  var hoteltext1 =
-      "Featuring a fitness center, Grand Royale Park Hote is located in Sweden, 4.7 km frome National Museum...";
-  var hoteltext2 =
-      "Featuring a fitness center, Grand Royale Park Hote is located in Sweden, 4.7 km frome National Museum a fitness center, Grand Royale Park Hote is located in Sweden, 4.7 km frome National Museum a fitness center, Grand Royale Park Hote is located in Sweden, 4.7 km frome National Museum";
+  late final UnitDetailsController _controller;
+  // var hoteltext1 =
+  //     "Featuring a fitness center, Grand Royale Park Hote is located in Sweden, 4.7 km frome National Museum...";
+  // var hoteltext2 =
+  //     "Featuring a fitness center, Grand Royale Park Hote is located in Sweden, 4.7 km frome National Museum a fitness center, Grand Royale Park Hote is located in Sweden, 4.7 km frome National Museum a fitness center, Grand Royale Park Hote is located in Sweden, 4.7 km frome National Museum";
   bool isFav = false;
   bool isReadless = false;
   late AnimationController animationController;
   var imageHieght = 0.0;
   late AnimationController _animationController;
-
+  void _refresh() {
+    if (mounted) setState(() {});
+  }
   @override
   void initState() {
+    _controller = UnitDetailsController();
+    _controller.addListener(_refresh);
+    _controller.init(widget.unitId);
     animationController = AnimationController(
         duration: const Duration(milliseconds: 2000), vsync: this);
     _animationController = AnimationController(
@@ -74,190 +83,189 @@ class _HotelDetailesState extends State<HotelDetailes>
   Widget build(BuildContext context) {
     imageHieght = MediaQuery.of(context).size.height;
     return Scaffold(
-      body: Stack(
-        children: [
-          CommonCard(
-            radius: 0,
-            color: AppTheme.scaffoldBackgroundColor,
-            child: ListView(
-              controller: scrollController,
-              padding: EdgeInsets.only(top: 24 + imageHieght),
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 24, right: 24),
-                  // Hotel title and animation view
-                  child: getHotelDetails(isInList: true),
+      body:  _controller.isLoading
+          ? const Center(child: CircularProgressIndicator(),) // Show shimmer while loading
+          :_buildContent(context),
+    );
+  }
+
+  Stack _buildContent(BuildContext context) {
+    final unit = _controller.unitDetails!;
+    return Stack(
+      children: [
+        CommonCard(
+          radius: 0,
+          color: AppTheme.scaffoldBackgroundColor,
+          child: ListView(
+            controller: scrollController,
+            padding: EdgeInsets.only(top: 24 + imageHieght),
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(left: 24, right: 24),
+                // Hotel title and animation view
+                child: getUnitDetails(isInList: true,unit:unit),
+              ),
+              const Padding(
+                padding: EdgeInsets.all(16.0),
+                child: Divider(
+                  height: 1,
                 ),
-                const Padding(
-                  padding: EdgeInsets.all(16.0),
-                  child: Divider(
-                    height: 1,
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 24, right: 24),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Text(
-                          Loc.alized.summary,
-                          style: TextStyles(context).bold().copyWith(
-                                fontSize: 14,
-                                letterSpacing: 0.5,
-                              ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 24, right: 24),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        Loc.alized.summary,
+                        style: TextStyles(context).bold().copyWith(
+                          fontSize: 14,
+                          letterSpacing: 0.5,
                         ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(
+                    left: 24, right: 24, top: 4, bottom: 8),
+                child: RichText(
+                  textAlign: TextAlign.justify,
+                  text: TextSpan(
+                    children: [
+                      TextSpan(
+                        text: !isReadless ? unit.description??"" : unit.description??"",
+                        style: TextStyles(context).description().copyWith(
+                          fontSize: 14,
+                        ),
+                        recognizer: TapGestureRecognizer()..onTap = () {},
+                      ),
+                      TextSpan(
+                        text: !isReadless
+                            ? Loc.alized.read_more
+                            : Loc.alized.less,
+                        style: TextStyles(context).regular().copyWith(
+                            color: AppTheme.primaryColor, fontSize: 14),
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () {
+                            setState(() {
+                              isReadless = !isReadless;
+                            });
+                          },
                       ),
                     ],
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(
-                      left: 24, right: 24, top: 4, bottom: 8),
-                  child: RichText(
-                    textAlign: TextAlign.justify,
-                    text: TextSpan(
-                      children: [
-                        TextSpan(
-                          text: !isReadless ? hoteltext1 : hoteltext2,
-                          style: TextStyles(context).description().copyWith(
-                                fontSize: 14,
-                              ),
-                          recognizer: TapGestureRecognizer()..onTap = () {},
-                        ),
-                        TextSpan(
-                          text: !isReadless
-                              ? Loc.alized.read_more
-                              : Loc.alized.less,
-                          style: TextStyles(context).regular().copyWith(
-                              color: AppTheme.primaryColor, fontSize: 14),
-                          recognizer: TapGestureRecognizer()
-                            ..onTap = () {
-                              setState(() {
-                                isReadless = !isReadless;
-                              });
-                            },
-                        ),
-                      ],
+              ),
+              Padding(
+                padding: const EdgeInsets.only(
+                  left: 24,
+                  right: 24,
+                  top: 8,
+                  bottom: 16,
+                ),
+                // overall rating view
+                child: RatingView(unit: unit),
+              ),
+              _getPhotoReviewUi(Loc.alized.room_photo, Loc.alized.view_all,
+                Icons.arrow_forward, () {},
+              ),
+
+              // Hotel inside photo view
+                UnitImagesList(images:unit.images),
+              _getPhotoReviewUi(Loc.alized.reviews, Loc.alized.view_all,
+                  Icons.arrow_forward, () {
+                    NavigationServices(context).gotoReviewsListScreen();
+                  }),
+
+              // feedback&Review data view
+              for (var i = 0; i < 2; i++)
+                ReviewsView(
+                  reviewsList: HotelListData.reviewsList[i],
+                  animation: animationController,
+                  animationController: animationController,
+                  callback: () {},
+                ),
+
+              const SizedBox(
+                height: 16,
+              ),
+              Stack(
+                alignment: Alignment.center,
+                children: [
+                  AspectRatio(
+                    aspectRatio: 1.5,
+                    child: Image.asset(
+                      Localfiles.mapImage,
+                      fit: BoxFit.cover,
                     ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(
-                    left: 24,
-                    right: 24,
-                    top: 8,
-                    bottom: 16,
-                  ),
-                  // overall rating view
-                  child: RatingView(hotelData: widget.hotelData),
-                ),
-                _getPhotoReviewUi(Loc.alized.room_photo, Loc.alized.view_all,
-                    Icons.arrow_forward, () {},
-                ),
-
-                // Hotel inside photo view
-                const HotelRoomeList(),
-                _getPhotoReviewUi(Loc.alized.reviews, Loc.alized.view_all,
-                    Icons.arrow_forward, () {
-                  NavigationServices(context).gotoReviewsListScreen();
-                }),
-
-                // feedback&Review data view
-                for (var i = 0; i < 2; i++)
-                  ReviewsView(
-                    reviewsList: HotelListData.reviewsList[i],
-                    animation: animationController,
-                    animationController: animationController,
-                    callback: () {},
-                  ),
-
-                const SizedBox(
-                  height: 16,
-                ),
-                Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    AspectRatio(
-                      aspectRatio: 1.5,
-                      child: Image.asset(
-                        Localfiles.mapImage,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 34, right: 10),
-                      child: CommonCard(
-                        color: AppTheme.primaryColor,
-                        radius: 36,
-                        child: Padding(
-                          padding: const EdgeInsets.all(12.0),
-                          child: Icon(
-                            FontAwesomeIcons.mapPin,
-                            color: Theme.of(context).colorScheme.surface,
-                            size: 28,
-                          ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 34, right: 10),
+                    child: CommonCard(
+                      color: AppTheme.primaryColor,
+                      radius: 36,
+                      child: Padding(
+                        padding: const EdgeInsets.all(12.0),
+                        child: Icon(
+                          FontAwesomeIcons.mapPin,
+                          color: Theme.of(context).colorScheme.surface,
+                          size: 28,
                         ),
                       ),
-                    )
-                  ],
+                    ),
+                  )
+                ],
+              ),
+              Padding(
+                padding: const EdgeInsets.only(
+                    left: 16, right: 16, bottom: 16, top: 16),
+                child: CommonButton(
+                  buttonText: Loc.alized.book_now,
+                  onTap: () {
+                    NavigationServices(context)
+                        .gotoBookScreen();
+                  },
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(
-                      left: 16, right: 16, bottom: 16, top: 16),
-                  child: CommonButton(
-                    buttonText: Loc.alized.book_now,
-                    onTap: () {
-                       NavigationServices(context)
-                           .gotoBookScreen();
-                    },
-                  ),
+              ),
+
+              SizedBox(
+                height: MediaQuery.of(context).padding.bottom,
+              ),
+            ],
+          ),
+        ),
+
+        // backgrouund image and Hotel name and thier details and more details animation view
+        _backgroundImageUI(unit),
+
+        // Arrow back Ui
+        Padding(
+          padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
+          child: SizedBox(
+            height: AppBar().preferredSize.height,
+            child: Row(
+              children: [
+                _getAppBarUi(Theme.of(context).disabledColor.withValues(alpha:0.4),
+                    Icons.arrow_back, AppTheme.backgroundColor, () {
+                      if (scrollController.offset != 0.0) {
+                        scrollController.animateTo(0.0,
+                            duration: const Duration(milliseconds: 480),
+                            curve: Curves.easeInOutQuad);
+                      } else {
+                        Navigator.pop(context);
+                      }
+                    }),
+                const Expanded(
+                  child: SizedBox(),
                 ),
 
-                SizedBox(
-                  height: MediaQuery.of(context).padding.bottom,
-                ),
               ],
             ),
           ),
-
-          // backgrouund image and Hotel name and thier details and more details animation view
-          _backgroundImageUI(widget.hotelData),
-
-          // Arrow back Ui
-          Padding(
-            padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
-            child: SizedBox(
-              height: AppBar().preferredSize.height,
-              child: Row(
-                children: [
-                  _getAppBarUi(Theme.of(context).disabledColor.withValues(alpha:0.4),
-                      Icons.arrow_back, AppTheme.backgroundColor, () {
-                    if (scrollController.offset != 0.0) {
-                      scrollController.animateTo(0.0,
-                          duration: const Duration(milliseconds: 480),
-                          curve: Curves.easeInOutQuad);
-                    } else {
-                      Navigator.pop(context);
-                    }
-                  }),
-                  const Expanded(
-                    child: SizedBox(),
-                  ),
-                  // like and unlike view
-                  // _getAppBarUi(
-                  //     AppTheme.backgroundColor,
-                  //     isFav ? Icons.favorite : Icons.favorite_border,
-                  //     AppTheme.primaryColor, () {
-                  //   setState(() {
-                  //     isFav = !isFav;
-                  //   });
-                  // })
-                ],
-              ),
-            ),
-          )
-        ],
-      ),
+        )
+      ],
     );
   }
   Widget _getAppBarUi(
@@ -299,8 +307,8 @@ class _HotelDetailesState extends State<HotelDetailes>
             child: Text(
               title,
               style: TextStyles(context).bold().copyWith(
-                    fontSize: 14,
-                  ),
+                fontSize: 14,
+              ),
             ),
           ),
           // Material(
@@ -340,7 +348,7 @@ class _HotelDetailesState extends State<HotelDetailes>
     );
   }
 
-  Widget _backgroundImageUI(HotelListData hotelData) {
+  Widget _backgroundImageUI(UnitDetailsData unit) {
     return Positioned(
       top: 0,
       left: 0,
@@ -367,9 +375,13 @@ class _HotelDetailesState extends State<HotelDetailes>
                         top: 0,
                         child: SizedBox(
                           width: MediaQuery.of(context).size.width,
-                          child: Image.asset(
-                            hotelData.imagePath,
-                            fit: BoxFit.cover,
+                          child:unit.images != null &&
+                              unit.images!.isNotEmpty
+                              ? CachedImageWidget(imageUrl: unit.images!.first.imagePath ?? "", fit: BoxFit.cover,)
+
+                              : Container(
+                            color: Colors.grey.shade300,
+                            child: const Icon(Icons.image, size: 40),
                           ),
                         ),
                       ),
@@ -388,10 +400,10 @@ class _HotelDetailesState extends State<HotelDetailes>
                           padding: const EdgeInsets.only(left: 24, right: 24),
                           child: ClipRRect(
                             borderRadius:
-                                const BorderRadius.all(Radius.circular(24)),
+                            const BorderRadius.all(Radius.circular(24)),
                             child: BackdropFilter(
                               filter:
-                                  ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
+                              ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
                               child: Container(
                                 color: Colors.black12,
                                 padding: const EdgeInsets.all(4.0),
@@ -403,7 +415,7 @@ class _HotelDetailesState extends State<HotelDetailes>
                                     Padding(
                                       padding: const EdgeInsets.only(
                                           left: 16, right: 16, top: 8),
-                                      child: getHotelDetails(),
+                                      child: getUnitDetails(unit: unit),
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.only(
@@ -430,10 +442,10 @@ class _HotelDetailesState extends State<HotelDetailes>
                         Center(
                           child: ClipRRect(
                             borderRadius:
-                                const BorderRadius.all(Radius.circular(24)),
+                            const BorderRadius.all(Radius.circular(24)),
                             child: BackdropFilter(
                               filter:
-                                  ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
+                              ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
                               child: Container(
                                 color: Colors.black12,
                                 child: Material(
@@ -449,8 +461,8 @@ class _HotelDetailesState extends State<HotelDetailes>
                                         scrollController.animateTo(
                                             MediaQuery.of(context).size.height -
                                                 MediaQuery.of(context)
-                                                        .size
-                                                        .height /
+                                                    .size
+                                                    .height /
                                                     5,
                                             duration: const Duration(
                                                 milliseconds: 500),
@@ -466,17 +478,17 @@ class _HotelDetailesState extends State<HotelDetailes>
                                       child: Row(
                                         mainAxisSize: MainAxisSize.min,
                                         mainAxisAlignment:
-                                            MainAxisAlignment.center,
+                                        MainAxisAlignment.center,
                                         crossAxisAlignment:
-                                            CrossAxisAlignment.center,
+                                        CrossAxisAlignment.center,
                                         children: [
                                           Text(
                                             Loc.alized.more_details,
                                             style: TextStyles(context)
                                                 .bold()
                                                 .copyWith(
-                                                  color: Colors.white,
-                                                ),
+                                              color: Colors.white,
+                                            ),
                                           ),
                                           const Padding(
                                             padding: EdgeInsets.only(top: 2),
@@ -507,7 +519,7 @@ class _HotelDetailesState extends State<HotelDetailes>
     );
   }
 
-  Widget getHotelDetails({bool isInList = false}) {
+  Widget getUnitDetails({bool isInList = false, required UnitDetailsData unit}) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.end,
@@ -518,12 +530,12 @@ class _HotelDetailesState extends State<HotelDetailes>
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                widget.hotelData.titleTxt,
+                unit.name??"",
                 textAlign: TextAlign.left,
                 style: TextStyles(context).bold().copyWith(
-                      fontSize: 22,
-                      color: isInList ? AppTheme.fontcolor : Colors.white,
-                    ),
+                  fontSize: 22,
+                  color: isInList ? AppTheme.fontcolor : Colors.white,
+                ),
               ),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -532,13 +544,13 @@ class _HotelDetailesState extends State<HotelDetailes>
 
                   Expanded(
                     child:  Text(
-                      "${Loc.alized.number_of_beds}: ${ widget.hotelData.subTxt}",
+                      "${Loc.alized.number_of_beds}: ${unit.bedrooms ?? 0}",
                       style:
                       TextStyles(context).description().copyWith(
-                        fontSize: 14,
-                        color: isInList
-                          ? Theme.of(context).disabledColor.withValues(alpha:0.5)
-                            : Colors.white
+                          fontSize: 14,
+                          color: isInList
+                              ? Theme.of(context).disabledColor.withValues(alpha:0.5)
+                              : Colors.white
                       ),
                     ),
                   ),
@@ -558,7 +570,7 @@ class _HotelDetailesState extends State<HotelDetailes>
                       style: TextStyles(context)
                           .description()
                           .copyWith(
-                        fontSize: 12,
+                          fontSize: 12,
                           color: isInList
                               ? Theme.of(context).disabledColor.withValues(alpha:0.5)
                               : Colors.white
@@ -570,33 +582,33 @@ class _HotelDetailesState extends State<HotelDetailes>
               isInList
                   ? const SizedBox()
                   : Padding(
-                      padding: const EdgeInsets.only(top: 4),
-                      child: Row(
-                        children: [
-                          Helper.ratingStar(),
-                          Text(
-                            " ${widget.hotelData.reviews}",
-                            style: TextStyles(context).regular().copyWith(
-                                  fontSize: 14,
-                                  color: isInList
-                                      ? Theme.of(context)
-                                          .disabledColor
-                                          .withValues(alpha: 0.5)
-                                      : Colors.white,
-                                ),
-                          ),
-                          Text(
-                            Loc.alized.reviews,
-                            style: TextStyles(context).regular().copyWith(
-                                  fontSize: 14,
-                                  color: isInList
-                                      ? Theme.of(context).disabledColor
-                                      : Colors.white,
-                                ),
-                          ),
-                        ],
+                padding: const EdgeInsets.only(top: 4),
+                child: Row(
+                  children: [
+                    Helper.ratingStar(rating: 2),
+                    Text(
+                      " 1524 ",
+                      style: TextStyles(context).regular().copyWith(
+                        fontSize: 14,
+                        color: isInList
+                            ? Theme.of(context)
+                            .disabledColor
+                            .withValues(alpha: 0.5)
+                            : Colors.white,
                       ),
                     ),
+                    Text(
+                      Loc.alized.reviews,
+                      style: TextStyles(context).regular().copyWith(
+                        fontSize: 14,
+                        color: isInList
+                            ? Theme.of(context).disabledColor
+                            : Colors.white,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ],
           ),
         ),
@@ -605,23 +617,23 @@ class _HotelDetailesState extends State<HotelDetailes>
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             Text(
-              "\$${widget.hotelData.perNight}",
+              "${Loc.alized.egp} ${(double.tryParse(unit.pricing?.basePrice??""))?.toStringAsFixed(0) ?? "0.0"}",
               textAlign: TextAlign.left,
               style: TextStyles(context).bold().copyWith(
-                    fontSize: 22,
-                    color: isInList
-                        ? Theme.of(context).textTheme.bodyLarge!.color
-                        : Colors.white,
-                  ),
+                fontSize: 22,
+                color: isInList
+                    ? Theme.of(context).textTheme.bodyLarge!.color
+                    : Colors.white,
+              ),
             ),
             Text(
               Loc.alized.per_night,
               style: TextStyles(context).regular().copyWith(
-                    fontSize: 14,
-                    color: isInList
-                        ? Theme.of(context).disabledColor
-                        : Colors.white,
-                  ),
+                fontSize: 14,
+                color: isInList
+                    ? Theme.of(context).disabledColor
+                    : Colors.white,
+              ),
             ),
           ],
         ),

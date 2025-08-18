@@ -1,106 +1,84 @@
-import '../../../../../../core/cache/cache_helper.dart';
 import '../../../../../../core/get_it/get_it.dart';
-import '../../../../routes/route_names.dart';
-import '../../../../utils/app_constants.dart';
 import '../../../../utils/base_cubit/base_cubit.dart';
 import '../../../../utils/help_me.dart';
-
-import '../../../../utils/uti.dart';
-import '../../../bottom_tab/bottom_tab_screen.dart';
-import '../../domain/models/login_or_register_response.dart';
-import '../../domain/request/login_request.dart';
-import '../../domain/request/register_request.dart';
+import '../../domain/models/slider_response.dart';
+import '../../domain/models/units_response.dart';
 import '../../domain/services/explore_service.dart';
 
 
-enum ExploreApiTypes {  loadInitialData,  login,resendCode,verifyOtp,register }
+enum ExploreApiTypes {  loadInitialData,  slider,units,}
 
 class ExploreCubit extends BaseCubit<ExploreApiTypes>   {
   final ExploreService  repo;
   ExploreCubit({required this.repo}): super(ExploreApiTypes.loadInitialData);
   static ExploreCubit get() => getIt<ExploreCubit>();
+  ///load init data
+  Future<void> loadInitialData() async {
 
-  /// login
-  Future login({required LoginRequestModel loginBody,required context }) async {
+    fire(ExploreApiTypes.loadInitialData, StateType.loading);
 
-    return await fastFire<LoginOrRegisterResponse>(
-    type: ExploreApiTypes.login,
+
+    await Future.wait([
+      getSliders(),
+      getUnits(),
+
+    ]);
+
+
+
+
+    fire(ExploreApiTypes.loadInitialData, StateType.done);
+  }
+
+
+  /// get Sliders
+  List<SliderData>  _slider=[];
+  List<SliderData>  get slider=> _slider;
+  Future getSliders() async {
+    if (_slider.isNotEmpty) {
+      printLog("Sliders already loaded. Returning cached data.");
+      return;
+    }
+   await fastFire<SlidersResponse>(
+    type: ExploreApiTypes.slider,
     fun: () {
-      return repo.login(loginBody:loginBody);
+      return repo.getSliders();
     },
     onSuccess: (r) {
-      printLog("success   is ${r.message}");
-
-      if(r.success ==true) {
-
-
-
-        UTI.showSnackBar(context, r.message, 'success');
-        saveUserData(r.data!);
-        NavigationServices(context).navigateAndFinish(context, const BottomTabScreen());
-
-
-
-
-
-
-      }
+     if(r.data != null ){
+       _slider=r.data!;
+     }
     },
     onFailure: (l) {
       printLog("l is");
-
-
-      UTI.showSnackBar(context, l.message, 'error');
-
-    }  ,
+      },
   );
   }
 
-
-  ///save User Data
-  Future<void> saveUserData(LoginOrRegisterData data ) async {
-
-    try {
-      CacheHelper.saveData(key: AppConstants.token,value: data.token??"");
-      CacheHelper.saveData(key: AppConstants.userName,value: data.user?.name??"");
-      CacheHelper.saveData(key: AppConstants.phoneNumber,value: data.user?.phoneNumber??"");
-      CacheHelper.saveData(key: AppConstants.USER_ID,value:data.user?.id.toString()??"");
-
-
-      printLog(CacheHelper.getData(key: AppConstants.token, ));
-
-    } catch (e) {
-      rethrow;
+  /// get units
+  List<UnitsData>  _units=[];
+  List<UnitsData>  get units=> _units;
+  Future getUnits() async {
+    if (_units.isNotEmpty) {
+      printLog("units already loaded. Returning cached data.");
+      return;
     }
+      await fastFire<UnitsResponse>(
+    type: ExploreApiTypes.units,
+    fun: () {
+      return repo.getUnits();
+    },
+    onSuccess: (r) {
+     if(r.data != null){
+       _units=r.data!;
+     }
+    },
+    onFailure: (l) {
+      printLog("l is");
+      },
+  );
   }
 
-
-  /// register
-  Future  registerUser(
-  {required context,required RegisterRequest register}
- ) async {
-
-
-    return   await fastFire<LoginOrRegisterResponse>(
-      type: ExploreApiTypes.register,
-      fun: () {
-        return repo.registerUser(register: register);
-      },
-      onSuccess: (r) {
-        if(r.success ==true) {
-          UTI.showSnackBar(context, r.message, 'success');
-
-          saveUserData(r.data!);
-          NavigationServices(context).navigateAndFinish(context, const BottomTabScreen());
-        }
-      },
-      onFailure: (l) {
-        UTI.showSnackBar(context, l.message, 'error');
-        printLog("error   is ${l.message}");
-      },
-    );
-
-  }
 
 
 

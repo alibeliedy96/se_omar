@@ -7,6 +7,11 @@ import '../../modules/explore/domain/repositories/explore_repository_interface.d
 import '../../modules/explore/domain/services/explore_service.dart';
 import '../../modules/explore/domain/services/explore_service_interface.dart';
 import '../../modules/explore/logic/explore_cubit/explore_cubit.dart';
+import '../../modules/hotel_details/domain/repositories/unit_details_repository.dart';
+import '../../modules/hotel_details/domain/repositories/unit_details_repository_interface.dart';
+import '../../modules/hotel_details/domain/services/unit_details_service.dart';
+import '../../modules/hotel_details/domain/services/unit_details_service_interface.dart';
+import '../../modules/hotel_details/logic/unit_details_cubit/unit_details_cubit.dart';
 import '../../modules/login/domain/repositories/auth_repository.dart';
 import '../../modules/login/domain/repositories/auth_repository_interface.dart';
 import '../../modules/login/domain/services/auth_service.dart';
@@ -46,6 +51,7 @@ void initRepositories() {
   sl.registerLazySingleton(() => AuthRepository());
   sl.registerLazySingleton(() => ProfileRepository());
   sl.registerLazySingleton(() => ExploreRepository());
+  sl.registerLazySingleton(() => UnitDetailsRepository());
 
 
 }
@@ -72,6 +78,13 @@ void initInterfaces() {
   sl.registerLazySingleton(() => exploreServiceInterface);
 
 
+  UnitDetailsRepositoryInterface  unitDetailsRepositoryInterface = UnitDetailsRepository();
+  sl.registerLazySingleton(() => unitDetailsRepositoryInterface);
+
+  UnitDetailsServiceInterface unitDetailsServiceInterface = UnitDetailsService( unitDetailsRepositoryInterface: sl());
+  sl.registerLazySingleton(() => unitDetailsServiceInterface);
+
+
 
 }
 // ========================== 🔥 Services 🔥 ==========================
@@ -81,6 +94,7 @@ void initService() {
   sl.registerLazySingleton(() => AuthService(authRepositoryInterface : sl()));
   sl.registerLazySingleton(() => ProfileService(profileRepositoryInterface : sl()));
   sl.registerLazySingleton(() => ExploreService(exploreRepositoryInterface : sl()));
+  sl.registerLazySingleton(() => UnitDetailsService(unitDetailsRepositoryInterface : sl()));
 
 }
 // ========================== 🔥 cubits 🔥 ==========================
@@ -89,5 +103,6 @@ void initCubits() {
   getIt.registerLazySingleton<AuthCubit>(() => AuthCubit(repo: sl()));
   getIt.registerLazySingleton<ProfileCubit>(() => ProfileCubit(repo: sl()));
   getIt.registerLazySingleton<ExploreCubit>(() => ExploreCubit(repo: sl()));
+  getIt.registerLazySingleton<UnitDetailsCubit>(() => UnitDetailsCubit(repo: sl()));
 
 }

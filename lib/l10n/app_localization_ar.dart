@@ -464,6 +464,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get color => 'اللون';
 
   @override
+  String get egp => 'ج.م';
+
+  @override
   String get selected_color => 'اللون المحدد';
 
   @override
@@ -474,6 +477,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get country => 'دولة';
+
+  @override
+  String get old_password => 'كلمة المرور القديمة';
 
   @override
   String get currency => 'عملة';

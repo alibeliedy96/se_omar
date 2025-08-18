@@ -38,7 +38,7 @@ class _UpcomingListViewState extends State<UpcomingListView> {
         return HotelListView(
           callback: () {
             NavigationServices(context)
-                .gotoHotelDetailes(hotelList[index]);
+                .gotoHotelDetails(unitId: "1");
           },
           hotelData: hotelList[index],
           animation: animation,

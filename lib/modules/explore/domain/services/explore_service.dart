@@ -1,10 +1,10 @@
 
 import 'package:dartz/dartz.dart';
+import 'package:mr_omar/modules/explore/domain/models/slider_response.dart';
+import 'package:mr_omar/modules/explore/domain/models/units_response.dart';
 import '../../../../core/api/error/error_handler/failure.dart';
-import '../models/login_or_register_response.dart';
 import '../repositories/explore_repository_interface.dart';
-import '../request/login_request.dart';
-import '../request/register_request.dart';
+
 import 'explore_service_interface.dart';
 
 class ExploreService implements ExploreServiceInterface{
@@ -12,17 +12,17 @@ class ExploreService implements ExploreServiceInterface{
 
   ExploreService({required this.exploreRepositoryInterface});
 
-
-
   @override
-  Future<Either<Failure, LoginOrRegisterResponse>> login({required LoginRequestModel loginBody}) async{
-    return await exploreRepositoryInterface.login( loginBody: loginBody,  );
+  Future<Either<Failure, SlidersResponse>> getSliders() async {
+  return await exploreRepositoryInterface.getSliders();
   }
 
   @override
-  Future<Either<Failure, LoginOrRegisterResponse>> registerUser({required RegisterRequest register})async {
-    return await exploreRepositoryInterface.registerUser(register: register);
+  Future<Either<Failure, UnitsResponse>> getUnits() async {
+    return await exploreRepositoryInterface.getUnits();
   }
+
+
 
 
 

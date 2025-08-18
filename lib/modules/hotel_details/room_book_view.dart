@@ -6,12 +6,12 @@ import 'package:mr_omar/models/hotel_list_data.dart';
 import 'package:mr_omar/widgets/common_button.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-class RoomeBookView extends StatefulWidget {
+class RoomBookView extends StatefulWidget {
   final HotelListData roomData;
   final AnimationController animationController;
   final Animation<double> animation;
 
-  const RoomeBookView(
+  const RoomBookView(
       {Key? key,
       required this.roomData,
       required this.animationController,
@@ -19,10 +19,10 @@ class RoomeBookView extends StatefulWidget {
       : super(key: key);
 
   @override
-  State<RoomeBookView> createState() => _RoomeBookViewState();
+  State<RoomBookView> createState() => _RoomBookViewState();
 }
 
-class _RoomeBookViewState extends State<RoomeBookView> {
+class _RoomBookViewState extends State<RoomBookView> {
   var pageController = PageController(initialPage: 0);
 
   @override

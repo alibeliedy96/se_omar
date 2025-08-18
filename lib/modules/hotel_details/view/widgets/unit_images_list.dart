@@ -1,33 +1,31 @@
 import 'package:flutter/material.dart';
-import 'package:mr_omar/constants/localfiles.dart';
 import 'package:mr_omar/constants/themes.dart';
+import 'package:mr_omar/modules/explore/domain/models/units_response.dart';
 import 'package:mr_omar/widgets/common_card.dart';
 
-class HotelRoomeList extends StatefulWidget {
-  const HotelRoomeList({Key? key}) : super(key: key);
+import '../../../../widgets/base_cached_image_widget.dart';
+
+class UnitImagesList extends StatefulWidget {
+  final List<Images>? images;
+  const UnitImagesList({Key? key, this.images, }) : super(key: key);
 
   @override
-  State<HotelRoomeList> createState() => _HotelRoomeListState();
+  State<UnitImagesList> createState() => _UnitImagesListState();
 }
 
-class _HotelRoomeListState extends State<HotelRoomeList> {
-  List<String> photosList = [
-    Localfiles.hotelRoom_1,
-    Localfiles.hotelRoom_2,
-    Localfiles.hotelRoom_3,
-    Localfiles.hotelRoom_4,
-    Localfiles.hotelRoom_5,
-    Localfiles.hotelRoom_6,
-    Localfiles.hotelRoom_7,
-  ];
+class _UnitImagesListState extends State<UnitImagesList> {
+
 
   @override
   Widget build(BuildContext context) {
+    if(widget.images?.isEmpty??true){
+      return const SizedBox();
+    }
     return SizedBox(
       height: 120,
       child: ListView.builder(
         padding: const EdgeInsets.only(top: 0, bottom: 8, right: 16, left: 16),
-        itemCount: photosList.length,
+        itemCount: widget.images?.length??0,
         scrollDirection: Axis.horizontal,
         itemBuilder: (context, index) {
           return Padding(
@@ -39,10 +37,7 @@ class _HotelRoomeListState extends State<HotelRoomeList> {
                 borderRadius: const BorderRadius.all(Radius.circular(8.0)),
                 child: AspectRatio(
                   aspectRatio: 1,
-                  child: Image.asset(
-                    photosList[index],
-                    fit: BoxFit.cover,
-                  ),
+                  child:CachedImageWidget(imageUrl:widget.images?[index].imagePath??"", fit: BoxFit.cover,),
                 ),
               ),
             ),

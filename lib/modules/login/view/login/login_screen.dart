@@ -91,7 +91,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
                       // 5. The login button is now wrapped in your BlockBuilder
                       BlockBuilderWidget<AuthCubit, AuthApiTypes>(
-                       disposeCubitAfterUse: true,
+
                         types: const [AuthApiTypes.login],
                         loading: (_) => _loginButton(context, loading: true),
                         body: (_) => _loginButton(context, loading: false),

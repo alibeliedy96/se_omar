@@ -1,145 +1,130 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:get/get.dart';
-import 'package:mr_omar/constants/text_styles.dart';
 import 'package:mr_omar/constants/themes.dart';
 import 'package:mr_omar/language/app_localizations.dart';
-import 'package:mr_omar/modules/myTrips/hotel_list_view_page.dart';
-import 'package:mr_omar/routes/route_names.dart';
 import 'package:mr_omar/widgets/bottom_top_move_animation_view.dart';
-import 'package:mr_omar/widgets/common_button.dart';
 import 'package:mr_omar/widgets/common_card.dart';
 import 'package:mr_omar/widgets/common_search_bar.dart';
-import '../../../../models/hotel_list_data.dart';
-import '../../home_explore_slider_view.dart';
-import '../../popular_list_view.dart';
+import 'package:skeletonizer/skeletonizer.dart';
+import '../../../../utils/base_cubit/block_builder_widget.dart';
+import '../../../../utils/uti.dart';
+import 'units_list_view_page.dart';
+import '../../logic/explore_cubit/explore_cubit.dart';
 import '../../title_view.dart';
+import 'home_explore_controller.dart';
+import 'home_explore_slider_view.dart';
+
 
 class HomeExploreScreen extends StatefulWidget {
   final AnimationController animationController;
+  const HomeExploreScreen({Key? key, required this.animationController}) : super(key: key);
 
-  const HomeExploreScreen({Key? key, required this.animationController})
-      : super(key: key);
   @override
   State<HomeExploreScreen> createState() => _HomeExploreScreenState();
 }
 
-class _HomeExploreScreenState extends State<HomeExploreScreen>
-    with TickerProviderStateMixin {
-  var hotelList = HotelListData.hotelList;
-  late ScrollController controller;
-  late AnimationController _animationController;
-  var sliderImageHeight = 0.0;
+class _HomeExploreScreenState extends State<HomeExploreScreen> with TickerProviderStateMixin {
+  late final HomeExploreController _controller;
+  late final ScrollController _scrollController;
+  late final AnimationController _sliderAnimationController;
+  double _sliderImageHeight = 0.0;
+
   @override
   void initState() {
-    _animationController = AnimationController(
-        duration: const Duration(milliseconds: 0), vsync: this);
+    super.initState();
+    _controller = HomeExploreController();
+    _controller.addListener(_refresh);
+
+    _sliderAnimationController = AnimationController(duration: const Duration(milliseconds: 0), vsync: this);
     widget.animationController.forward();
-    controller = ScrollController(initialScrollOffset: 0.0);
-    controller.addListener(() {
+    _scrollController = ScrollController(initialScrollOffset: 0.0);
+
+    _scrollController.addListener(() {
       if (mounted) {
-        if (controller.offset < 0) {
-          // we static set the just below half scrolling values
-          _animationController.animateTo(0.0);
-        } else if (controller.offset > 0.0 &&
-            controller.offset < sliderImageHeight) {
-          // we need around half scrolling values
-          if (controller.offset < ((sliderImageHeight / 1.5))) {
-            _animationController
-                .animateTo((controller.offset / sliderImageHeight));
+        if (_scrollController.offset < 0) {
+          _sliderAnimationController.animateTo(0.0);
+        } else if (_scrollController.offset > 0.0 && _scrollController.offset < _sliderImageHeight) {
+          if (_scrollController.offset < ((_sliderImageHeight / 1.5))) {
+            _sliderAnimationController.animateTo((_scrollController.offset / _sliderImageHeight));
           } else {
-            // we static set the just above half scrolling values "around == 0.64"
-            _animationController
-                .animateTo((sliderImageHeight / 1.5) / sliderImageHeight);
+            _sliderAnimationController.animateTo((_sliderImageHeight / 1.5) / _sliderImageHeight);
           }
         }
       }
     });
-    super.initState();
+  }
+
+  void _refresh() {
+    if (mounted) setState(() {});
+  }
+
+  @override
+  void dispose() {
+    _controller.removeListener(_refresh);
+    _controller.dispose();
+    _sliderAnimationController.dispose();
+    _scrollController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    sliderImageHeight = MediaQuery.of(context).size.width * 1.3;
+    _sliderImageHeight = MediaQuery.of(context).size.width * 1.3;
+
     return BottomTopMoveAnimationView(
       animationController: widget.animationController,
-      child: Stack(
-        children: <Widget>[
-          Container(
+      child:BlockBuilderWidget<ExploreCubit, ExploreApiTypes>(
+        types: const [ExploreApiTypes.loadInitialData ],
+        body: (_) {
+          if((_controller.sliders.isEmpty)&&(_controller.units.isEmpty)) {
+            return  UTI.errorWidget();
+          }else{
+            return _buildContent( loading: false);
+          }
 
+        },
+        error: (_) => UTI.errorWidget(),
+        loading: (_) => _buildContent( loading: true),
+      ),
+    );
+  }
+
+
+
+  Widget _buildContent({required bool loading}) {
+    return Skeletonizer(
+      enabled: loading,
+      child: Stack(
+        children: [
+
+          Container(
             color: AppTheme.scaffoldBackgroundColor,
             child: ListView.builder(
-              controller: controller,
-              itemCount: 4,
-              // padding on top is only for we need spec for sider
-              padding: EdgeInsets.only(top: sliderImageHeight + 32, bottom: 16),
-              scrollDirection: Axis.vertical,
+              controller: _scrollController,
+              itemCount: 2, // 0 for Title, 1 for the list of units
+              padding: EdgeInsets.only(top: _sliderImageHeight + 32, bottom: 16),
               itemBuilder: (context, index) {
-                // some list UI
-                var count = 4;
                 var animation = Tween(begin: 0.0, end: 1.0).animate(
                   CurvedAnimation(
                     parent: widget.animationController,
-                    curve: Interval((1 / count) * index, 1.0,
+                    curve: Interval((1 / 2) * index, 1.0,
                         curve: Curves.fastOutSlowIn),
                   ),
                 );
-                // if (index == 0) {
-                //   return TitleView(
-                //     titleTxt: Loc.alized.popular_destination,
-                //     subTxt: '',
-                //     animation: animation,
-                //     animationController: widget.animationController,
-                //     click: () {},
-                //   );
-                // } else if (index == 1) {
-                //   return Padding(
-                //     padding: const EdgeInsets.only(top: 8),
-                //     //Popular Destinations animation view
-                //     child: PopularListView(
-                //       animationController: widget.animationController,
-                //       callBack: (index) {},
-                //     ),
-                //   );
-                // } else
-                  if (index == 0) {
-                  return TitleView(
+                if (index == 0) {
+                  return _controller.units.isEmpty?TitleView(
                     titleTxt: Loc.alized.best_deal,
-                    subTxt: "",
-                    animation: animation,
-                    isLeftButton: false,
                     animationController: widget.animationController,
-                    click: () {},
-                  );
+                    animation: animation,click: () {  },
+                  ):const SizedBox();
                 } else {
-                  return getDealListView(index);
+                  return _buildUnitsList();
                 }
               },
             ),
           ),
-          // sliderUI with 3 images are moving
           _sliderUI(),
-
-
-          //just gradient for see the time and battry Icon on "TopBar"
-          Positioned(
-            top: 0,
-            left: 0,
-            right: 0,
-            child: Container(
-              height: 80,
-              decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                colors: [
-                  Theme.of(context).colorScheme.surface.withValues(alpha: 0.4),
-                  Theme.of(context).colorScheme.surface.withValues(alpha: 0.0),
-                ],
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-              )),
-            ),
-          ),
-          //   searchUI on Top  Positioned
+          _gradientUI(),
           Positioned(
             top: MediaQuery.of(context).padding.top,
             left: 0,
@@ -151,25 +136,20 @@ class _HomeExploreScreenState extends State<HomeExploreScreen>
     );
   }
 
-
-
   Widget _sliderUI() {
     return Positioned(
       top: 0,
       left: 0,
       right: 0,
       child: AnimatedBuilder(
-        animation: _animationController,
+        animation: _sliderAnimationController,
         builder: (BuildContext context, Widget? child) {
-          // we calculate the opecity between 0.64 to 1.0
-          var opecity = 1.0 -
-              (_animationController.value > 0.64
-                  ? 1.0
-                  : _animationController.value);
+          var opacity = 1.0 - (_sliderAnimationController.value > 0.64 ? 1.0 : _sliderAnimationController.value);
           return SizedBox(
-            height: sliderImageHeight * (1.0 - _animationController.value),
+            height: _sliderImageHeight * (1.0 - _sliderAnimationController.value),
             child: HomeExploreSliderView(
-              opValue: opecity,
+              opValue: opacity,
+              sliders: _controller.sliders, // Pass slider data from controller
               click: () {},
             ),
           );
@@ -178,45 +158,57 @@ class _HomeExploreScreenState extends State<HomeExploreScreen>
     );
   }
 
-  Widget getDealListView(int index) {
-    var hotelList = HotelListData.hotelList;
-    List<Widget> list = [];
-    for (var f in hotelList) {
-      var animation = Tween(begin: 0.0, end: 1.0).animate(
-        CurvedAnimation(
-          parent: widget.animationController,
-          curve: const Interval(0, 1.0, curve: Curves.fastOutSlowIn),
+  Widget _gradientUI() {
+    return Positioned(
+      top: 0, left: 0, right: 0,
+      child: Container(
+        height: 80,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Theme.of(context).scaffoldBackgroundColor.withValues(alpha:  0.4), Theme.of(context).scaffoldBackgroundColor.withValues(alpha: 0.0)],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
         ),
-      );
-      list.add(
-        HotelListViewPage(
-          callback: () {
-            NavigationServices(context).gotoHotelDetailes(f);
-          },
-          hotelData: f,
+      ),
+    );
+  }
+
+  Widget _buildUnitsList() {
+    final units = _controller.units;
+    if(units.isEmpty)
+      {
+        return const SizedBox.shrink();
+      }
+    return ListView.builder(
+      shrinkWrap: true,
+      padding: EdgeInsets.zero,
+      physics: const NeverScrollableScrollPhysics(),
+      itemCount: units.length,
+      itemBuilder: (context, index) {
+        var animation = Tween(begin: 0.0, end: 1.0).animate(
+          CurvedAnimation(parent: widget.animationController, curve: const Interval(0, 1.0, curve: Curves.fastOutSlowIn)),
+        );
+
+        final hotelData = units[index];
+        return UnitsListViewPage(
+          callback: () => _controller.navigateToUnitDetails(context, units[index]),
+          hotelData: hotelData,
           animation: animation,
           animationController: widget.animationController,
-        ),
-      );
-    }
-    return Padding(
-      padding: const EdgeInsets.only(top: 8),
-      child: Column(
-        children: list,
-      ),
+        );
+      },
     );
   }
 
   Widget searchUI() {
     return Padding(
-      padding: const EdgeInsets.only(left: 24, right: 24, top: 16),
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
       child: CommonCard(
         radius: 36,
         child: InkWell(
           borderRadius: const BorderRadius.all(Radius.circular(38)),
-          onTap: () {
-            NavigationServices(context).gotoSearchScreen();
-          },
+          onTap: () => _controller.navigateToSearch(context),
           child: CommonSearchBar(
             iconData: FontAwesomeIcons.magnifyingGlass,
             enabled: false,

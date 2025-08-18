@@ -251,7 +251,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get location => 'Location';
 
   @override
-  String get price => 'Prcie';
+  String get price => 'Price';
 
   @override
   String get room_photo => 'Photo';
@@ -465,6 +465,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get color => 'Color';
 
   @override
+  String get egp => 'EGP';
+
+  @override
   String get selected_color => 'Selected color';
 
   @override
@@ -475,6 +478,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get country => 'Country';
+
+  @override
+  String get old_password => 'old password';
 
   @override
   String get currency => 'Currency';

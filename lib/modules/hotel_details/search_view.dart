@@ -24,7 +24,7 @@ class SearchView extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        NavigationServices(context).gotoHotelDetailes(hotelInfo);
+        NavigationServices(context).gotoHotelDetails(unitId: "1");
       },
       child: ListCellAnimationView(
         animation: animation,

@@ -1,22 +1,14 @@
 import 'package:dartz/dartz.dart';
 
 import '../../../../../../core/api/error/error_handler/failure.dart';
-import '../models/login_or_register_response.dart';
-import '../request/login_request.dart';
-import '../request/register_request.dart';
+import '../models/slider_response.dart';
+import '../models/units_response.dart';
+
 
 
 
 abstract class ExploreRepositoryInterface {
-  Future<Either<Failure, LoginOrRegisterResponse>> login({
-    required LoginRequestModel loginBody,
-  });
+  Future<Either<Failure, SlidersResponse>> getSliders();
 
-
-
-
-  Future<Either<Failure, LoginOrRegisterResponse>> registerUser(
-      {required RegisterRequest register});
+  Future<Either<Failure, UnitsResponse>> getUnits();
 }
-
-

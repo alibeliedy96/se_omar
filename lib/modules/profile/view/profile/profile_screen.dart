@@ -1,6 +1,8 @@
 // File: profile_screen.dart
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:mr_omar/constants/localfiles.dart';
 import 'package:mr_omar/constants/text_styles.dart';
 import 'package:mr_omar/constants/themes.dart';
@@ -9,7 +11,10 @@ import 'package:mr_omar/modules/profile/view/profile/profile_controller.dart';
 import 'package:mr_omar/widgets/bottom_top_move_animation_view.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
+import '../../../../core/cache/cache_helper.dart';
 import '../../../../models/setting_list_data.dart';
+import '../../../../routes/route_names.dart';
+import '../../../../utils/app_constants.dart';
 import '../../../../widgets/base_cached_image_widget.dart';
 
 
@@ -48,7 +53,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    List<SettingsListData> userSettingsList = SettingsListData.userSettingsList;
+
+    List<SettingsListData> userSettingsList =
+    List.from(SettingsListData.userSettingsList);
+
+
+    if (!_controller.isLoggedIn) {
+      userSettingsList.removeWhere(
+              (item) => item.titleTxt == Loc.alized.change_password);
+    }
 
     return BottomTopMoveAnimationView(
       animationController: widget.animationController,
@@ -58,7 +71,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           children: [
             Padding(
               padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
-              child: _buildAppBar(),
+              child: _buildAppBar(context),
             ),
             Expanded(
               child: ListView.builder(
@@ -67,8 +80,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 itemCount: userSettingsList.length,
                 itemBuilder: (context, index) {
                   return InkWell(
-                    // 2. Navigation logic is now in the controller
-                    onTap: () => _controller.onSettingsItemTapped(context, index),
+                    onTap: () =>
+                        _controller.onSettingsItemTapped(context, index),
                     child: Column(
                       children: [
                         Padding(
@@ -80,13 +93,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   padding: const EdgeInsets.all(16.0),
                                   child: Text(
                                     userSettingsList[index].titleTxt,
-                                    style: TextStyles(context).regular().copyWith(fontWeight: FontWeight.w500, fontSize: 16),
+                                    style: TextStyles(context)
+                                        .regular()
+                                        .copyWith(
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 16),
                                   ),
                                 ),
                               ),
                               Padding(
                                 padding: const EdgeInsets.all(16),
-                                child: Icon(userSettingsList[index].iconData, color: AppTheme.secondaryTextColor.withOpacity(0.7)),
+                                child: Icon(userSettingsList[index].iconData,
+                                    color: AppTheme.secondaryTextColor
+                                        .withOpacity(0.7)),
                               )
                             ],
                           ),
@@ -107,12 +126,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
+
   // 3. The AppBar now gets its data from the controller.
-  Widget _buildAppBar() {
+  Widget _buildAppBar(BuildContext context) {
     final profileData = _controller.profileData;
 
     return InkWell(
-      onTap: () => _controller.goToEditProfile(context),
+      onTap: () async {
+        final token = await CacheHelper.getData(key: AppConstants.token);
+        if (token == null) {
+          NavigationServices(Get.context!).gotoLoginScreen();
+        } else {
+          _controller.goToEditProfile(Get.context!);
+        }
+      },
       child: Row(
         children: [
           Expanded(
@@ -123,40 +150,50 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    profileData?.name ?? Loc.alized.amanda_text, // Dynamic name
-                    style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w700),
+                    profileData?.name ?? Loc.alized.login, // Dynamic name
+                    style: const TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
-                  Text(
-                    Loc.alized.view_edit,
-                    style: TextStyle(fontSize: 18, color: Theme.of(context).disabledColor),
+                  FutureBuilder(
+                    future: CacheHelper.getData(key: AppConstants.token),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const SizedBox.shrink();
+                      }
+                      if (snapshot.hasData && snapshot.data != null) {
+                        return Text(
+                          Loc.alized.view_edit,
+                          style: TextStyle(
+                            fontSize: 18,
+                            color: Theme.of(context).disabledColor,
+                          ),
+                        );
+                      } else {
+                        return const SizedBox.shrink(); // مش هيظهر غير لو فيه لوجين
+                      }
+                    },
                   ),
                 ],
               ),
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(right: 24, top: 16, bottom: 16, left: 24),
+            padding: const EdgeInsets.only(
+                right: 24, top: 16, bottom: 16, left: 24),
             child: SizedBox(
               width: 70,
               height: 70,
               child: ClipRRect(
                 borderRadius: const BorderRadius.all(Radius.circular(40.0)),
-                // Dynamic image with a placeholder
-                child:
-                // profileData?.avatar != null
-                //     ? CachedImageWidget(
-                //   imageUrl: profileData?.avatar??"",
-                //   fit: BoxFit.cover,
-                //
-                //
-                // )
-                //     :
-                Image.asset(Localfiles.appIcon),
+                child: Image.asset(Localfiles.appIcon),
               ),
             ),
-          )
+          ),
         ],
       ),
     );
   }
+
 }

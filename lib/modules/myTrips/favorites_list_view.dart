@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mr_omar/modules/myTrips/hotel_list_view_page.dart';
+import 'package:mr_omar/modules/explore/domain/models/units_response.dart';
+import 'package:mr_omar/modules/explore/view/home_explore/units_list_view_page.dart';
 import 'package:mr_omar/routes/route_names.dart';
 import '../../models/hotel_list_data.dart';
 
@@ -35,12 +36,12 @@ class _FavoritesListViewState extends State<FavoritesListView> {
                 curve: Curves.fastOutSlowIn)));
         widget.animationController.forward();
         //Favorites hotel data list and UI View
-        return HotelListViewPage(
+        return UnitsListViewPage(
           callback: () {
             NavigationServices(context)
                 .gotoRoomBookingScreen(hotelList[index].titleTxt);
           },
-          hotelData: hotelList[index],
+          hotelData: UnitsData() ,
           animation: animation,
           animationController: widget.animationController,
         );

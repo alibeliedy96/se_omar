@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mr_omar/constants/text_styles.dart';
-import 'package:mr_omar/modules/hotel_detailes/room_book_view.dart';
+import 'package:mr_omar/modules/hotel_details/room_book_view.dart';
 import '../../models/hotel_list_data.dart';
 
 class RoomBookingScreen extends StatefulWidget {
@@ -49,7 +49,7 @@ class _RoomBookingScreenState extends State<RoomBookingScreen>
                             curve: Curves.fastOutSlowIn)));
                 animationController.forward();
                 //room book view and room data
-                return RoomeBookView(
+                return RoomBookView(
                   roomData: romeList[index],
                   animation: animation,
                   animationController: animationController,

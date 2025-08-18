@@ -3,6 +3,7 @@ import '../../../../core/api/data_source/end_point.dart';
 import '../../../../core/api/error/error_handler/failure.dart';
 
 import '../../../../utils/help_me.dart';
+import '../models/forgot_password_response.dart';
 import '../models/login_or_register_response.dart';
 import '../request/login_request.dart';
 import '../request/register_request.dart';
@@ -22,6 +23,21 @@ class AuthRepository implements AuthRepositoryInterface{
         asObject: (e) => LoginOrRegisterResponse.fromJson(e),
         method: DioMethod.post,
         data:loginBody.toJson()
+
+
+    );
+  }
+
+  @override
+  Future<Either<Failure, ForgotPasswordResponse>> forgotPassword(
+      {required String email}) async {
+    return await handleResponse(
+        endPoint: EndPoints.forgotPassword,
+        asObject: (e) => ForgotPasswordResponse.fromJson(e),
+        method: DioMethod.post,
+        data: {
+          "email":email
+        }
 
 
     );

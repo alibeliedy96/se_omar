@@ -3,10 +3,6 @@ import 'package:mr_omar/models/hotel_list_data.dart';
 import 'package:mr_omar/modules/bottom_tab/bottom_tab_screen.dart';
 import 'package:mr_omar/modules/hotel_booking/filter_screen/filters_screen.dart';
 import 'package:mr_omar/modules/hotel_booking/hotel_home_screen.dart';
-import 'package:mr_omar/modules/hotel_detailes/hotel_detailes.dart';
-import 'package:mr_omar/modules/hotel_detailes/reviews_list_screen.dart';
-import 'package:mr_omar/modules/hotel_detailes/room_booking_screen.dart';
-import 'package:mr_omar/modules/hotel_detailes/search_screen.dart';
 import 'package:mr_omar/modules/profile/view/change_password/change_password.dart';
 import 'package:mr_omar/modules/login/view/login/login_screen.dart';
 import 'package:mr_omar/modules/profile/view/edit_profile/edit_profile.dart';
@@ -14,7 +10,11 @@ import 'package:mr_omar/modules/profile/view/how_do_screen.dart';
 import 'package:mr_omar/routes/routes.dart';
 
 import '../modules/choose_available_days_to_book/presentation/view/choose_available_days_screen.dart';
-import '../modules/login/view/forgot_password.dart';
+import '../modules/hotel_details/view/unit_details.dart';
+import '../modules/hotel_details/reviews_list_screen.dart';
+import '../modules/hotel_details/room_booking_screen.dart';
+import '../modules/hotel_details/search_screen.dart';
+import '../modules/login/view/forgot_password/forgot_password.dart';
 import '../modules/login/view/register/sign_up_Screen.dart';
 import '../modules/profile/view/hepl_center_screen.dart';
 import '../modules/profile/view/settings/settings_screen.dart';
@@ -68,9 +68,9 @@ class NavigationServices {
     return await _pushMaterialPageRoute(const ForgotPasswordScreen());
   }
 
-  Future<dynamic> gotoHotelDetailes(HotelListData hotelData) async {
-    return await _pushMaterialPageRoute(HotelDetailes(
-      hotelData: hotelData,
+  Future<dynamic> gotoHotelDetails({required String unitId}) async {
+    return await _pushMaterialPageRoute(HotelDetails(
+      unitId: unitId,
     ));
   }
 

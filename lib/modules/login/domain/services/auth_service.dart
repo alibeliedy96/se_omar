@@ -1,5 +1,6 @@
 
 import 'package:dartz/dartz.dart';
+import 'package:mr_omar/modules/login/domain/models/forgot_password_response.dart';
 import '../../../../core/api/error/error_handler/failure.dart';
 import '../models/login_or_register_response.dart';
 import '../repositories/auth_repository_interface.dart';
@@ -22,6 +23,11 @@ class AuthService implements AuthServiceInterface{
   @override
   Future<Either<Failure, LoginOrRegisterResponse>> registerUser({required RegisterRequest register})async {
     return await authRepositoryInterface.registerUser(register: register);
+  }
+
+  @override
+  Future<Either<Failure, ForgotPasswordResponse>> forgotPassword({required String email}) async {
+    return await authRepositoryInterface.forgotPassword(email: email);
   }
 
 

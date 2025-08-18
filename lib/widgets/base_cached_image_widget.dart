@@ -78,6 +78,6 @@ class CachedImageWidget extends StatelessWidget {
         decoration: BoxDecoration(
           shape: isShape == true ? BoxShape.circle : BoxShape.rectangle,
         ),
-        child: Image.asset(Localfiles.appIcon, width: width ?? double.infinity, height: height, fit: BoxFit.cover),
+        child: Image.asset(Localfiles.holder, width: width ?? double.infinity, height: height, fit: BoxFit.cover),
       );
 }

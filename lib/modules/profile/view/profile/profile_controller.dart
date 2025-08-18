@@ -2,6 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:mr_omar/routes/route_names.dart';
+import '../../../../core/cache/cache_helper.dart';
+import '../../../../utils/app_constants.dart';
 import '../../domain/models/profile_response.dart';
 import '../../logic/profile_cubit/profile_cubit.dart';
 
@@ -19,17 +21,23 @@ class ProfileController extends ChangeNotifier {
   // ==========================
   GetProfileData? _profileData;
   bool _isLoading = true;
+  bool _isLoggedIn = false;
 
   // ==========================
   //      Public Getters
   // ==========================
   GetProfileData? get profileData => _profileData;
   bool get isLoading => _isLoading;
+  bool get isLoggedIn => _isLoggedIn;
 
   // ==========================
   //      Initialization
   // ==========================
-  void init(BuildContext context) {
+  void init(BuildContext context) async {
+
+    final token = await CacheHelper.getData(key: AppConstants.token);
+    _isLoggedIn = token != null;
+
     fetchProfile(context);
   }
 
@@ -42,10 +50,14 @@ class ProfileController extends ChangeNotifier {
     _isLoading = true;
     notifyListeners();
 
-
-    await _cubit.getProfile(onSuccess: (response) {
-      _profileData = response.data;
-    }, context: context);
+    if (_isLoggedIn) {
+      await _cubit.getProfile(
+        onSuccess: (response) {
+          _profileData = response.data;
+        },
+        context: context,
+      );
+    }
 
     _isLoading = false;
     notifyListeners();
@@ -53,7 +65,8 @@ class ProfileController extends ChangeNotifier {
 
   /// Handles tap on a list item and navigates accordingly.
   void onSettingsItemTapped(BuildContext context, int index) {
-    switch (index) {
+    if (_isLoggedIn) {
+      switch (index) {
       case 0:
         goToChangePassword(context);
         break;
@@ -63,13 +76,29 @@ class ProfileController extends ChangeNotifier {
       case 3:
         goToSettings(context);
         break;
-    // Add other cases as needed
+    }
+    }else{
+      switch (index) {
+        case 0:
+          goToHelpCenter(context);
+          break;
+        // case 1:
+        //   goToHelpCenter(context);
+        //  break;
+        case 2:
+          goToSettings(context);
+          break;
+      }
     }
   }
 
-  /// Navigation methods, keeping the View clean.
+  /// Navigation methods
   void goToEditProfile(BuildContext context) {
-    NavigationServices(context).gotoEditProfile();
+    if (_isLoggedIn) {
+      NavigationServices(context).gotoEditProfile();
+    } else {
+      NavigationServices(context).gotoLoginScreen();
+    }
   }
 
   void goToChangePassword(BuildContext context) {

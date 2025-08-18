@@ -1,12 +1,9 @@
 import 'package:dartz/dartz.dart';
 import '../../../../core/api/data_source/end_point.dart';
 import '../../../../core/api/error/error_handler/failure.dart';
-
-import '../../../../utils/help_me.dart';
-import '../models/login_or_register_response.dart';
-import '../request/login_request.dart';
-import '../request/register_request.dart';
+import '../models/slider_response.dart';
 import '../../../../../../core/api/shared/shared_methods.dart';
+import '../models/units_response.dart';
 import 'explore_repository_interface.dart';
 
 class ExploreRepository implements ExploreRepositoryInterface{
@@ -14,39 +11,24 @@ class ExploreRepository implements ExploreRepositoryInterface{
   ExploreRepository( );
 
   @override
-  Future<Either<Failure, LoginOrRegisterResponse>> login({
-    required LoginRequestModel loginBody,
-  }) async {
+  Future<Either<Failure, SlidersResponse>> getSliders() async {
     return await handleResponse(
-        endPoint: EndPoints.LOGIN_URI,
-        asObject: (e) => LoginOrRegisterResponse.fromJson(e),
-        method: DioMethod.post,
-        data:loginBody.toJson()
-
-
+        endPoint: EndPoints.sliders,
+        asObject: (e) => SlidersResponse.fromJson(e),
+        method: DioMethod.get,
     );
   }
-
-
-
-
-
 
   @override
-  Future<Either<Failure, LoginOrRegisterResponse>> registerUser(
-      {required RegisterRequest register}) async {
-     printLog("register is ${register.toJson()}");
+  Future<Either<Failure, UnitsResponse>> getUnits() async {
     return await handleResponse(
-        endPoint: EndPoints.REGISTRATION_URI,
-        asObject: (e) {
-          return LoginOrRegisterResponse.fromJson(e);
-        },
-        method: DioMethod.post,
-        data: register.toJson()
-
-
+        endPoint: EndPoints.units,
+        asObject: (e) => UnitsResponse.fromJson(e),
+        method: DioMethod.get,
     );
   }
+
+
 
 
 

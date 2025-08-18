@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mr_omar/modules/hotel_detailes/review_data_view.dart';
+import 'package:mr_omar/modules/hotel_details/review_data_view.dart';
 import 'package:mr_omar/widgets/common_appbar_view.dart';
 import '../../models/hotel_list_data.dart';
 

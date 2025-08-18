@@ -575,7 +575,7 @@ abstract class AppLocalizations {
   /// No description provided for @price.
   ///
   /// In en, this message translates to:
-  /// **'Prcie'**
+  /// **'Price'**
   String get price;
 
   /// No description provided for @room_photo.
@@ -986,6 +986,12 @@ abstract class AppLocalizations {
   /// **'Color'**
   String get color;
 
+  /// No description provided for @egp.
+  ///
+  /// In en, this message translates to:
+  /// **'EGP'**
+  String get egp;
+
   /// No description provided for @selected_color.
   ///
   /// In en, this message translates to:
@@ -1009,6 +1015,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Country'**
   String get country;
+
+  /// No description provided for @old_password.
+  ///
+  /// In en, this message translates to:
+  /// **'old password'**
+  String get old_password;
 
   /// No description provided for @currency.
   ///

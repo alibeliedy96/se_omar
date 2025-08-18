@@ -1,29 +1,29 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:mr_omar/constants/helper.dart';
 import 'package:mr_omar/constants/text_styles.dart';
 import 'package:mr_omar/constants/themes.dart';
 import 'package:mr_omar/language/app_localizations.dart';
-import 'package:mr_omar/models/hotel_list_data.dart';
-import 'package:mr_omar/widgets/common_card.dart';
+ import 'package:mr_omar/widgets/common_card.dart';
 import 'package:mr_omar/widgets/list_cell_animation_view.dart';
+import '../../../../widgets/base_cached_image_widget.dart';
+import '../../domain/models/units_response.dart';
 
-class HotelListViewPage extends StatelessWidget {
+class UnitsListViewPage extends StatelessWidget {
   final bool isShowDate;
   final VoidCallback callback;
-  final HotelListData hotelData;
+  final UnitsData hotelData;
   final AnimationController animationController;
   final Animation<double> animation;
 
-  const HotelListViewPage(
-      {Key? key,
-      required this.hotelData,
-      required this.animationController,
-      required this.animation,
-      required this.callback,
-      this.isShowDate = false})
-      : super(key: key);
+  const UnitsListViewPage({
+    Key? key,
+    required this.hotelData,
+    required this.animationController,
+    required this.animation,
+    required this.callback,
+    this.isShowDate = false,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -31,11 +31,10 @@ class HotelListViewPage extends StatelessWidget {
       animation: animation,
       animationController: animationController,
       child: Padding(
-        padding: const EdgeInsets.only(left: 22, right: 22, top: 8, bottom: 14),
+        padding: const EdgeInsets.only(left: 15, right: 15, top: 8, bottom: 14),
         child: CommonCard(
           color: AppTheme.backgroundColor,
           child: ClipRRect(
-            //   borderRadius: BorderRadius.all(Radius.circular(0.0)),
             child: AspectRatio(
               aspectRatio: 2.7,
               child: Stack(
@@ -44,37 +43,43 @@ class HotelListViewPage extends StatelessWidget {
                     children: [
                       AspectRatio(
                         aspectRatio: 0.90,
-                        child: Image.asset(
-                          hotelData.imagePath,
-                          fit: BoxFit.cover,
+                        child: hotelData.images != null &&
+                            hotelData.images!.isNotEmpty
+                            ? CachedImageWidget(imageUrl: hotelData.images!.first.imagePath ?? "", fit: BoxFit.cover,)
+
+                            : Container(
+                          color: Colors.grey.shade300,
+                          child: const Icon(Icons.image, size: 40),
                         ),
                       ),
                       Expanded(
                         child: Container(
                           padding: EdgeInsets.all(
-                              MediaQuery.of(context).size.width >= 360
-                                  ? 12
-                                  : 8),
+                            MediaQuery.of(context).size.width >= 360 ? 12 : 8,
+                          ),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
+                              /// اسم الوحدة
                               Text(
-                                hotelData.titleTxt,
+                                hotelData.name ?? "",
                                 maxLines: 2,
                                 textAlign: TextAlign.left,
                                 style: TextStyles(context).bold().copyWith(
-                                      fontSize: 16,
-                                    ),
+                                  fontSize: 16,
+                                ),
                                 overflow: TextOverflow.ellipsis,
                               ),
+
+                              /// عدد الغرف
                               Text(
-                                "${Loc.alized.number_of_beds}: ${hotelData.subTxt}",
-                                style:
-                                    TextStyles(context).description().copyWith(
-                                          fontSize: 14,
-                                        ),
+                                "${Loc.alized.number_of_beds}: ${hotelData.bedrooms ?? 0}",
+                                style: TextStyles(context)
+                                    .description()
+                                    .copyWith(fontSize: 14),
                               ),
+
                               Expanded(
                                 child: Row(
                                   crossAxisAlignment: CrossAxisAlignment.end,
@@ -82,26 +87,24 @@ class HotelListViewPage extends StatelessWidget {
                                     Expanded(
                                       child: Column(
                                         mainAxisAlignment:
-                                            MainAxisAlignment.end,
+                                        MainAxisAlignment.end,
                                         crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                        CrossAxisAlignment.start,
                                         children: [
                                           Row(
                                             crossAxisAlignment:
-                                                CrossAxisAlignment.center,
+                                            CrossAxisAlignment.center,
                                             children: [
-
                                               Expanded(
                                                 child: Text(
-                                                  Loc.alized.kitchen_and_bathroom_available,
+                                                  Loc.alized
+                                                      .kitchen_and_bathroom_available,
                                                   overflow:
-                                                      TextOverflow.ellipsis,
+                                                  TextOverflow.ellipsis,
                                                   maxLines: 2,
                                                   style: TextStyles(context)
                                                       .description()
-                                                      .copyWith(
-                                                        fontSize: 12,
-                                                      ),
+                                                      .copyWith(fontSize: 12),
                                                 ),
                                               ),
                                             ],
@@ -110,35 +113,37 @@ class HotelListViewPage extends StatelessWidget {
                                         ],
                                       ),
                                     ),
+
+                                    /// السعر بالليلة
                                     FittedBox(
                                       child: Padding(
                                         padding:
-                                            const EdgeInsets.only(right: 8),
+                                        const EdgeInsets.only(right: 8),
                                         child: Column(
                                           mainAxisAlignment:
-                                              MainAxisAlignment.center,
+                                          MainAxisAlignment.center,
                                           crossAxisAlignment:
-                                              CrossAxisAlignment.end,
+                                          CrossAxisAlignment.end,
                                           children: [
                                             Text(
-                                              "\$${hotelData.perNight}",
+                                              "${Loc.alized.egp} ${(double.tryParse(hotelData.pricing?.basePrice??""))?.toStringAsFixed(0) ?? "0.0"}",
                                               textAlign: TextAlign.left,
                                               style: TextStyles(context)
                                                   .bold()
-                                                  .copyWith(fontSize: 22),
+                                                  .copyWith(fontSize: 14),
                                             ),
+
                                             Padding(
                                               padding: EdgeInsets.only(
-                                                  top: Get.find<Loc>().isRTL
-                                                      ? 2.0
-                                                      : 0.0),
+                                                top: Get.find<Loc>().isRTL
+                                                    ? 2.0
+                                                    : 0.0,
+                                              ),
                                               child: Text(
                                                 Loc.alized.per_night,
                                                 style: TextStyles(context)
                                                     .description()
-                                                    .copyWith(
-                                                      fontSize: 14,
-                                                    ),
+                                                    .copyWith(fontSize: 14),
                                               ),
                                             ),
                                           ],
@@ -159,7 +164,7 @@ class HotelListViewPage extends StatelessWidget {
                     child: InkWell(
                       highlightColor: Colors.transparent,
                       splashColor:
-                          Theme.of(context).primaryColor.withOpacity(0.1),
+                      Theme.of(context).primaryColor.withOpacity(0.1),
                       onTap: () {
                         try {
                           callback();
@@ -176,3 +181,4 @@ class HotelListViewPage extends StatelessWidget {
     );
   }
 }
+

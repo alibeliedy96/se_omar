@@ -39,7 +39,7 @@ class _FinishTripViewState extends State<FinishTripView> {
         return HotelListViewData(
           callback: () {
             NavigationServices(context)
-                .gotoHotelDetailes(hotelList[index]);
+                .gotoHotelDetails(unitId: "1");
           },
           hotelData: hotelList[index],
           animation: animation,

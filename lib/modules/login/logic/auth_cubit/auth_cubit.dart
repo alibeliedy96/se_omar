@@ -7,13 +7,14 @@ import '../../../../utils/help_me.dart';
 
 import '../../../../utils/uti.dart';
 import '../../../bottom_tab/bottom_tab_screen.dart';
+import '../../domain/models/forgot_password_response.dart';
 import '../../domain/models/login_or_register_response.dart';
 import '../../domain/request/login_request.dart';
 import '../../domain/request/register_request.dart';
 import '../../domain/services/auth_service.dart';
 
 
-enum AuthApiTypes {  loadInitialData,  login,resendCode,verifyOtp,register }
+enum AuthApiTypes {  loadInitialData,  login,forgotPassword,resendCode,verifyOtp,register }
 
 class AuthCubit extends BaseCubit<AuthApiTypes>   {
   final AuthService  repo;
@@ -102,7 +103,28 @@ class AuthCubit extends BaseCubit<AuthApiTypes>   {
 
   }
 
+  /// forgot password
+  Future forgotPassword({required String email,required context }) async {
 
+    return await fastFire<ForgotPasswordResponse>(
+      type: AuthApiTypes.forgotPassword,
+      fun: () {
+        return repo.forgotPassword(email:email);
+      },
+      onSuccess: (r) {
+        printLog("success   is ${r.message}");
+
+        if(r.success ==true) {
+          UTI.showSnackBar(context, r.message, 'success');
+        }
+      },
+      onFailure: (l) {
+        printLog("l is");
+        UTI.showSnackBar(context, l.message, 'error');
+
+      }  ,
+    );
+  }
 
 
 }

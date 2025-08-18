@@ -5,13 +5,15 @@ import '../../../../utils/app_constants.dart';
 import '../../../../utils/base_cubit/base_cubit.dart';
 import '../../../../utils/help_me.dart';
 import '../../../../utils/uti.dart';
+import '../../domain/models/change_password_response.dart';
 import '../../domain/models/profile_response.dart';
 import '../../domain/models/logout_response.dart';
+import '../../domain/request/change_password_request.dart';
 import '../../domain/request/edit_profile_request.dart';
 import '../../domain/services/profile_service.dart';
 
 
-enum ProfileApiTypes { loadInitialData,getProfile,logout,editProfile}
+enum ProfileApiTypes { loadInitialData,getProfile,changePassword,logout,editProfile}
 
 class ProfileCubit extends BaseCubit<ProfileApiTypes>   {
   final ProfileService  repo;
@@ -109,6 +111,29 @@ class ProfileCubit extends BaseCubit<ProfileApiTypes>   {
 
           saveUserData(r.data!);
 
+        }
+      },
+      onFailure: (l) {
+        UTI.showSnackBar(context, l.message, 'error');
+        printLog("error   is ${l.message}");
+      },
+    );
+
+  }
+
+  /// change password
+
+  Future  changePassword(
+      {required context,required ChangePasswordRequest changePasswordRequest}
+      ) async {
+    return   await fastFire<ChangePasswordResponse>(
+      type: ProfileApiTypes.changePassword,
+      fun: () {
+        return repo.changePassword(changePasswordRequest: changePasswordRequest);
+      },
+      onSuccess: (r) {
+        if(r.success ==true) {
+          UTI.showSnackBar(context, r.message, 'success');
         }
       },
       onFailure: (l) {

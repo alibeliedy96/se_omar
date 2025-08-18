@@ -7,7 +7,14 @@ class EndPoints {
 
    static const String REGISTRATION_URI = '/api/register';
    static const String LOGIN_URI = '/api/login';
+   static const String sliders = '/api/sliders';
+   static String unitDetails(String unitId) {
+      return '/api/units/$unitId';
+   }
+   static const String units = '/api/units';
+   static const String forgotPassword = '/api/forgot-password';
    static const String profile = '/api/profile';
+   static const String changePassword = '/api/change-password';
    static const String logout = '/api/logout';
    static const String deleteAccount = '/api/v1/auth/removeAccount';
 }

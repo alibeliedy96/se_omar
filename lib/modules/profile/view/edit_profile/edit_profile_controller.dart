@@ -94,7 +94,7 @@ class EditProfileController extends ChangeNotifier {
       email: email,
       phoneNumber: phone,
       // You can add the image file to the request if your API supports it
-      // profileImage: _pickedImageFile,
+      profileImage: _pickedImageFile,
     );
 
     // Call the cubit to perform the update

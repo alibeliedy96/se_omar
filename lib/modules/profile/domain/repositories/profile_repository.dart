@@ -1,9 +1,11 @@
 import 'package:dartz/dartz.dart';
 import '../../../../core/api/data_source/end_point.dart';
 import '../../../../core/api/error/error_handler/failure.dart';
+import '../models/change_password_response.dart';
 import '../models/profile_response.dart';
 import '../../../../../../core/api/shared/shared_methods.dart';
 import '../models/logout_response.dart';
+import '../request/change_password_request.dart';
 import '../request/edit_profile_request.dart';
 import 'profile_repository_interface.dart';
 
@@ -28,10 +30,16 @@ class ProfileRepository implements ProfileRepositoryInterface{
         endPoint: EndPoints.profile,
         asObject: (e) => ProfileResponse.fromJson(e),
         method: DioMethod.put,
-        data:  editProfileRequest.toJson()
-
-
-
+      data: await editProfileRequest.toFormData(),
+    );
+  }
+  @override
+  Future<Either<Failure,ChangePasswordResponse>> changePassword({required ChangePasswordRequest changePasswordRequest})async {
+    return await handleResponse(
+        endPoint: EndPoints.changePassword,
+        asObject: (e) => ChangePasswordResponse.fromJson(e),
+        method: DioMethod.post,
+      data:   changePasswordRequest.toJson(),
     );
   }
 

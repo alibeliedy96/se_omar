@@ -1,9 +1,15 @@
+// File: change_password_screen.dart
+
 import 'package:flutter/material.dart';
 import 'package:mr_omar/language/app_localizations.dart';
 import 'package:mr_omar/widgets/common_appbar_view.dart';
 import 'package:mr_omar/widgets/common_button.dart';
 import 'package:mr_omar/widgets/common_text_field_view.dart';
 import 'package:mr_omar/widgets/remove_focuse.dart';
+import '../../../../utils/base_cubit/block_builder_widget.dart';
+import '../../logic/profile_cubit/profile_cubit.dart';
+import 'change_password_controller.dart'; // Import the new controller
+
 
 class ChangePasswordScreen extends StatefulWidget {
   const ChangePasswordScreen({Key? key}) : super(key: key);
@@ -13,85 +19,89 @@ class ChangePasswordScreen extends StatefulWidget {
 }
 
 class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
-  String _errorNewPassword = '';
-  String _errorConfirmPassword = '';
-  final TextEditingController _newController = TextEditingController();
-  final TextEditingController _confirmController = TextEditingController();
+  late final ChangePasswordController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = ChangePasswordController();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: RemoveFocuse(
-        onClick: () {
-          FocusScope.of(context).requestFocus(FocusNode());
-        },
+        onClick: () => FocusScope.of(context).unfocus(),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             CommonAppbarView(
               iconData: Icons.arrow_back,
               titleText: Loc.alized.change_password,
-              onBackClick: () {
-                Navigator.pop(context);
-              },
+              onBackClick: () => Navigator.pop(context),
             ),
             Expanded(
               child: SingleChildScrollView(
-                child: Column(
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.only(
-                          top: 16.0, bottom: 16.0, left: 24, right: 24),
-                      child: Row(
-                        children: <Widget>[
-                          Expanded(
-                            child: Text(
-                              Loc.alized.enter_your_new_password,
-                              textAlign: TextAlign.start,
-                              style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w500,
-                                color: Theme.of(context).disabledColor,
-                              ),
-                            ),
-                          ),
-                        ],
+                child: Form(
+                  key: _controller.formKey,
+                  child: Column(
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.all(24.0),
+                        child: Text(
+                          Loc.alized.enter_your_new_password,
+                          textAlign: TextAlign.start,
+                          style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: Theme.of(context).disabledColor),
+                        ),
                       ),
-                    ),
-                    CommonTextFieldView(
-                      controller: _newController,
-                      titleText: Loc.alized.new_password,
-                      padding: const EdgeInsets.only(
-                          left: 24, right: 24, bottom: 16),
-                      hintText: Loc.alized.enter_new_password,
-                      keyboardType: TextInputType.visiblePassword,
-                      isObscureText: true,
-                      onChanged: (String txt) {},
-                      // errorText: _errorNewPassword,
-                    ),
-                    CommonTextFieldView(
-                      controller: _confirmController,
-                      titleText: Loc.alized.confirm_password,
-                      padding: const EdgeInsets.only(
-                          left: 24, right: 24, bottom: 24),
-                      hintText: Loc.alized.enter_confirm_password,
-                      keyboardType: TextInputType.visiblePassword,
-                      isObscureText: true,
-                      onChanged: (String txt) {},
-                      // errorText: _errorConfirmPassword,
-                    ),
-                    CommonButton(
-                      padding: const EdgeInsets.only(
-                          left: 24, right: 24, bottom: 16),
-                      buttonText: Loc.alized.apply_text,
-                      onTap: () {
-                        if (_allValidation()) {
-                          Navigator.pop(context);
-                        }
-                      },
-                    )
-                  ],
+
+                      // --- Current Password Field ---
+                      CommonTextFieldView(
+                        controller: _controller.currentPasswordController,
+                        titleText: Loc.alized.old_password,
+                        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+                        hintText: Loc.alized.enter_password,
+                        isObscureText: true,
+                        validator: _controller.validateCurrentPassword,
+                      ),
+
+                      // --- New Password Field ---
+                      CommonTextFieldView(
+                        controller: _controller.newPasswordController,
+                        titleText: Loc.alized.new_password,
+                        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+                        hintText: Loc.alized.enter_new_password,
+                        isObscureText: true,
+                        validator: _controller.validateNewPassword,
+                      ),
+
+                      // --- Confirm Password Field ---
+                      CommonTextFieldView(
+                        controller: _controller.confirmPasswordController,
+                        titleText: Loc.alized.confirm_password,
+                        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+                        hintText: Loc.alized.enter_confirm_password,
+                        isObscureText: true,
+                        validator: _controller.validateConfirmPassword,
+                      ),
+                      const SizedBox(height: 24),
+
+                      // --- Apply Button with Loading State ---
+                      BlockBuilderWidget<ProfileCubit, ProfileApiTypes>(
+                        types: const [ProfileApiTypes.changePassword],
+                        loading: (_) => _applyButton(context, loading: true),
+                        body: (_) => _applyButton(context, loading: false),
+                        error: (_) => _applyButton(context, loading: false),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             )
@@ -101,27 +111,15 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
     );
   }
 
-  bool _allValidation() {
-    bool isValid = true;
-    if (_newController.text.trim().isEmpty) {
-      _errorNewPassword = Loc.alized.password_cannot_empty;
-      isValid = false;
-    } else if (_newController.text.trim().length < 6) {
-      _errorNewPassword = Loc.alized.valid_new_password;
-      isValid = false;
-    } else {
-      _errorNewPassword = '';
-    }
-    if (_confirmController.text.trim().isEmpty) {
-      _errorConfirmPassword = Loc.alized.password_cannot_empty;
-      isValid = false;
-    } else if (_newController.text.trim() != _confirmController.text.trim()) {
-      _errorConfirmPassword = Loc.alized.password_not_match;
-      isValid = false;
-    } else {
-      _errorConfirmPassword = '';
-    }
-    setState(() {});
-    return isValid;
+  Widget _applyButton(BuildContext context, {required bool loading}) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 24),
+      child: loading
+          ? Center(child: CircularProgressIndicator(color: Theme.of(context).primaryColor))
+          : CommonButton(
+        buttonText: Loc.alized.apply_text,
+        onTap: () => _controller.changePassword(context),
+      ),
+    );
   }
 }

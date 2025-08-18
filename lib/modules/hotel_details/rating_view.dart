@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:mr_omar/constants/text_styles.dart';
 import 'package:mr_omar/constants/themes.dart';
 import 'package:mr_omar/language/app_localizations.dart';
+import 'package:mr_omar/modules/hotel_details/domain/models/unit_details_response.dart';
 import 'package:mr_omar/widgets/common_card.dart';
 import '../../models/hotel_list_data.dart';
 
 class RatingView extends StatelessWidget {
-  final HotelListData hotelData;
+  final UnitDetailsData   unit;
 
-  const RatingView({Key? key, required this.hotelData}) : super(key: key);
+  const RatingView({Key? key, required this.unit}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,16 +19,16 @@ class RatingView extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
-          children: <Widget>[
+          children: [
             Row(
-              children: <Widget>[
+              children: [
                 SizedBox(
                   width: 60,
                   child: Text(
-                    (hotelData.rating * 2).toStringAsFixed(1),
+                    "${double.tryParse(unit.ratingStatistics?.averages?.overall??"")??0.0}",
                     textAlign: TextAlign.left,
                     style: TextStyles(context).bold().copyWith(
-                          fontSize: 38,
+                          fontSize: 35,
                           color: Theme.of(context).primaryColor,
                         ),
                   ),
@@ -38,7 +39,7 @@ class RatingView extends StatelessWidget {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
+                      children: [
                         Text(
                           Loc.alized.overall_rating,
                           textAlign: TextAlign.left,
@@ -53,7 +54,7 @@ class RatingView extends StatelessWidget {
                         // SmoothStarRating(
                         //   allowHalfRating: true,
                         //   starCount: 5,
-                        //   rating: hotelData.rating,
+                        //   rating: unit.rating,
                         //   size: 16,
                         //   color: Theme.of(context).primaryColor,
                         //   borderColor: Theme.of(context).primaryColor,
@@ -67,19 +68,19 @@ class RatingView extends StatelessWidget {
             const SizedBox(
               height: 4,
             ),
-            getBarUI('room', 95.0, context),
+            getBarUI(Loc.alized.room, double.tryParse(unit.ratingStatistics?.averages?.room??"")??0.0, context),
             const SizedBox(
               height: 4,
             ),
-            getBarUI('service', 80.0, context),
+            getBarUI(Loc.alized.service, double.tryParse(unit.ratingStatistics?.averages?.service??"")??0.0, context),
             const SizedBox(
               height: 4,
             ),
-            getBarUI('location', 65.0, context),
+            getBarUI(Loc.alized.location, double.tryParse(unit.ratingStatistics?.averages?.location??"")??0.0, context),
             const SizedBox(
               height: 4,
             ),
-            getBarUI('price', 85, context),
+            getBarUI(Loc.alized.price, double.tryParse(unit.ratingStatistics?.averages?.pricing??"")??0.0, context),
           ],
         ),
       ),
@@ -90,7 +91,7 @@ class RatingView extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
-      children: <Widget>[
+      children: [
         SizedBox(
           width: 60,
           child: Text(
@@ -98,7 +99,7 @@ class RatingView extends StatelessWidget {
             textAlign: TextAlign.left,
             style: TextStyles(context).regular().copyWith(
                   // fontWeight: FontWeight.w500,
-                  fontSize: 14,
+                  fontSize: 12,
                   color: Theme.of(context).disabledColor.withOpacity(0.8),
                 ),
           ),
@@ -108,7 +109,7 @@ class RatingView extends StatelessWidget {
         ),
         Expanded(
           child: Row(
-            children: <Widget>[
+            children: [
               Expanded(
                 flex: percent.toInt(),
                 child: Padding(
