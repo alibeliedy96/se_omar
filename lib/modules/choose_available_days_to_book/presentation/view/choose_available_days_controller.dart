@@ -3,19 +3,21 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../../main.dart';
+import '../../../explore/domain/models/units_response.dart';
 import '../../domain/models/check_coupon_response.dart';
 import '../../domain/models/show_advisor_appointments_response.dart';
 
 
 class ChooseTimeController extends ChangeNotifier {
+  List<MonthlyPricing>? monthlyPricing;
   List<ShowAdvisorAppointmentsData> appointmentDays = [];
   int selectedDayIndex = 0;
   int? selectedAppointmentId;
   CheckCouponData? checkCouponData;
   final formKey = GlobalKey<FormState>();
   final checkCouponController = TextEditingController();
-  String? _couponCode;
 
+  ChooseTimeController({this.monthlyPricing});
   ShowAdvisorAppointmentsData? get currentDayData =>
       appointmentDays.isNotEmpty ? appointmentDays[selectedDayIndex] : null;
 

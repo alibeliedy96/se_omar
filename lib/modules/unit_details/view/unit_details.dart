@@ -7,14 +7,18 @@ import 'package:mr_omar/constants/localfiles.dart';
 import 'package:mr_omar/constants/text_styles.dart';
 import 'package:mr_omar/constants/themes.dart';
 import 'package:mr_omar/language/app_localizations.dart';
-import 'package:mr_omar/modules/hotel_details/domain/models/unit_details_response.dart';
-import 'package:mr_omar/modules/hotel_details/review_data_view.dart';
-import 'package:mr_omar/modules/hotel_details/view/unit_details_controller.dart';
+import 'package:mr_omar/modules/unit_details/domain/models/unit_details_response.dart';
+import 'package:mr_omar/modules/unit_details/review_data_view.dart';
+import 'package:mr_omar/modules/unit_details/view/unit_details_controller.dart';
 import 'package:mr_omar/routes/route_names.dart';
 import 'package:mr_omar/widgets/common_button.dart';
 import 'package:mr_omar/widgets/common_card.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 import '../../../models/hotel_list_data.dart';
+import '../../../utils/base_cubit/block_builder_widget.dart';
+import '../../../utils/uti.dart';
 import '../../../widgets/base_cached_image_widget.dart';
+import '../logic/unit_details_cubit/unit_details_cubit.dart';
 import 'widgets/unit_images_list.dart';
 import '../rating_view.dart';
 
@@ -83,193 +87,206 @@ class _HotelDetailsState extends State<HotelDetails>
   Widget build(BuildContext context) {
     imageHieght = MediaQuery.of(context).size.height;
     return Scaffold(
-      body:  _controller.isLoading
-          ? const Center(child: CircularProgressIndicator(),) // Show shimmer while loading
-          :_buildContent(context),
+      body: BlockBuilderWidget<UnitDetailsCubit, UnitDetailsApiTypes>(
+        types: const [UnitDetailsApiTypes.unitDetails ],
+        body: (_) {
+          if(_controller.unitDetails ==null) {
+            return  UTI.errorWidget();
+          }else{
+            return _buildContent(context, loading: false);
+          }
+
+        },
+        error: (_) => UTI.errorWidget(),
+        loading: (_) => _buildContent(context, loading: true),
+      ) ,
     );
   }
 
-  Stack _buildContent(BuildContext context) {
+  Widget _buildContent(BuildContext context, {required bool loading}) {
     final unit = _controller.unitDetails!;
-    return Stack(
-      children: [
-        CommonCard(
-          radius: 0,
-          color: AppTheme.scaffoldBackgroundColor,
-          child: ListView(
-            controller: scrollController,
-            padding: EdgeInsets.only(top: 24 + imageHieght),
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 24, right: 24),
-                // Hotel title and animation view
-                child: getUnitDetails(isInList: true,unit:unit),
-              ),
-              const Padding(
-                padding: EdgeInsets.all(16.0),
-                child: Divider(
-                  height: 1,
+    return Skeletonizer(
+      enabled: loading,
+      child: Stack(
+        children: [
+          CommonCard(
+            radius: 0,
+            color: AppTheme.scaffoldBackgroundColor,
+            child: ListView(
+              controller: scrollController,
+              padding: EdgeInsets.only(top: 24 + imageHieght),
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 24, right: 24),
+                  // Hotel title and animation view
+                  child: getUnitDetails(isInList: true,unit:unit),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 24, right: 24),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        Loc.alized.summary,
-                        style: TextStyles(context).bold().copyWith(
-                          fontSize: 14,
-                          letterSpacing: 0.5,
-                        ),
-                      ),
-                    ),
-                  ],
+                const Padding(
+                  padding: EdgeInsets.all(16.0),
+                  child: Divider(
+                    height: 1,
+                  ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(
-                    left: 24, right: 24, top: 4, bottom: 8),
-                child: RichText(
-                  textAlign: TextAlign.justify,
-                  text: TextSpan(
+                Padding(
+                  padding: const EdgeInsets.only(left: 24, right: 24),
+                  child: Row(
                     children: [
-                      TextSpan(
-                        text: !isReadless ? unit.description??"" : unit.description??"",
-                        style: TextStyles(context).description().copyWith(
-                          fontSize: 14,
+                      Expanded(
+                        child: Text(
+                          Loc.alized.summary,
+                          style: TextStyles(context).bold().copyWith(
+                            fontSize: 14,
+                            letterSpacing: 0.5,
+                          ),
                         ),
-                        recognizer: TapGestureRecognizer()..onTap = () {},
-                      ),
-                      TextSpan(
-                        text: !isReadless
-                            ? Loc.alized.read_more
-                            : Loc.alized.less,
-                        style: TextStyles(context).regular().copyWith(
-                            color: AppTheme.primaryColor, fontSize: 14),
-                        recognizer: TapGestureRecognizer()
-                          ..onTap = () {
-                            setState(() {
-                              isReadless = !isReadless;
-                            });
-                          },
                       ),
                     ],
                   ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(
-                  left: 24,
-                  right: 24,
-                  top: 8,
-                  bottom: 16,
-                ),
-                // overall rating view
-                child: RatingView(unit: unit),
-              ),
-              _getPhotoReviewUi(Loc.alized.room_photo, Loc.alized.view_all,
-                Icons.arrow_forward, () {},
-              ),
-
-              // Hotel inside photo view
-                UnitImagesList(images:unit.images),
-              _getPhotoReviewUi(Loc.alized.reviews, Loc.alized.view_all,
-                  Icons.arrow_forward, () {
-                    NavigationServices(context).gotoReviewsListScreen();
-                  }),
-
-              // feedback&Review data view
-              for (var i = 0; i < 2; i++)
-                ReviewsView(
-                  reviewsList: HotelListData.reviewsList[i],
-                  animation: animationController,
-                  animationController: animationController,
-                  callback: () {},
-                ),
-
-              const SizedBox(
-                height: 16,
-              ),
-              Stack(
-                alignment: Alignment.center,
-                children: [
-                  AspectRatio(
-                    aspectRatio: 1.5,
-                    child: Image.asset(
-                      Localfiles.mapImage,
-                      fit: BoxFit.cover,
+                Padding(
+                  padding: const EdgeInsets.only(
+                      left: 24, right: 24, top: 4, bottom: 8),
+                  child: RichText(
+                    textAlign: TextAlign.justify,
+                    text: TextSpan(
+                      children: [
+                        TextSpan(
+                          text: !isReadless ? unit.description??"" : unit.description??"",
+                          style: TextStyles(context).description().copyWith(
+                            fontSize: 14,
+                          ),
+                          recognizer: TapGestureRecognizer()..onTap = () {},
+                        ),
+                        TextSpan(
+                          text: !isReadless
+                              ? Loc.alized.read_more
+                              : Loc.alized.less,
+                          style: TextStyles(context).regular().copyWith(
+                              color: AppTheme.primaryColor, fontSize: 14),
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () {
+                              setState(() {
+                                isReadless = !isReadless;
+                              });
+                            },
+                        ),
+                      ],
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 34, right: 10),
-                    child: CommonCard(
-                      color: AppTheme.primaryColor,
-                      radius: 36,
-                      child: Padding(
-                        padding: const EdgeInsets.all(12.0),
-                        child: Icon(
-                          FontAwesomeIcons.mapPin,
-                          color: Theme.of(context).colorScheme.surface,
-                          size: 28,
-                        ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(
+                    left: 24,
+                    right: 24,
+                    top: 8,
+                    bottom: 16,
+                  ),
+                  // overall rating view
+                  child: RatingView(unit: unit),
+                ),
+                _getPhotoReviewUi(Loc.alized.room_photo, Loc.alized.view_all,
+                  Icons.arrow_forward, () {},
+                ),
+
+                // Hotel inside photo view
+                  UnitImagesList(images:unit.images),
+                _getPhotoReviewUi(Loc.alized.reviews, Loc.alized.view_all,
+                    Icons.arrow_forward, () {
+                      NavigationServices(context).gotoReviewsListScreen();
+                    }),
+
+                // feedback&Review data view
+                for (var i = 0; i < (unit.reviews?.length ?? 0); i++)
+                  ReviewsView(
+                    reviewsList: unit.reviews![i],
+                    animation: animationController,
+                    animationController: animationController,
+                    callback: () {},
+                  ),
+
+                const SizedBox(
+                  height: 16,
+                ),
+                Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    AspectRatio(
+                      aspectRatio: 1.5,
+                      child: Image.asset(
+                        Localfiles.mapImage,
+                        fit: BoxFit.cover,
                       ),
                     ),
-                  )
-                ],
-              ),
-              Padding(
-                padding: const EdgeInsets.only(
-                    left: 16, right: 16, bottom: 16, top: 16),
-                child: CommonButton(
-                  buttonText: Loc.alized.book_now,
-                  onTap: () {
-                    NavigationServices(context)
-                        .gotoBookScreen();
-                  },
+                    Padding(
+                      padding: const EdgeInsets.only(top: 34, right: 10),
+                      child: CommonCard(
+                        color: AppTheme.primaryColor,
+                        radius: 36,
+                        child: Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: Icon(
+                            FontAwesomeIcons.mapPin,
+                            color: Theme.of(context).colorScheme.surface,
+                            size: 28,
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
                 ),
-              ),
-
-              SizedBox(
-                height: MediaQuery.of(context).padding.bottom,
-              ),
-            ],
-          ),
-        ),
-
-        // backgrouund image and Hotel name and thier details and more details animation view
-        _backgroundImageUI(unit),
-
-        // Arrow back Ui
-        Padding(
-          padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
-          child: SizedBox(
-            height: AppBar().preferredSize.height,
-            child: Row(
-              children: [
-                _getAppBarUi(Theme.of(context).disabledColor.withValues(alpha:0.4),
-                    Icons.arrow_back, AppTheme.backgroundColor, () {
-                      if (scrollController.offset != 0.0) {
-                        scrollController.animateTo(0.0,
-                            duration: const Duration(milliseconds: 480),
-                            curve: Curves.easeInOutQuad);
-                      } else {
-                        Navigator.pop(context);
-                      }
-                    }),
-                const Expanded(
-                  child: SizedBox(),
+                Padding(
+                  padding: const EdgeInsets.only(
+                      left: 16, right: 16, bottom: 16, top: 16),
+                  child: CommonButton(
+                    buttonText: Loc.alized.book_now,
+                    onTap: () {
+                      NavigationServices(context)
+                          .gotoBookScreen(unit:unit);
+                    },
+                  ),
                 ),
 
+                SizedBox(
+                  height: MediaQuery.of(context).padding.bottom,
+                ),
               ],
             ),
           ),
-        )
-      ],
+
+          // backgrouund image and Hotel name and thier details and more details animation view
+          _backgroundImageUI(unit),
+
+          // Arrow back Ui
+          Padding(
+            padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
+            child: SizedBox(
+              height: AppBar().preferredSize.height,
+              child: Row(
+                children: [
+                  _getAppBarUi(Theme.of(context).disabledColor.withValues(alpha:0.4),
+                      Icons.arrow_back, AppTheme.backgroundColor, () {
+                        if (scrollController.offset != 0.0) {
+                          scrollController.animateTo(0.0,
+                              duration: const Duration(milliseconds: 480),
+                              curve: Curves.easeInOutQuad);
+                        } else {
+                          Navigator.pop(context);
+                        }
+                      }),
+                  const Expanded(
+                    child: SizedBox(),
+                  ),
+
+                ],
+              ),
+            ),
+          )
+        ],
+      ),
     );
   }
   Widget _getAppBarUi(
-      Color color, IconData icon, Color iconcolor, VoidCallback onTap) {
+      Color color, IconData icon, Color iconColor, VoidCallback onTap) {
     return SizedBox(
       height: AppBar().preferredSize.height,
       child: Padding(
@@ -287,7 +304,7 @@ class _HotelDetailsState extends State<HotelDetails>
               onTap: onTap,
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Icon(icon, color: iconcolor),
+                child: Icon(icon, color: iconColor),
               ),
             ),
           ),
@@ -427,7 +444,7 @@ class _HotelDetailsState extends State<HotelDetails>
                                           buttonText: Loc.alized.book_now,
                                           onTap: () {
                                             NavigationServices(context)
-                                                .gotoBookScreen();
+                                                .gotoBookScreen(unit:unit);
                                           }),
                                     ),
                                   ],
@@ -585,9 +602,9 @@ class _HotelDetailsState extends State<HotelDetails>
                 padding: const EdgeInsets.only(top: 4),
                 child: Row(
                   children: [
-                    Helper.ratingStar(rating: 2),
+                    Helper.ratingStar(rating: double.tryParse(unit.ratingStatistics?.averages?.overall??"0.0")??0.0),
                     Text(
-                      " 1524 ",
+                      unit.ratingStatistics?.totalReviews??"",
                       style: TextStyles(context).regular().copyWith(
                         fontSize: 14,
                         color: isInList
@@ -617,7 +634,7 @@ class _HotelDetailsState extends State<HotelDetails>
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             Text(
-              "${Loc.alized.egp} ${(double.tryParse(unit.pricing?.basePrice??""))?.toStringAsFixed(0) ?? "0.0"}",
+              "${Loc.alized.egp} ${(double.tryParse(unit.monthlyPricing?[0].dailyPrice??""))?.toStringAsFixed(0) ?? "0.0"}",
               textAlign: TextAlign.left,
               style: TextStyles(context).bold().copyWith(
                 fontSize: 22,

@@ -61,7 +61,7 @@ class UnitsListViewPage extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              /// اسم الوحدة
+                              /// unit name
                               Text(
                                 hotelData.name ?? "",
                                 maxLines: 2,
@@ -72,7 +72,7 @@ class UnitsListViewPage extends StatelessWidget {
                                 overflow: TextOverflow.ellipsis,
                               ),
 
-                              /// عدد الغرف
+                              /// number of beds
                               Text(
                                 "${Loc.alized.number_of_beds}: ${hotelData.bedrooms ?? 0}",
                                 style: TextStyles(context)
@@ -109,12 +109,26 @@ class UnitsListViewPage extends StatelessWidget {
                                               ),
                                             ],
                                           ),
-                                          Helper.ratingStar(),
+                                          Row(
+                                            children: [
+                                              Helper.ratingStar(rating: double.parse(hotelData.ratingStatistics?.averages?.overall??"0.0")),
+
+                                              Text(
+                                                "(${hotelData.ratingStatistics?.totalReviews??""})",
+                                                overflow:
+                                                TextOverflow.ellipsis,
+                                                maxLines: 2,
+                                                style: TextStyles(context)
+                                                    .description()
+                                                    .copyWith(fontSize: 12),
+                                              )
+                                            ],
+                                          ),
                                         ],
                                       ),
                                     ),
 
-                                    /// السعر بالليلة
+                                    /// price per night
                                     FittedBox(
                                       child: Padding(
                                         padding:
@@ -126,7 +140,7 @@ class UnitsListViewPage extends StatelessWidget {
                                           CrossAxisAlignment.end,
                                           children: [
                                             Text(
-                                              "${Loc.alized.egp} ${(double.tryParse(hotelData.pricing?.basePrice??""))?.toStringAsFixed(0) ?? "0.0"}",
+                                              "${Loc.alized.egp} ${(double.tryParse(hotelData.monthlyPricing?[0].dailyPrice??""))?.toStringAsFixed(0) ?? "0.0"}",
                                               textAlign: TextAlign.left,
                                               style: TextStyles(context)
                                                   .bold()

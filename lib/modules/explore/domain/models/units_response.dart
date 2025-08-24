@@ -39,9 +39,10 @@ class UnitsData {
   UnitType? unitType;
   List<Images>? images;
   List<Amenities>? amenities;
-  Pricing? pricing;
+  List<MonthlyPricing>? monthlyPricing;
   String? createdAt;
   String? updatedAt;
+  RatingStatistics? ratingStatistics;
 
   UnitsData(
       {this.id,
@@ -57,7 +58,7 @@ class UnitsData {
         this.unitType,
         this.images,
         this.amenities,
-        this.pricing,
+
         this.createdAt,
         this.updatedAt});
 
@@ -87,10 +88,17 @@ class UnitsData {
         amenities!.add(Amenities.fromJson(v));
       });
     }
-    pricing =
-    json['pricing'] != null ? Pricing.fromJson(json['pricing']) : null;
+    if (json['monthly_pricing'] != null) {
+      monthlyPricing = <MonthlyPricing>[];
+      json['monthly_pricing'].forEach((v) {
+        monthlyPricing!.add(  MonthlyPricing.fromJson(v));
+      });
+    }
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
+    ratingStatistics = json['rating_statistics'] != null
+        ?   RatingStatistics.fromJson(json['rating_statistics'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -114,9 +122,7 @@ class UnitsData {
     if (amenities != null) {
       data['amenities'] = amenities!.map((v) => v.toJson()).toList();
     }
-    if (pricing != null) {
-      data['pricing'] = pricing!.toJson();
-    }
+
     data['created_at'] = createdAt;
     data['updated_at'] = updatedAt;
     return data;
@@ -279,71 +285,87 @@ class Pivot {
   }
 }
 
-class Pricing {
-  int? id;
-  int? unitId;
-  String? basePrice;
-  String? weekendPrice;
-  String? holidayPrice;
-  String? weeklyPrice;
-  String? monthlyPrice;
-  String? cleaningFee;
-  String? securityDeposit;
+class MonthlyPricing {
+  String? month;
+  String? formattedMonth;
+  String? dailyPrice;
+  String? currency;
   bool? isActive;
-  String? validFrom;
-  String? validTo;
-  String? createdAt;
-  String? updatedAt;
 
-  Pricing(
-      {this.id,
-        this.unitId,
-        this.basePrice,
-        this.weekendPrice,
-        this.holidayPrice,
-        this.weeklyPrice,
-        this.monthlyPrice,
-        this.cleaningFee,
-        this.securityDeposit,
-        this.isActive,
-        this.validFrom,
-        this.validTo,
-        this.createdAt,
-        this.updatedAt});
+  MonthlyPricing(
+      {this.month,
+        this.formattedMonth,
+        this.dailyPrice,
+        this.currency,
+        this.isActive});
 
-  Pricing.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    unitId = json['unit_id'];
-    basePrice = json['base_price'].toString();
-    weekendPrice = json['weekend_price'].toString();
-    holidayPrice = json['holiday_price'].toString();
-    weeklyPrice = json['weekly_price'].toString();
-    monthlyPrice = json['monthly_price'].toString();
-    cleaningFee = json['cleaning_fee'];
-    securityDeposit = json['security_deposit'];
+  MonthlyPricing.fromJson(Map<String, dynamic> json) {
+    month = json['month'];
+    formattedMonth = json['formatted_month'];
+    dailyPrice = json['daily_price'];
+    currency = json['currency'];
     isActive = json['is_active'];
-    validFrom = json['valid_from'];
-    validTo = json['valid_to'];
-    createdAt = json['created_at'];
-    updatedAt = json['updated_at'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] =  id;
-    data['unit_id'] = unitId;
-    data['base_price'] = basePrice;
-    data['weekend_price'] = weekendPrice;
-    data['holiday_price'] = holidayPrice;
-    data['weekly_price'] = weeklyPrice;
-    data['monthly_price'] = monthlyPrice;
-    data['cleaning_fee'] = cleaningFee;
-    data['security_deposit'] = securityDeposit;
+    data['month'] = month;
+    data['formatted_month'] = formattedMonth;
+    data['daily_price'] = dailyPrice;
+    data['currency'] = currency;
     data['is_active'] = isActive;
-    data['valid_from'] = validFrom;
-    data['valid_to'] = validTo;
-    data['created_at'] = createdAt;
-    data['updated_at'] = updatedAt;
+    return data;
+  }
+}
+
+class RatingStatistics {
+  Averages? averages;
+  String? totalReviews;
+
+  RatingStatistics({this.averages, this.totalReviews});
+
+  RatingStatistics.fromJson(Map<String, dynamic> json) {
+    averages = json['averages'] != null
+        ? Averages.fromJson(json['averages'])
+        : null;
+    totalReviews = json['total_reviews'].toString();
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (averages != null) {
+      data['averages'] = averages!.toJson();
+    }
+    data['total_reviews'] = totalReviews;
+    return data;
+  }
+}
+
+class Averages {
+  String? overall;
+  String? room;
+  String? service;
+  String? pricing;
+  String? location;
+
+  Averages(
+      {this.overall, this.room, this.service, this.pricing, this.location});
+
+  Averages.fromJson(Map<String, dynamic> json) {
+    overall = json['overall'].toString();
+    room = json['room'].toString();
+    service = json['service'].toString();
+    pricing = json['pricing'].toString();
+    location = json['location'].toString();
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['overall'] = overall;
+    data['room'] = room;
+    data['service'] = service;
+    data['pricing'] = pricing;
+    data['location'] = location;
     return data;
   }
 }

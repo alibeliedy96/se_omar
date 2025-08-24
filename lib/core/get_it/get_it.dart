@@ -7,11 +7,11 @@ import '../../modules/explore/domain/repositories/explore_repository_interface.d
 import '../../modules/explore/domain/services/explore_service.dart';
 import '../../modules/explore/domain/services/explore_service_interface.dart';
 import '../../modules/explore/logic/explore_cubit/explore_cubit.dart';
-import '../../modules/hotel_details/domain/repositories/unit_details_repository.dart';
-import '../../modules/hotel_details/domain/repositories/unit_details_repository_interface.dart';
-import '../../modules/hotel_details/domain/services/unit_details_service.dart';
-import '../../modules/hotel_details/domain/services/unit_details_service_interface.dart';
-import '../../modules/hotel_details/logic/unit_details_cubit/unit_details_cubit.dart';
+import '../../modules/unit_details/domain/repositories/unit_details_repository.dart';
+import '../../modules/unit_details/domain/repositories/unit_details_repository_interface.dart';
+import '../../modules/unit_details/domain/services/unit_details_service.dart';
+import '../../modules/unit_details/domain/services/unit_details_service_interface.dart';
+import '../../modules/unit_details/logic/unit_details_cubit/unit_details_cubit.dart';
 import '../../modules/login/domain/repositories/auth_repository.dart';
 import '../../modules/login/domain/repositories/auth_repository_interface.dart';
 import '../../modules/login/domain/services/auth_service.dart';

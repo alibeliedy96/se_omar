@@ -21,8 +21,6 @@ class AppointmentsView extends StatelessWidget {
               const SizedBox(height: 10),
               ChooseDayWidget(controller: controller),
               const SizedBox(height: 20),
-
-
             ],
           ),
         ),

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mr_omar/constants/text_styles.dart';
 import 'package:mr_omar/constants/themes.dart';
 import 'package:mr_omar/language/app_localizations.dart';
-import 'package:mr_omar/modules/hotel_details/domain/models/unit_details_response.dart';
+import 'package:mr_omar/modules/unit_details/domain/models/unit_details_response.dart';
 import 'package:mr_omar/widgets/common_card.dart';
 import '../../models/hotel_list_data.dart';
 

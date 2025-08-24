@@ -2,7 +2,7 @@
 import 'dart:math';
 import '../modules/explore/domain/models/slider_response.dart';
 import '../modules/explore/domain/models/units_response.dart';
-import '../modules/hotel_details/domain/models/unit_details_response.dart';
+import '../modules/unit_details/domain/models/unit_details_response.dart';
 
 class FakeDataGenerator {
 
@@ -43,10 +43,7 @@ class FakeDataGenerator {
           Amenities(id: 1, name: 'Wi-Fi'),
           Amenities(id: 2, name: 'مكيف هواء'),
         ],
-        pricing: Pricing(
-          basePrice: '${random.nextInt(500) + 500}',
-          weekendPrice: '${random.nextInt(600) + 600}',
-        ),
+
         createdAt: DateTime.now().toIso8601String(),
       );
     });
@@ -89,20 +86,6 @@ class FakeDataGenerator {
         Amenities(id: 4, name: 'حمام سباحة خاص', icon: 'pool_icon'),
         Amenities(id: 5, name: 'موقف سيارات', icon: 'parking_icon'),
       ],
-      pricing: Pricing(
-        id: unitId,
-        unitId: unitId,
-        basePrice: '1500',
-        weekendPrice: '2000',
-        holidayPrice: '2500',
-        weeklyPrice: '9000',
-        monthlyPrice: '30000',
-        cleaningFee: '200',
-        securityDeposit: '1000',
-        isActive: true,
-        validFrom: DateTime.now().toIso8601String(),
-        validTo: DateTime.now().add(const Duration(days: 365)).toIso8601String(),
-      ),
       createdAt: DateTime.now().subtract(const Duration(days: 60)).toIso8601String(),
       updatedAt: DateTime.now().toIso8601String(),
     );

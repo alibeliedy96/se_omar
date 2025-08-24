@@ -35,10 +35,11 @@ class UnitDetailsData {
   UnitType? unitType;
   List<Images>? images;
   List<Amenities>? amenities;
-  Pricing? pricing;
+
   String? createdAt;
   String? updatedAt;
   RatingStatistics? ratingStatistics;
+  List<MonthlyPricing>? monthlyPricing;
   List<Reviews>? reviews;
   UnitDetailsData(
       {this.id,
@@ -54,7 +55,7 @@ class UnitDetailsData {
         this.unitType,
         this.images,
         this.amenities,
-        this.pricing,
+
         this.createdAt,
         this.updatedAt});
 
@@ -78,14 +79,19 @@ class UnitDetailsData {
         images!.add(Images.fromJson(v));
       });
     }
+    if (json['monthly_pricing'] != null) {
+      monthlyPricing = <MonthlyPricing>[];
+      json['monthly_pricing'].forEach((v) {
+        monthlyPricing!.add(MonthlyPricing.fromJson(v));
+      });
+    }
     if (json['amenities'] != null) {
       amenities = <Amenities>[];
       json['amenities'].forEach((v) {
         amenities!.add(Amenities.fromJson(v));
       });
     }
-    pricing =
-    json['pricing'] != null ? Pricing.fromJson(json['pricing']) : null;
+
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     ratingStatistics = json['rating_statistics'] != null
@@ -120,65 +126,15 @@ class UnitDetailsData {
     if (amenities != null) {
       data['amenities'] = amenities!.map((v) => v.toJson()).toList();
     }
-    if (pricing != null) {
-      data['pricing'] = pricing!.toJson();
-    }
+
     data['created_at'] = createdAt;
     data['updated_at'] = updatedAt;
     return data;
   }
 }
-class RatingStatistics {
-  Averages? averages;
-  int? totalReviews;
 
-  RatingStatistics({this.averages, this.totalReviews});
 
-  RatingStatistics.fromJson(Map<String, dynamic> json) {
-    averages = json['averages'] != null
-        ? Averages.fromJson(json['averages'])
-        : null;
-    totalReviews = json['total_reviews'];
-  }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    if (averages != null) {
-      data['averages'] = averages!.toJson();
-    }
-    data['total_reviews'] = totalReviews;
-    return data;
-  }
-}
-
-class Averages {
-  String? overall;
-  String? room;
-  String? service;
-  String? pricing;
-  String? location;
-
-  Averages(
-      {this.overall, this.room, this.service, this.pricing, this.location});
-
-  Averages.fromJson(Map<String, dynamic> json) {
-    overall = json['overall'].toString();
-    room = json['room'].toString();
-    service = json['service'].toString();
-    pricing = json['pricing'].toString();
-    location = json['location'].toString();
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['overall'] = overall;
-    data['room'] = room;
-    data['service'] = service;
-    data['pricing'] = pricing;
-    data['location'] = location;
-    return data;
-  }
-}
 
 class Reviews {
   int? id;

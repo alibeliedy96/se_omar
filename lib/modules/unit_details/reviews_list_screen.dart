@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mr_omar/modules/hotel_details/review_data_view.dart';
+import 'package:mr_omar/modules/unit_details/review_data_view.dart';
 import 'package:mr_omar/widgets/common_appbar_view.dart';
 import '../../models/hotel_list_data.dart';
 
@@ -57,12 +57,7 @@ class _ReviewsListScreenState extends State<ReviewsListScreen>
                             curve: Curves.fastOutSlowIn)));
                 animationController.forward();
                 // page to redirect the feedback and review data
-                return ReviewsView(
-                  callback: () {},
-                  reviewsList: reviewsList[index],
-                  animation: animation,
-                  animationController: animationController,
-                );
+                return Text("data");
               },
             ),
           ),

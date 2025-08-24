@@ -7,13 +7,14 @@ import 'package:mr_omar/modules/profile/view/change_password/change_password.dar
 import 'package:mr_omar/modules/login/view/login/login_screen.dart';
 import 'package:mr_omar/modules/profile/view/edit_profile/edit_profile.dart';
 import 'package:mr_omar/modules/profile/view/how_do_screen.dart';
+import 'package:mr_omar/modules/unit_details/domain/models/unit_details_response.dart';
 import 'package:mr_omar/routes/routes.dart';
 
 import '../modules/choose_available_days_to_book/presentation/view/choose_available_days_screen.dart';
-import '../modules/hotel_details/view/unit_details.dart';
-import '../modules/hotel_details/reviews_list_screen.dart';
-import '../modules/hotel_details/room_booking_screen.dart';
-import '../modules/hotel_details/search_screen.dart';
+import '../modules/unit_details/view/unit_details.dart';
+import '../modules/unit_details/reviews_list_screen.dart';
+import '../modules/unit_details/room_booking_screen.dart';
+import '../modules/unit_details/search_screen.dart';
 import '../modules/login/view/forgot_password/forgot_password.dart';
 import '../modules/login/view/register/sign_up_Screen.dart';
 import '../modules/profile/view/hepl_center_screen.dart';
@@ -98,8 +99,8 @@ class NavigationServices {
   Future<dynamic> gotoEditProfile() async {
     return await _pushMaterialPageRoute(const EditProfile());
   }
-  Future<dynamic> gotoBookScreen() async {
-    return await _pushMaterialPageRoute(const ChooseTimeScreen(advisorId: '1',));
+  Future<dynamic> gotoBookScreen({required UnitDetailsData unit}) async {
+    return await _pushMaterialPageRoute(  ChooseTimeScreen(unit:unit ));
   }
 
   Future<dynamic> gotoSettingsScreen() async {

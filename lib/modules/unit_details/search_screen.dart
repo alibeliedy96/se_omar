@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:mr_omar/constants/themes.dart';
 import 'package:mr_omar/language/app_localizations.dart';
-import 'package:mr_omar/modules/hotel_details/search_view.dart';
+import 'package:mr_omar/modules/unit_details/search_view.dart';
 import 'package:mr_omar/widgets/common_appbar_view.dart';
 import 'package:mr_omar/widgets/common_card.dart';
 import 'package:mr_omar/widgets/common_search_bar.dart';

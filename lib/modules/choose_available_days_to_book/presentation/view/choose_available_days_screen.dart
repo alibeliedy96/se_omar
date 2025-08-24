@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mr_omar/modules/unit_details/domain/models/unit_details_response.dart';
 
 import '../../../../constants/themes.dart';
 import '../../../../language/app_localizations.dart';
@@ -6,9 +7,8 @@ import '../widgets/appointments_view.dart';
 import 'choose_available_days_controller.dart';
 
 class ChooseTimeScreen extends StatefulWidget {
-  final String advisorId;
-  final String? couponCode;
-  const ChooseTimeScreen({super.key, required this.advisorId, this.couponCode});
+ final UnitDetailsData unit;
+  const ChooseTimeScreen({super.key, required this.unit,  });
 
   @override
   State<ChooseTimeScreen> createState() => _ChooseTimeScreenState();
@@ -20,7 +20,7 @@ class _ChooseTimeScreenState extends State<ChooseTimeScreen> {
   @override
   void initState() {
     super.initState();
-    _controller = ChooseTimeController();
+    _controller = ChooseTimeController(monthlyPricing:widget.unit.monthlyPricing);
     _controller.addListener(_refresh);
 
 

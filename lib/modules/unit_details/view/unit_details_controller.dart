@@ -47,9 +47,7 @@ class UnitDetailsController extends ChangeNotifier {
   // ==========================
   //      Navigation
   // ==========================
-  void bookNow(BuildContext context) {
-    NavigationServices(context).gotoBookScreen();
-  }
+
 
   void goToReviews(BuildContext context) {
     NavigationServices(context).gotoReviewsListScreen();
