@@ -14,6 +14,7 @@ import 'package:mr_omar/routes/route_names.dart';
 import 'package:mr_omar/widgets/common_button.dart';
 import 'package:mr_omar/widgets/common_card.dart';
 import 'package:skeletonizer/skeletonizer.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../../models/hotel_list_data.dart';
 import '../../../utils/base_cubit/block_builder_widget.dart';
 import '../../../utils/uti.dart';
@@ -207,32 +208,41 @@ class _HotelDetailsState extends State<HotelDetails>
                 const SizedBox(
                   height: 16,
                 ),
-                Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    AspectRatio(
-                      aspectRatio: 1.5,
-                      child: Image.asset(
-                        Localfiles.mapImage,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 34, right: 10),
-                      child: CommonCard(
-                        color: AppTheme.primaryColor,
-                        radius: 36,
-                        child: Padding(
-                          padding: const EdgeInsets.all(12.0),
-                          child: Icon(
-                            FontAwesomeIcons.mapPin,
-                            color: Theme.of(context).colorScheme.surface,
-                            size: 28,
-                          ),
+                InkWell(
+                  onTap: () async {
+                    const url = "https://www.google.com/maps/place/Si+Omar+resort/@31.3695203,27.2168471,17z/data=!4m6!3m5!1s0x1461ff268a06a247:0x984ed973b4e3297b!8m2!3d31.3694701!4d27.2168201!16s%2Fg%2F11c551dtsz?hl=en&entry=ttu&g_ep=EgoyMDI1MDgxOS4wIKXMDSoASAFQAw%3D%3D";
+                    final uri = Uri.parse(url);
+                    if (await canLaunchUrl(uri)) {
+                      await launchUrl(uri, mode: LaunchMode.externalApplication);
+                    }
+                  },
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      AspectRatio(
+                        aspectRatio: 1.5,
+                        child: Image.asset(
+                          Localfiles.mapImage,
+                          fit: BoxFit.cover,
                         ),
                       ),
-                    )
-                  ],
+                      Padding(
+                        padding: const EdgeInsets.only(top: 34, right: 10),
+                        child: CommonCard(
+                          color: AppTheme.primaryColor,
+                          radius: 36,
+                          child: Padding(
+                            padding: const EdgeInsets.all(12.0),
+                            child: Icon(
+                              FontAwesomeIcons.mapPin,
+                              color: Theme.of(context).colorScheme.surface,
+                              size: 28,
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(
