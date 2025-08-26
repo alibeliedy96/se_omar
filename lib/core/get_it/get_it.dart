@@ -2,6 +2,11 @@
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../modules/choose_available_days_to_book/domain/repositories/choose_days_and_book_repository.dart';
+import '../../modules/choose_available_days_to_book/domain/repositories/choose_days_and_book_repository_interface.dart';
+import '../../modules/choose_available_days_to_book/domain/services/choose_days_and_book_service.dart';
+import '../../modules/choose_available_days_to_book/domain/services/choose_days_and_book_service_interface.dart';
+import '../../modules/choose_available_days_to_book/logic/choose_days_and_book_cubit/choose_days_and_book_cubit.dart';
 import '../../modules/explore/domain/repositories/explore_repository.dart';
 import '../../modules/explore/domain/repositories/explore_repository_interface.dart';
 import '../../modules/explore/domain/services/explore_service.dart';
@@ -52,6 +57,7 @@ void initRepositories() {
   sl.registerLazySingleton(() => ProfileRepository());
   sl.registerLazySingleton(() => ExploreRepository());
   sl.registerLazySingleton(() => UnitDetailsRepository());
+  sl.registerLazySingleton(() => ChooseDaysAndBookRepository());
 
 
 }
@@ -85,6 +91,13 @@ void initInterfaces() {
   sl.registerLazySingleton(() => unitDetailsServiceInterface);
 
 
+  ChooseDaysAndBookRepositoryInterface  chooseDaysAndBookRepositoryInterface = ChooseDaysAndBookRepository();
+  sl.registerLazySingleton(() => chooseDaysAndBookRepositoryInterface);
+
+  ChooseDaysAndBookServiceInterface chooseDaysAndBookServiceInterface = ChooseDaysAndBookService( chooseDaysAndBookRepositoryInterface: sl());
+  sl.registerLazySingleton(() => chooseDaysAndBookServiceInterface);
+
+
 
 }
 // ========================== 🔥 Services 🔥 ==========================
@@ -95,6 +108,7 @@ void initService() {
   sl.registerLazySingleton(() => ProfileService(profileRepositoryInterface : sl()));
   sl.registerLazySingleton(() => ExploreService(exploreRepositoryInterface : sl()));
   sl.registerLazySingleton(() => UnitDetailsService(unitDetailsRepositoryInterface : sl()));
+  sl.registerLazySingleton(() => ChooseDaysAndBookService(chooseDaysAndBookRepositoryInterface : sl()));
 
 }
 // ========================== 🔥 cubits 🔥 ==========================
@@ -104,5 +118,6 @@ void initCubits() {
   getIt.registerLazySingleton<ProfileCubit>(() => ProfileCubit(repo: sl()));
   getIt.registerLazySingleton<ExploreCubit>(() => ExploreCubit(repo: sl()));
   getIt.registerLazySingleton<UnitDetailsCubit>(() => UnitDetailsCubit(repo: sl()));
+  getIt.registerLazySingleton<ChooseDaysAndBookCubit>(() => ChooseDaysAndBookCubit(repo: sl()));
 
 }

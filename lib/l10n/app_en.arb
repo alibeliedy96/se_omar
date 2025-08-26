@@ -12,6 +12,8 @@
     "log_with_mail":"or log in with email",
     "your_mail":"Your email",
     "password": "Password",
+    "booked": "booked",
+    "continue_to_pay": "continue to pay",
     "enter_password_confirmation": "enter password confirmation",
     "password_confirmation": "password confirmation",
     "passwords_do_not_match": "passwords do not match",

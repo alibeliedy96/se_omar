@@ -49,6 +49,12 @@ class AppLocalizationsAr extends AppLocalizations {
   String get password => 'كلمه السر';
 
   @override
+  String get booked => 'محجوز';
+
+  @override
+  String get continue_to_pay => 'المتابعة للدفع';
+
+  @override
   String get enter_password_confirmation => 'أدخل تأكيد كلمة المرور';
 
   @override

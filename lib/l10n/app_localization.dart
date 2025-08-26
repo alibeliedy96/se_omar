@@ -176,6 +176,18 @@ abstract class AppLocalizations {
   /// **'Password'**
   String get password;
 
+  /// No description provided for @booked.
+  ///
+  /// In en, this message translates to:
+  /// **'booked'**
+  String get booked;
+
+  /// No description provided for @continue_to_pay.
+  ///
+  /// In en, this message translates to:
+  /// **'continue to pay'**
+  String get continue_to_pay;
+
   /// No description provided for @enter_password_confirmation.
   ///
   /// In en, this message translates to:

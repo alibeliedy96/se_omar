@@ -50,6 +50,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get password => 'Password';
 
   @override
+  String get booked => 'booked';
+
+  @override
+  String get continue_to_pay => 'continue to pay';
+
+  @override
   String get enter_password_confirmation => 'enter password confirmation';
 
   @override
