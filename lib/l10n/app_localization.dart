@@ -152,6 +152,12 @@ abstract class AppLocalizations {
   /// **'Login'**
   String get login;
 
+  /// No description provided for @refund.
+  ///
+  /// In en, this message translates to:
+  /// **'Refund'**
+  String get refund;
+
   /// No description provided for @create_account.
   ///
   /// In en, this message translates to:
@@ -175,6 +181,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Password'**
   String get password;
+
+  /// No description provided for @nights.
+  ///
+  /// In en, this message translates to:
+  /// **'Nights'**
+  String get nights;
+
+  /// No description provided for @total.
+  ///
+  /// In en, this message translates to:
+  /// **'Total'**
+  String get total;
+
+  /// No description provided for @continue_and_pay.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue and pay'**
+  String get continue_and_pay;
+
+  /// No description provided for @price_per_night.
+  ///
+  /// In en, this message translates to:
+  /// **'Price per night'**
+  String get price_per_night;
+
+  /// No description provided for @number_of_nights.
+  ///
+  /// In en, this message translates to:
+  /// **'Number of nights'**
+  String get number_of_nights;
+
+  /// No description provided for @price_details.
+  ///
+  /// In en, this message translates to:
+  /// **'Price details'**
+  String get price_details;
+
+  /// No description provided for @exit_date.
+  ///
+  /// In en, this message translates to:
+  /// **'Exit date'**
+  String get exit_date;
+
+  /// No description provided for @entry_date.
+  ///
+  /// In en, this message translates to:
+  /// **'Entry date'**
+  String get entry_date;
+
+  /// No description provided for @booking_summary.
+  ///
+  /// In en, this message translates to:
+  /// **'Booking Summary'**
+  String get booking_summary;
 
   /// No description provided for @booked.
   ///

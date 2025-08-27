@@ -10,6 +10,8 @@ import 'package:mr_omar/modules/profile/view/how_do_screen.dart';
 import 'package:mr_omar/modules/unit_details/domain/models/unit_details_response.dart';
 import 'package:mr_omar/routes/routes.dart';
 
+import '../modules/choose_available_days_to_book/domain/models/bulk_pricing_response.dart';
+import '../modules/choose_available_days_to_book/presentation/view/booking_summary_screen.dart';
 import '../modules/choose_available_days_to_book/presentation/view/choose_available_days_screen.dart';
 import '../modules/unit_details/view/unit_details.dart';
 import '../modules/unit_details/reviews_list_screen.dart';
@@ -101,6 +103,10 @@ class NavigationServices {
   }
   Future<dynamic> gotoBookScreen({required UnitDetailsData unit}) async {
     return await _pushMaterialPageRoute(  ChooseTimeScreen(unit:unit ));
+  }
+
+  Future<dynamic> gotoBookingSummaryScreen({required BulkPricingResponse response}) async {
+    return await _pushMaterialPageRoute(  BookingSummaryScreen(pricingData:response ));
   }
 
   Future<dynamic> gotoSettingsScreen() async {

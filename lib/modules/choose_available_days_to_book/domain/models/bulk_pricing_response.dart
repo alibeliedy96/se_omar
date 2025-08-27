@@ -246,9 +246,9 @@ class PricingBreakdown {
 class Breakdown {
   String? month;
   String? formattedMonth;
-  int? dailyPrice;
-  int? nights;
-  int? subtotal;
+  String? dailyPrice;
+  String? nights;
+  String? subtotal;
 
   Breakdown(
       {this.month,
@@ -258,11 +258,11 @@ class Breakdown {
         this.subtotal});
 
   Breakdown.fromJson(Map<String, dynamic> json) {
-    month = json['month'];
-    formattedMonth = json['formatted_month'];
-    dailyPrice = json['daily_price'];
-    nights = json['nights'];
-    subtotal = json['subtotal'];
+    month = json['month'].toString();
+    formattedMonth = json['formatted_month'].toString();
+    dailyPrice = json['daily_price'].toString();
+    nights = json['nights'].toString();
+    subtotal = json['subtotal'].toString();
   }
 
   Map<String, dynamic> toJson() {

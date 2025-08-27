@@ -38,6 +38,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get login => 'Login';
 
   @override
+  String get refund => 'Refund';
+
+  @override
   String get create_account => 'Create account';
 
   @override
@@ -48,6 +51,33 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get password => 'Password';
+
+  @override
+  String get nights => 'Nights';
+
+  @override
+  String get total => 'Total';
+
+  @override
+  String get continue_and_pay => 'Continue and pay';
+
+  @override
+  String get price_per_night => 'Price per night';
+
+  @override
+  String get number_of_nights => 'Number of nights';
+
+  @override
+  String get price_details => 'Price details';
+
+  @override
+  String get exit_date => 'Exit date';
+
+  @override
+  String get entry_date => 'Entry date';
+
+  @override
+  String get booking_summary => 'Booking Summary';
 
   @override
   String get booked => 'booked';

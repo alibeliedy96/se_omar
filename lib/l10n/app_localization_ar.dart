@@ -37,6 +37,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get login => 'تسجيل الدخول';
 
   @override
+  String get refund => 'استرداد';
+
+  @override
   String get create_account => 'إنشاء حساب';
 
   @override
@@ -49,7 +52,34 @@ class AppLocalizationsAr extends AppLocalizations {
   String get password => 'كلمه السر';
 
   @override
-  String get booked => 'محجوز';
+  String get nights => 'ليالي';
+
+  @override
+  String get total => 'الإجمالي';
+
+  @override
+  String get continue_and_pay => 'المتابعة والدفع';
+
+  @override
+  String get price_per_night => 'سعر الليلة الواحدة';
+
+  @override
+  String get number_of_nights => 'عدد الليالي';
+
+  @override
+  String get price_details => 'تفاصيل السعر';
+
+  @override
+  String get exit_date => 'Exit date';
+
+  @override
+  String get entry_date => 'Entry date';
+
+  @override
+  String get booking_summary => 'ملخص الحجز';
+
+  @override
+  String get booked => 'تاريخ الدخول';
 
   @override
   String get continue_to_pay => 'المتابعة للدفع';

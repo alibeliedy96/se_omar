@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:mr_omar/utils/uti.dart';
 
 
+import '../../../../routes/route_names.dart';
 import '../../../unit_details/domain/models/unit_details_response.dart';
 import '../../domain/models/bulk_pricing_response.dart';
 import '../../domain/request/bulk_pricing_request.dart';
@@ -235,6 +236,8 @@ class BookingCalendarController extends ChangeNotifier {
       bulkPricingRequest: request,
       onSuccess: (response) {
         bulkPricingSummary = response;
+        NavigationServices(context)
+            .gotoBookingSummaryScreen(response: response);
       },
     );
 
