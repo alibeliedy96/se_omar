@@ -172,7 +172,7 @@ class BookingCalendarWidget extends StatelessWidget {
     }
 
     return InkWell(
-      onTap: isTappable ? () => controller.onDaySelected(day) : null,
+      onTap: isTappable ? () => controller.onDaySelected(context,day) : null,
       borderRadius: BorderRadius.circular(12),
       child: Container(
         decoration: BoxDecoration(

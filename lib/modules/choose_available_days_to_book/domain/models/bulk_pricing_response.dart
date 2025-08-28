@@ -152,6 +152,7 @@ class DateRanges {
   String? checkOutDate;
   int? nights;
   bool? isAvailable;
+  String? errorMessage;
   PricingBreakdown? pricingBreakdown;
   int? totalCost;
   int? dailyAverage;
@@ -170,6 +171,7 @@ class DateRanges {
     rangeIndex = json['range_index'];
     checkInDate = json['check_in_date'];
     checkOutDate = json['check_out_date'];
+    errorMessage = json['error_message'];
     nights = json['nights'];
     isAvailable = json['is_available'];
     pricingBreakdown = json['pricing_breakdown'] != null

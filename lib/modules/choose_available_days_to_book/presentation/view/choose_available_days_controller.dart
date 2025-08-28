@@ -144,26 +144,44 @@ class BookingCalendarController extends ChangeNotifier {
     });
   }
 
-  void onDaySelected(CalendarDay day) {
+  void onDaySelected(BuildContext context, CalendarDay day) {
     if (day.state != DayState.available && day.state != DayState.selected) return;
 
-    if (_selectionStart != null && _selectionEnd != null) {
-      // Start a new selection
-      _selectionStart = day.date;
-      _selectionEnd = null;
-    } else if (_selectionStart == null) {
-      // This is the first tap
-      _selectionStart = day.date;
+    DateTime? newStart = _selectionStart;
+    DateTime? newEnd = _selectionEnd;
+
+    if (newStart != null && newEnd != null) {
+      newStart = day.date;
+      newEnd = null;
+    } else if (newStart == null) {
+      newStart = day.date;
     } else {
-      // This is the second tap
-      if (day.date.isBefore(_selectionStart!)) {
-        _selectionStart = day.date;
+      if (day.date.isBefore(newStart)) {
+        newStart = day.date;
       } else {
-        _selectionEnd = day.date;
+        newEnd = day.date;
       }
     }
-    _updateDayStates();
 
+
+    if (newEnd != null) {
+      // المرور على كل يوم في المدى المختار
+      for (DateTime date = newStart; date.isBefore(newEnd); date = date.add(const Duration(days: 1))) {
+        if (_reservedDays.contains(date)) {
+          // إذا وجدنا يومًا محجوزًا، نعرض رسالة ونلغي الاختيار
+          UTI.showSnackBar(context, "لا يمكن أن يتضمن الحجز أيامًا محجوزة", "error");
+          _selectionStart = null;
+          _selectionEnd = null;
+          _updateDayStates();
+          return;
+        }
+      }
+    }
+    // --- نهاية التحقق ---
+
+    _selectionStart = newStart;
+    _selectionEnd = newEnd;
+    _updateDayStates();
   }
 
   void _updateDayStates() {
@@ -191,6 +209,11 @@ class BookingCalendarController extends ChangeNotifier {
 
   Future<void> fetchBulkPricing(BuildContext context) async {
     if (_selectionStart == null || _selectionEnd == null) {
+      UTI.showSnackBar(context, "الرجاء تحديد تاريخ الوصول والمغادرة أولاً", "error");
+      return;
+    }
+
+    if (_selectionStart == null || _selectionEnd == null) {
       bulkPricingSummary = null;
       notifyListeners();
       return;
@@ -199,14 +222,14 @@ class BookingCalendarController extends ChangeNotifier {
     int nights = _selectionEnd!.difference(_selectionStart!).inDays;
      print("nights");
      print(nights);
-    if (nights < 2) {
-      bulkPricingSummary = null;
-      notifyListeners();
-      UTI.showSnackBar(context, "يجب أن يكون الحجز على الأقل 3 ليالي", "error");
-
-
-      return;
-    }
+    // if (nights < 2) {
+    //   bulkPricingSummary = null;
+    //   notifyListeners();
+    //   UTI.showSnackBar(context, "يجب أن يكون الحجز على الأقل 3 ليالي", "error");
+    //
+    //
+    //   return;
+    // }
 
     // Check for reserved days in range
     for (DateTime date = _selectionStart!;
@@ -235,9 +258,16 @@ class BookingCalendarController extends ChangeNotifier {
     await _cubit.bulkPricing(
       bulkPricingRequest: request,
       onSuccess: (response) {
-        bulkPricingSummary = response;
-        NavigationServices(context)
-            .gotoBookingSummaryScreen(response: response);
+        final dateRangeInfo = response.data?.dateRanges?.first;
+
+          if (dateRangeInfo?.errorMessage != null && dateRangeInfo!.errorMessage!.isNotEmpty) {
+            UTI.showSnackBar(context, dateRangeInfo.errorMessage!, "error");
+          } else {
+            bulkPricingSummary = response;
+            NavigationServices(context).gotoBookingSummaryScreen(response: response);
+          }
+
+
       },
     );
 

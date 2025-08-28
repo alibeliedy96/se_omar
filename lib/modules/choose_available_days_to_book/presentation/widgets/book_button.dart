@@ -13,7 +13,7 @@ class BookButtonWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final bool isRangeSelected = controller.bulkPricingSummary != null;
+    // final bool isRangeSelected = controller.bulkPricingSummary != null;
 
     return Container(
       height: 70,

@@ -54,8 +54,8 @@ class _BookingSummaryScreenState extends State<BookingSummaryScreen> {
             if ( dateRange.pricingBreakdown != null)
               _buildPricingDetailsCard(context, summary, dateRange),
             const SizedBox(height: 16),
-            // if (summary.cancellationPolicy?.description != "null")
-              _buildCancellationPolicyCard( context,  fakePolicy ),
+             if (summary.cancellationPolicy?.description != "null")
+              _buildCancellationPolicyCard( context,  summary.cancellationPolicy! ),
           ],
         ),
       ),
@@ -97,7 +97,7 @@ class _BookingSummaryScreenState extends State<BookingSummaryScreen> {
               children: [
                 Icon(Icons.nightlight_round, color: Colors.grey.shade600, size: 20),
                 const SizedBox(width: 8),
-                Text("${dateRange.pricingBreakdown?.breakdown?[0].nights} ${Loc.alized.nights}" , style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                Text("${dateRange.pricingBreakdown?.nights} ${Loc.alized.nights}" , style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
               ],
             )
           ],
