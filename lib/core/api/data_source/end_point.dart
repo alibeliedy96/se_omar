@@ -12,7 +12,9 @@ class EndPoints {
       return '/api/units/$unitId';
    }
    static const String units = '/api/units';
+   static const String reservations = '/api/reservations';
    static const String bulkPricing = '/api/reservations/bulk-pricing';
+   static const String createReservations = '/api/reservations';
    static const String forgotPassword = '/api/forgot-password';
    static const String profile = '/api/profile';
    static const String changePassword = '/api/change-password';

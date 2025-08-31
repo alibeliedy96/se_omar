@@ -193,7 +193,7 @@ class _HomeExploreScreenState extends State<HomeExploreScreen> with TickerProvid
         final hotelData = units[index];
         return UnitsListViewPage(
           callback: () => _controller.navigateToUnitDetails(context, units[index]),
-          hotelData: hotelData,
+          unitData: hotelData,
           animation: animation,
           animationController: widget.animationController,
         );

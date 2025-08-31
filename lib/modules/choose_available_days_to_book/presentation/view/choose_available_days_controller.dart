@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:mr_omar/utils/uti.dart';
 
 
+import '../../../../language/app_localizations.dart';
 import '../../../../routes/route_names.dart';
 import '../../../unit_details/domain/models/unit_details_response.dart';
 import '../../domain/models/bulk_pricing_response.dart';
@@ -169,7 +170,7 @@ class BookingCalendarController extends ChangeNotifier {
       for (DateTime date = newStart; date.isBefore(newEnd); date = date.add(const Duration(days: 1))) {
         if (_reservedDays.contains(date)) {
           // إذا وجدنا يومًا محجوزًا، نعرض رسالة ونلغي الاختيار
-          UTI.showSnackBar(context, "لا يمكن أن يتضمن الحجز أيامًا محجوزة", "error");
+          UTI.showSnackBar(context,Loc.alized.reservations_cannot_include_reserved_days, "error");
           _selectionStart = null;
           _selectionEnd = null;
           _updateDayStates();
@@ -209,7 +210,7 @@ class BookingCalendarController extends ChangeNotifier {
 
   Future<void> fetchBulkPricing(BuildContext context) async {
     if (_selectionStart == null || _selectionEnd == null) {
-      UTI.showSnackBar(context, "الرجاء تحديد تاريخ الوصول والمغادرة أولاً", "error");
+      UTI.showSnackBar(context, Loc.alized.please_select_your_arrival_and_departure_dates_first, "error");
       return;
     }
 

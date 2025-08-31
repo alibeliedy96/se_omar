@@ -158,6 +158,72 @@ abstract class AppLocalizations {
   /// **'Refund'**
   String get refund;
 
+  /// No description provided for @to_display_your_data.
+  ///
+  /// In en, this message translates to:
+  /// **'To display your data'**
+  String get to_display_your_data;
+
+  /// No description provided for @maximum_number_of_people.
+  ///
+  /// In en, this message translates to:
+  /// **'Maximum number of people'**
+  String get maximum_number_of_people;
+
+  /// No description provided for @confirmed.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirmed'**
+  String get confirmed;
+
+  /// No description provided for @cancelled.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancelled'**
+  String get cancelled;
+
+  /// No description provided for @no_more_data.
+  ///
+  /// In en, this message translates to:
+  /// **'No more data'**
+  String get no_more_data;
+
+  /// No description provided for @please_attach_a_clear_photo_of_the_transfer.
+  ///
+  /// In en, this message translates to:
+  /// **'Please attach a clear photo of the transfer.'**
+  String get please_attach_a_clear_photo_of_the_transfer;
+
+  /// No description provided for @attach_the_transfer_image.
+  ///
+  /// In en, this message translates to:
+  /// **'Attach the transfer image'**
+  String get attach_the_transfer_image;
+
+  /// No description provided for @required_field.
+  ///
+  /// In en, this message translates to:
+  /// **'Required field'**
+  String get required_field;
+
+  /// No description provided for @transfer_receipt_image.
+  ///
+  /// In en, this message translates to:
+  /// **'Transfer receipt image *'**
+  String get transfer_receipt_image;
+
+  /// No description provided for @confirm_your_reservation.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm your reservation'**
+  String get confirm_your_reservation;
+
+  /// No description provided for @transfer_date.
+  ///
+  /// In en, this message translates to:
+  /// **'Transfer date'**
+  String get transfer_date;
+
   /// No description provided for @create_account.
   ///
   /// In en, this message translates to:
@@ -181,6 +247,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Password'**
   String get password;
+
+  /// No description provided for @transferred_amount.
+  ///
+  /// In en, this message translates to:
+  /// **'Transferred amount'**
+  String get transferred_amount;
+
+  /// No description provided for @transfer_data.
+  ///
+  /// In en, this message translates to:
+  /// **'Transfer data'**
+  String get transfer_data;
+
+  /// No description provided for @additional_data.
+  ///
+  /// In en, this message translates to:
+  /// **'Additional data'**
+  String get additional_data;
+
+  /// No description provided for @enter_contact_information.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter contact information'**
+  String get enter_contact_information;
+
+  /// No description provided for @reservations_cannot_include_reserved_days.
+  ///
+  /// In en, this message translates to:
+  /// **'Reservations cannot include reserved days.'**
+  String get reservations_cannot_include_reserved_days;
+
+  /// No description provided for @please_select_your_arrival_and_departure_dates_first.
+  ///
+  /// In en, this message translates to:
+  /// **'Please select your arrival and departure dates first.'**
+  String get please_select_your_arrival_and_departure_dates_first;
 
   /// No description provided for @nights.
   ///

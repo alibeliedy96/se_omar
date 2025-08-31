@@ -41,6 +41,40 @@ class AppLocalizationsEn extends AppLocalizations {
   String get refund => 'Refund';
 
   @override
+  String get to_display_your_data => 'To display your data';
+
+  @override
+  String get maximum_number_of_people => 'Maximum number of people';
+
+  @override
+  String get confirmed => 'Confirmed';
+
+  @override
+  String get cancelled => 'Cancelled';
+
+  @override
+  String get no_more_data => 'No more data';
+
+  @override
+  String get please_attach_a_clear_photo_of_the_transfer =>
+      'Please attach a clear photo of the transfer.';
+
+  @override
+  String get attach_the_transfer_image => 'Attach the transfer image';
+
+  @override
+  String get required_field => 'Required field';
+
+  @override
+  String get transfer_receipt_image => 'Transfer receipt image *';
+
+  @override
+  String get confirm_your_reservation => 'Confirm your reservation';
+
+  @override
+  String get transfer_date => 'Transfer date';
+
+  @override
   String get create_account => 'Create account';
 
   @override
@@ -51,6 +85,26 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get password => 'Password';
+
+  @override
+  String get transferred_amount => 'Transferred amount';
+
+  @override
+  String get transfer_data => 'Transfer data';
+
+  @override
+  String get additional_data => 'Additional data';
+
+  @override
+  String get enter_contact_information => 'Enter contact information';
+
+  @override
+  String get reservations_cannot_include_reserved_days =>
+      'Reservations cannot include reserved days.';
+
+  @override
+  String get please_select_your_arrival_and_departure_dates_first =>
+      'Please select your arrival and departure dates first.';
 
   @override
   String get nights => 'Nights';

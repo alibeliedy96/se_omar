@@ -40,6 +40,40 @@ class AppLocalizationsAr extends AppLocalizations {
   String get refund => 'استرداد';
 
   @override
+  String get to_display_your_data => 'لتظهر بياناتــــــــــك';
+
+  @override
+  String get maximum_number_of_people => 'أقصى عدد من الافراد';
+
+  @override
+  String get confirmed => 'تم التأكيد';
+
+  @override
+  String get cancelled => 'تم الإلغاء';
+
+  @override
+  String get no_more_data => 'لا يوجد مزيد من البيانات';
+
+  @override
+  String get please_attach_a_clear_photo_of_the_transfer =>
+      'يرجى إرفاق صورة واضحة للتحويل';
+
+  @override
+  String get attach_the_transfer_image => 'إرفاق صورة التحويل';
+
+  @override
+  String get required_field => 'الحقل مطلوب';
+
+  @override
+  String get transfer_receipt_image => 'صورة إيصال التحويل *';
+
+  @override
+  String get confirm_your_reservation => 'تأكيد الحجز';
+
+  @override
+  String get transfer_date => 'تاريخ التحويل';
+
+  @override
   String get create_account => 'إنشاء حساب';
 
   @override
@@ -50,6 +84,26 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get password => 'كلمه السر';
+
+  @override
+  String get transferred_amount => 'المبلغ المحول';
+
+  @override
+  String get transfer_data => 'بيانات التحويل';
+
+  @override
+  String get additional_data => 'بيانات اضافيه';
+
+  @override
+  String get enter_contact_information => 'ادخل بيانات التواصل';
+
+  @override
+  String get reservations_cannot_include_reserved_days =>
+      'لا يمكن أن يتضمن الحجز أيامًا محجوزة';
+
+  @override
+  String get please_select_your_arrival_and_departure_dates_first =>
+      'الرجاء تحديد تاريخ الوصول والمغادرة أولاً';
 
   @override
   String get nights => 'ليالي';
@@ -482,7 +536,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get light => 'ضوء';
 
   @override
-  String get save => 'حفظ';
+  String get save => 'ادخل بيانات التواصل';
 
   @override
   String get dark => 'داكن';

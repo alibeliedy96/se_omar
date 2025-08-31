@@ -2,6 +2,7 @@
 import 'dart:math';
 import '../modules/explore/domain/models/slider_response.dart';
 import '../modules/explore/domain/models/units_response.dart';
+import '../modules/myTrips/domain/models/get_reservations_response.dart';
 import '../modules/unit_details/domain/models/unit_details_response.dart';
 
 class FakeDataGenerator {
@@ -89,6 +90,50 @@ class FakeDataGenerator {
       createdAt: DateTime.now().subtract(const Duration(days: 60)).toIso8601String(),
       updatedAt: DateTime.now().toIso8601String(),
     );
+  }
+
+  /// Generates a list of fake Reservations data.
+  static generateFakeReservationsResponse({int count = 10}) {
+    final random = Random();
+
+    return List.generate(count, (index) {
+      return ReservationsData(
+        id: index + 1,
+        reservationNumber: "RSV-${1000 + index}",
+        checkInDate: "2025-09-${10 + index}",
+        checkOutDate: "2025-09-${11 + index}",
+        nights: 1 + random.nextInt(7),
+        specialRequests: "Extra pillows, late check-in",
+        adminNotes: "Handled by admin ${index + 1}",
+        reservationNotes: "Customer requested sea view",
+
+        cancellationPolicy: CancellationPolicy(
+
+          name: "Flexible",
+          description: "Full refund 24 hours before check-in.",
+
+        ),
+        guestInformation: GuestInformation(
+
+          email: "john.doe${index}@mail.com",
+          phone: "+20100${123456 + index}",
+        ),
+        depositRequirements: DepositRequirements(
+
+        ),
+        pricing: Pricing(
+            cleaningFee: "100"
+        ),
+        transferPayment: TransferPayment(
+
+        ),
+
+        timestamps: Timestamps(
+          createdAt: "2025-08-15",
+          updatedAt: "2025-08-20",
+        ),
+      );
+    });
   }
 
 }

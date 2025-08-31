@@ -37,10 +37,10 @@ class _TimeDateViewState extends State<TimeDateView> {
             height: 42,
             color: Colors.grey.withOpacity(0.8),
           ),
-          _getDateRoomUi(Loc.alized.number_room, Helper.getRoomText(_roomData),
-              () {
-            _showPopUp();
-          }),
+          // // _getDateRoomUi(Loc.alized.number_room, Helper.getRoomText(_roomData),
+          //     () {
+          //   _showPopUp();
+          // }),
         ],
       ),
     );

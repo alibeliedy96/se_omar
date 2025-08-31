@@ -2,6 +2,7 @@ import 'dart:ui';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
 import 'package:mr_omar/constants/helper.dart';
 import 'package:mr_omar/constants/localfiles.dart';
 import 'package:mr_omar/constants/text_styles.dart';
@@ -15,10 +16,14 @@ import 'package:mr_omar/widgets/common_button.dart';
 import 'package:mr_omar/widgets/common_card.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../../../common/common.dart';
+import '../../../core/cache/cache_helper.dart';
 import '../../../models/hotel_list_data.dart';
+import '../../../utils/app_constants.dart';
 import '../../../utils/base_cubit/block_builder_widget.dart';
 import '../../../utils/uti.dart';
 import '../../../widgets/base_cached_image_widget.dart';
+import '../../../widgets/show_login_dialog.dart';
 import '../logic/unit_details_cubit/unit_details_cubit.dart';
 import 'widgets/unit_images_list.dart';
 import '../rating_view.dart';
@@ -40,7 +45,7 @@ class _HotelDetailsState extends State<HotelDetails>
   // var hoteltext2 =
   //     "Featuring a fitness center, Grand Royale Park Hote is located in Sweden, 4.7 km frome National Museum a fitness center, Grand Royale Park Hote is located in Sweden, 4.7 km frome National Museum a fitness center, Grand Royale Park Hote is located in Sweden, 4.7 km frome National Museum";
   bool isFav = false;
-  bool isReadless = false;
+
   late AnimationController animationController;
   var imageHieght = 0.0;
   late AnimationController _animationController;
@@ -152,25 +157,13 @@ class _HotelDetailsState extends State<HotelDetails>
                     text: TextSpan(
                       children: [
                         TextSpan(
-                          text: !isReadless ? unit.description??"" : unit.description??"",
+                          text:  unit.description??""  ,
                           style: TextStyles(context).description().copyWith(
                             fontSize: 14,
                           ),
                           recognizer: TapGestureRecognizer()..onTap = () {},
                         ),
-                        TextSpan(
-                          text: !isReadless
-                              ? Loc.alized.read_more
-                              : Loc.alized.less,
-                          style: TextStyles(context).regular().copyWith(
-                              color: AppTheme.primaryColor, fontSize: 14),
-                          recognizer: TapGestureRecognizer()
-                            ..onTap = () {
-                              setState(() {
-                                isReadless = !isReadless;
-                              });
-                            },
-                        ),
+
                       ],
                     ),
                   ),
@@ -249,9 +242,14 @@ class _HotelDetailsState extends State<HotelDetails>
                       left: 16, right: 16, bottom: 16, top: 16),
                   child: CommonButton(
                     buttonText: Loc.alized.book_now,
-                    onTap: () {
-                      NavigationServices(context)
+                    onTap: () async {
+                      String? token = await CacheHelper.getData(key: AppConstants.token);
+                      if(token==null){
+                        showLoginDialog();
+                      }else {
+                        NavigationServices(Get.context!)
                           .gotoBookScreen(unit:unit);
+                      }
                     },
                   ),
                 ),
@@ -452,10 +450,15 @@ class _HotelDetailsState extends State<HotelDetails>
                                           top: 16),
                                       child: CommonButton(
                                           buttonText: Loc.alized.book_now,
-                                          onTap: () {
-                                            NavigationServices(context)
+                                        onTap: () async {
+                                          String? token = await CacheHelper.getData(key: AppConstants.token);
+                                          if(token==null){
+                                            showLoginDialog();
+                                          }else {
+                                            NavigationServices(Get.context!)
                                                 .gotoBookScreen(unit:unit);
-                                          }),
+                                          }
+                                        },),
                                     ),
                                   ],
                                 ),
@@ -563,6 +566,25 @@ class _HotelDetailsState extends State<HotelDetails>
                   fontSize: 22,
                   color: isInList ? AppTheme.fontcolor : Colors.white,
                 ),
+              ),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+
+                  Expanded(
+                    child:  Text(
+                      "${Loc.alized.maximum_number_of_people}: ${unit.maxGuests ?? 0}",
+                      style:
+                      TextStyles(context).description().copyWith(
+                          fontSize: 14,
+                          color: isInList
+                              ? Theme.of(context).disabledColor.withValues(alpha:0.5)
+                              : Colors.white
+                      ),
+                    ),
+                  ),
+                ],
               ),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,

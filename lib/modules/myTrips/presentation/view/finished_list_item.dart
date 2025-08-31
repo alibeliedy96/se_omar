@@ -1,28 +1,29 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:mr_omar/constants/helper.dart';
 import 'package:mr_omar/constants/text_styles.dart';
 import 'package:mr_omar/constants/themes.dart';
 import 'package:mr_omar/language/app_localizations.dart';
-import 'package:mr_omar/models/hotel_list_data.dart';
 import 'package:mr_omar/widgets/common_card.dart';
 import 'package:mr_omar/widgets/list_cell_animation_view.dart';
 
-class HotelListViewData extends StatelessWidget {
+import '../../../../widgets/base_cached_image_widget.dart';
+import '../../domain/models/get_reservations_response.dart';
+
+class FinishedReservationListViewItem extends StatelessWidget {
   final bool isShowDate;
   final VoidCallback callback;
-  final HotelListData hotelData;
+  final ReservationsData reservationsData;
   final AnimationController animationController;
   final Animation<double> animation;
 
-  const HotelListViewData(
+  const FinishedReservationListViewItem(
       {Key? key,
-      required this.hotelData,
-      required this.animationController,
-      required this.animation,
-      required this.callback,
-      this.isShowDate = false})
+        required this.reservationsData,
+        required this.animationController,
+        required this.animation,
+        required this.callback,
+        this.isShowDate = false})
       : super(key: key);
 
   @override
@@ -51,8 +52,12 @@ class HotelListViewData extends StatelessWidget {
                     borderRadius: const BorderRadius.all(Radius.circular(16.0)),
                     child: AspectRatio(
                       aspectRatio: 1.0,
-                      child: Image.asset(
-                        hotelData.imagePath,
+                      child: CachedImageWidget(
+                        imageUrl:
+                        reservationsData.unit?.images?.isNotEmpty == true
+                            ? reservationsData.unit!.images!.first.imagePath ?? ""
+                            :
+                        "",
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -79,39 +84,33 @@ class HotelListViewData extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment:
-              isShowDate ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+          isShowDate ? CrossAxisAlignment.end : CrossAxisAlignment.start,
           children: [
             Text(
-              hotelData.titleTxt,
+              reservationsData.unit?.name ?? "",
               maxLines: 2,
               textAlign: isShowDate ? TextAlign.right : TextAlign.left,
               style: TextStyles(context).bold().copyWith(
-                    fontSize: 16,
-                  ),
+                fontSize: 16,
+              ),
               overflow: TextOverflow.ellipsis,
             ),
             Text(
-              "${Loc.alized.number_of_beds}: ${hotelData.subTxt}",
+              "${Loc.alized.number_of_beds}: ${reservationsData.unit?.bedrooms ?? ""}",
               style: TextStyles(context).description().copyWith(
-                    fontSize: 12,
-                  ),
+                fontSize: 12,
+              ),
             ),
             Text(
-              Helper.getDateText(hotelData.date!),
+              Helper.getDateText(
+                reservationsData.checkInDate ?? "",
+                reservationsData.checkOutDate ?? "",
+              ),
               maxLines: 2,
               textAlign: isShowDate ? TextAlign.right : TextAlign.left,
               style: TextStyles(context).regular().copyWith(
-                    fontSize: 12,
-                  ),
-              overflow: TextOverflow.ellipsis,
-            ),
-            Text(
-              Helper.getRoomText(hotelData.roomData!),
-              maxLines: 2,
-              textAlign: isShowDate ? TextAlign.right : TextAlign.left,
-              style: TextStyles(context).regular().copyWith(
-                    fontSize: 12,
-                  ),
+                fontSize: 12,
+              ),
               overflow: TextOverflow.ellipsis,
             ),
             Expanded(
@@ -124,20 +123,26 @@ class HotelListViewData extends StatelessWidget {
                         ? CrossAxisAlignment.end
                         : CrossAxisAlignment.start,
                     children: [
-                    
-                      Helper.ratingStar(),
+                      Helper.ratingStar(
+                        rating: double.tryParse(
+                          reservationsData.unit?.ratingStatistics?.averages
+                              ?.overall ??
+                              "",
+                        ) ??
+                            0.0,
+                      ),
                       Row(
                         mainAxisAlignment: isShowDate
                             ? MainAxisAlignment.end
                             : MainAxisAlignment.start,
                         children: [
                           Text(
-                            "\$${hotelData.perNight}",
+                            "${Loc.alized.egp} ${(double.tryParse(reservationsData.unit?.monthlyPricing?[0].dailyPrice ?? ""))?.toStringAsFixed(0) ?? "0.0"}",
                             textAlign: TextAlign.left,
                             style: TextStyles(context).regular().copyWith(
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 20,
-                                ),
+                              fontWeight: FontWeight.w600,
+                              fontSize: 16,
+                            ),
                           ),
                           Padding(
                             padding: EdgeInsets.only(
@@ -145,8 +150,8 @@ class HotelListViewData extends StatelessWidget {
                             child: Text(
                               Loc.alized.per_night,
                               style: TextStyles(context).description().copyWith(
-                                    fontSize: 14,
-                                  ),
+                                fontSize: 14,
+                              ),
                             ),
                           ),
                         ],

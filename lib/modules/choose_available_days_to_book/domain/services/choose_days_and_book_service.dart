@@ -1,8 +1,10 @@
 
 import 'package:dartz/dartz.dart';
 import 'package:mr_omar/modules/choose_available_days_to_book/domain/models/bulk_pricing_response.dart';
+import 'package:mr_omar/modules/choose_available_days_to_book/domain/models/create_reservatons_response.dart';
 import 'package:mr_omar/modules/choose_available_days_to_book/domain/models/reserved_days_response.dart';
 import 'package:mr_omar/modules/choose_available_days_to_book/domain/request/bulk_pricing_request.dart';
+import 'package:mr_omar/modules/choose_available_days_to_book/domain/request/create_reservation_request.dart';
 import '../../../../core/api/error/error_handler/failure.dart';
 import '../repositories/choose_days_and_book_repository_interface.dart';
 
@@ -23,6 +25,11 @@ class ChooseDaysAndBookService implements ChooseDaysAndBookServiceInterface{
   @override
   Future<Either<Failure, BulkPricingResponse>> bulkPricing({required BulkPricingRequest bulkPricingRequest})async {
     return await chooseDaysAndBookRepositoryInterface.bulkPricing(bulkPricingRequest:bulkPricingRequest );
+  }
+
+  @override
+  Future<Either<Failure, CreateReservationsResponse>> createReservation({required CreateReservationRequest createReservationRequest})async {
+    return await chooseDaysAndBookRepositoryInterface.createReservation(createReservationRequest:createReservationRequest );
   }
 
 

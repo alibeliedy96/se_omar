@@ -59,7 +59,7 @@ class SearchView extends StatelessWidget {
                               style: TextStyles(context).bold(),
                             ),
                             Text(
-                              Helper.getRoomText(hotelInfo.roomData!),
+                              Helper.getRoomText(maxGuests: "2",bedrooms: "1"),
                               // Helper.getRoomText(hotelInfo.roomData!),
                               style: TextStyles(context).regular().copyWith(
                                     fontWeight: FontWeight.w100,

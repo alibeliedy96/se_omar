@@ -8,6 +8,7 @@ import '../../domain/models/bulk_pricing_response.dart';
 import 'package:intl/intl.dart';
 
 import '../widgets/cancellation_policy_widget.dart' hide CancellationPolicy;
+import 'create_resevation/create_reservation_bottom_sheet.dart';
 
 
 
@@ -30,12 +31,7 @@ class _BookingSummaryScreenState extends State<BookingSummaryScreen> {
     }
 
 
-    final fakePolicy = CancellationPolicy(
-      name: "Flexible Cancellation",
-      description:
-      "You can cancel your booking up to 48 hours before check-in without any charge.",
-      refundPercentage: "80",
-    );
+
     return Scaffold(
       appBar:  _getAppBarUi(Theme.of(context).disabledColor.withValues(alpha:0.4),
           title: Loc.alized.booking_summary,
@@ -242,7 +238,19 @@ class _BookingSummaryScreenState extends State<BookingSummaryScreen> {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
         child: ElevatedButton(
-          onPressed:   () {}  ,
+          onPressed:   () {
+            showModalBottomSheet(
+              context: context,
+              isScrollControlled: true,
+              backgroundColor: Colors.transparent,
+              builder: (_) => FractionallySizedBox(
+                heightFactor: 0.9,
+                child: CreateReservationBottomSheet(
+                  pricingSummary: widget.pricingData,
+                ),
+              ),
+            );
+          }  ,
           style: ElevatedButton.styleFrom(
             backgroundColor: Theme.of(context).primaryColor,
             foregroundColor: Colors.white,

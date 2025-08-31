@@ -8,13 +8,13 @@ import 'package:mr_omar/models/room_data.dart';
 import 'package:mr_omar/widgets/custom_dialog.dart';
 
 abstract class Helper {
-  static String getRoomText(RoomData roomData) {
-    return "${roomData.numberRoom} ${Loc.alized.room_data} ${roomData.people} ${Loc.alized.people_data}";
+  static String getRoomText({required String bedrooms,required String maxGuests}) {
+    return "$bedrooms ${Loc.alized.room_data} $maxGuests ${Loc.alized.people_data}";
   }
 
-  static String getDateText(DateText dateText) {
-    String languageCode = Get.find<Loc>().locale.languageCode;
-    return "0${dateText.startDate} ${DateFormat('MMM', languageCode).format(DateTime.now())} - 0${dateText.endDate} ${DateFormat('MMM', languageCode).format(DateTime.now().add(const Duration(days: 2)))}";
+  static String getDateText(String startDate,endDate) {
+
+    return "$startDate-$endDate";
   }
 
   static String getLastSearchDate(DateText dateText) {

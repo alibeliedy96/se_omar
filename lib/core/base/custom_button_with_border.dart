@@ -26,14 +26,14 @@ class CustomButtonWithBorder extends StatelessWidget {
         width: width,
         height: height,
         decoration: BoxDecoration(
-            color: fillColor ? AppColors.secandaryColor : AppColors.white,
+            color: fillColor ? Theme.of(context).primaryColor : AppColors.white,
             borderRadius: BorderRadius.circular(10),
-            border: fillColor ? null : Border.all(width: 1, color: AppColors.secandaryColor)),
+            border: fillColor ? null : Border.all(width: 1, color: Theme.of(context).primaryColor)),
         child: Center(
             child: Text(
           txt,
           textAlign: TextAlign.center,
-          style: TextStyle(color: fillColor ? Colors.white : AppColors.secandaryColor, fontSize: 14),
+          style: TextStyle(color: fillColor ? Colors.white : Theme.of(context).primaryColor, fontSize: 14),
         )),
       ),
     );

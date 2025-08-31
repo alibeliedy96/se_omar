@@ -9,16 +9,19 @@ import 'package:mr_omar/models/hotel_list_data.dart';
 import 'package:mr_omar/widgets/common_card.dart';
 import 'package:mr_omar/widgets/list_cell_animation_view.dart';
 
-class HotelListView extends StatelessWidget {
+import '../../../../widgets/base_cached_image_widget.dart';
+import '../../domain/models/get_reservations_response.dart';
+
+class UpcomingListItem extends StatelessWidget {
   final bool isShowDate;
   final VoidCallback callback;
-  final HotelListData hotelData;
+  final ReservationsData reservationsData;
   final AnimationController animationController;
   final Animation<double> animation;
 
-  const HotelListView(
+  const UpcomingListItem(
       {Key? key,
-      required this.hotelData,
+      required this.reservationsData,
       required this.animationController,
       required this.animation,
       required this.callback,
@@ -37,26 +40,31 @@ class HotelListView extends StatelessWidget {
             isShowDate
                 ? Padding(
                     padding: const EdgeInsets.only(top: 12, bottom: 12),
-                    child: Row(
+                    child:Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(
-                          '${Helper.getDateText(hotelData.date!)}, ',
-                          style: TextStyles(context)
-                              .regular()
-                              .copyWith(fontSize: 14),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 2.0),
+                        Expanded(
                           child: Text(
-                            Helper.getRoomText(hotelData.roomData!),
-                            style: TextStyles(context)
-                                .regular()
-                                .copyWith(fontSize: 14),
+                            '${Helper.getDateText(reservationsData.checkInDate!,reservationsData.checkOutDate!)}, ',
+                            style: TextStyles(context).regular().copyWith(fontSize: 12),
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
+                          ),
+                        ),
+                        Expanded(
+                          child: Text(
+                            Helper.getRoomText(
+                                bedrooms: reservationsData.unit?.bedrooms ?? "",
+                                maxGuests: reservationsData.unit?.maxGuests ?? ""
+                            ),
+                            style: TextStyles(context).regular().copyWith(fontSize: 12),
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
                           ),
                         ),
                       ],
                     ),
+
                   )
                 : const SizedBox(),
             CommonCard(
@@ -70,10 +78,12 @@ class HotelListView extends StatelessWidget {
                       children: [
                         AspectRatio(
                           aspectRatio: 2,
-                          child: Image.asset(
-                            hotelData.imagePath,
-                            fit: BoxFit.cover,
-                          ),
+                          child: CachedImageWidget(imageUrl:
+                          reservationsData.unit?.images?.isNotEmpty == true
+                              ? reservationsData.unit!.images!.first.imagePath ?? ""
+                              :
+                          "",
+                            fit: BoxFit.cover,),
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -88,7 +98,7 @@ class HotelListView extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      hotelData.titleTxt,
+                                      reservationsData.unit?.name??"",
                                       textAlign: TextAlign.left,
                                       style: TextStyles(context)
                                           .bold()
@@ -96,7 +106,7 @@ class HotelListView extends StatelessWidget {
                                     ),
 
                                     Text(
-                                      "${Loc.alized.number_of_beds}: ${hotelData.subTxt}",
+                                      "${Loc.alized.number_of_beds}: ${ reservationsData.unit?.bedrooms??""}",
                                       style:
                                       TextStyles(context).description().copyWith(
                                         fontSize: 14,
@@ -126,9 +136,9 @@ class HotelListView extends StatelessWidget {
                                       padding: const EdgeInsets.only(top: 4),
                                       child: Row(
                                         children: [
-                                          Helper.ratingStar(),
+                                          Helper.ratingStar(rating:double.tryParse(reservationsData.unit?.ratingStatistics?.averages?.overall??"")??0.0 ),
                                           Text(
-                                            " ${hotelData.reviews}",
+                                            " ${reservationsData.unit?.ratingStatistics?.totalReviews??""}",
                                             style: TextStyles(context)
                                                 .description(),
                                           ),
@@ -152,7 +162,7 @@ class HotelListView extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
                                   Text(
-                                    "\$${hotelData.perNight}",
+                                    "${Loc.alized.egp} ${(double.tryParse(reservationsData.unit?.monthlyPricing?[0].dailyPrice??""))?.toStringAsFixed(0) ?? "0.0"}",
                                     textAlign: TextAlign.left,
                                     style: TextStyles(context)
                                         .bold()

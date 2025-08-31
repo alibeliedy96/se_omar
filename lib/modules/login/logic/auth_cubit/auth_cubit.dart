@@ -64,6 +64,7 @@ class AuthCubit extends BaseCubit<AuthApiTypes>   {
     try {
       CacheHelper.saveData(key: AppConstants.token,value: data.token??"");
       CacheHelper.saveData(key: AppConstants.userName,value: data.user?.name??"");
+      CacheHelper.saveData(key: AppConstants.userEmail,value: data.user?.email??"");
       CacheHelper.saveData(key: AppConstants.phoneNumber,value: data.user?.phoneNumber??"");
       CacheHelper.saveData(key: AppConstants.USER_ID,value:data.user?.id.toString()??"");
 

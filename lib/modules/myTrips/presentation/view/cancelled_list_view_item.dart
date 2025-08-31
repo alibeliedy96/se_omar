@@ -4,21 +4,21 @@ import 'package:mr_omar/constants/helper.dart';
 import 'package:mr_omar/constants/text_styles.dart';
 import 'package:mr_omar/constants/themes.dart';
 import 'package:mr_omar/language/app_localizations.dart';
- import 'package:mr_omar/widgets/common_card.dart';
+import 'package:mr_omar/widgets/common_card.dart';
 import 'package:mr_omar/widgets/list_cell_animation_view.dart';
 import '../../../../widgets/base_cached_image_widget.dart';
-import '../../domain/models/units_response.dart';
+import '../../domain/models/get_reservations_response.dart';
 
-class UnitsListViewPage extends StatelessWidget {
+class CancelledListViewItem extends StatelessWidget {
   final bool isShowDate;
   final VoidCallback callback;
-  final UnitsData unitData;
+  final ReservationsData reservationsData;
   final AnimationController animationController;
   final Animation<double> animation;
 
-  const UnitsListViewPage({
+  const CancelledListViewItem({
     Key? key,
-    required this.unitData,
+    required this.reservationsData,
     required this.animationController,
     required this.animation,
     required this.callback,
@@ -35,6 +35,7 @@ class UnitsListViewPage extends StatelessWidget {
         child: CommonCard(
           color: AppTheme.backgroundColor,
           child: ClipRRect(
+            borderRadius: BorderRadius.circular(16),
             child: AspectRatio(
               aspectRatio: 2.7,
               child: Stack(
@@ -43,10 +44,14 @@ class UnitsListViewPage extends StatelessWidget {
                     children: [
                       AspectRatio(
                         aspectRatio: 0.90,
-                        child: unitData.images != null &&
-                            unitData.images!.isNotEmpty
-                            ? CachedImageWidget(imageUrl: unitData.images!.first.imagePath ?? "", fit: BoxFit.cover,)
-
+                        child: reservationsData.unit?.images != null &&
+                            reservationsData.unit!.images!.isNotEmpty
+                            ? CachedImageWidget(
+                          imageUrl: reservationsData
+                              .unit!.images!.first.imagePath ??
+                              "",
+                          fit: BoxFit.cover,
+                        )
                             : Container(
                           color: Colors.grey.shade300,
                           child: const Icon(Icons.image, size: 40),
@@ -63,7 +68,7 @@ class UnitsListViewPage extends StatelessWidget {
                             children: [
                               /// unit name
                               Text(
-                                unitData.name ?? "",
+                                reservationsData.unit?.name ?? "",
                                 maxLines: 2,
                                 textAlign: TextAlign.left,
                                 style: TextStyles(context).bold().copyWith(
@@ -74,7 +79,7 @@ class UnitsListViewPage extends StatelessWidget {
 
                               /// number of beds
                               Text(
-                                "${Loc.alized.number_of_beds}: ${unitData.bedrooms ?? 0}",
+                                "${Loc.alized.number_of_beds}: ${reservationsData.unit?.bedrooms ?? 0}",
                                 style: TextStyles(context)
                                     .description()
                                     .copyWith(fontSize: 14),
@@ -111,12 +116,20 @@ class UnitsListViewPage extends StatelessWidget {
                                           ),
                                           Row(
                                             children: [
-                                              Helper.ratingStar(rating: double.parse(unitData.ratingStatistics?.averages?.overall??"0.0")),
-
+                                              Helper.ratingStar(
+                                                rating: double.tryParse(
+                                                  reservationsData
+                                                      .unit
+                                                      ?.ratingStatistics
+                                                      ?.averages
+                                                      ?.overall ??
+                                                      "0.0",
+                                                ) ??
+                                                    0.0,
+                                              ),
                                               Text(
-                                                "(${unitData.ratingStatistics?.totalReviews??""})",
-                                                overflow:
-                                                TextOverflow.ellipsis,
+                                                "(${reservationsData.unit?.ratingStatistics?.totalReviews ?? ""})",
+                                                overflow: TextOverflow.ellipsis,
                                                 maxLines: 2,
                                                 style: TextStyles(context)
                                                     .description()
@@ -140,13 +153,12 @@ class UnitsListViewPage extends StatelessWidget {
                                           CrossAxisAlignment.end,
                                           children: [
                                             Text(
-                                              "${Loc.alized.egp} ${(double.tryParse(unitData.monthlyPricing?[0].dailyPrice??""))?.toStringAsFixed(0) ?? "0.0"}",
+                                              "${Loc.alized.egp} ${(double.tryParse(reservationsData.unit?.monthlyPricing?[0].dailyPrice ?? ""))?.toStringAsFixed(0) ?? "0.0"}",
                                               textAlign: TextAlign.left,
                                               style: TextStyles(context)
                                                   .bold()
                                                   .copyWith(fontSize: 14),
                                             ),
-
                                             Padding(
                                               padding: EdgeInsets.only(
                                                 top: Get.find<Loc>().isRTL
@@ -195,4 +207,3 @@ class UnitsListViewPage extends StatelessWidget {
     );
   }
 }
-

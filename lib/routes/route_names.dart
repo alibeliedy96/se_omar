@@ -81,9 +81,9 @@ class NavigationServices {
     return await _pushMaterialPageRoute(const SearchScreen());
   }
 
-  Future<dynamic> gotoHotelHomeScreen() async {
-    return await _pushMaterialPageRoute(const HotelHomeScreen());
-  }
+  // Future<dynamic> gotoHotelHomeScreen() async {
+  //   return await _pushMaterialPageRoute(const HotelHomeScreen());
+  // }
 
   Future<dynamic> gotoFiltersScreen() async {
     return await _pushMaterialPageRoute(const FiltersScreen());

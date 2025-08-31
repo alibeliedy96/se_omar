@@ -6,6 +6,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 
 import '../core/api/shared/shared_methods.dart';
 import '../core/base/costom_404.dart';
+import '../widgets/close_button.dart';
 
 
 class UTI {
@@ -15,7 +16,7 @@ class UTI {
 
   static Widget backIcon() => const Icon(Icons.arrow_back_ios);
 
-
+  static Widget closWidget() => const ClosWidget();
 
   static Custom404 errorWidget(
       {double imageHeight = 200.0,
@@ -37,7 +38,7 @@ class UTI {
         msg: message,
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.TOP,
-        timeInSecForIosWeb: 3,
+        timeInSecForIosWeb: 5,
         backgroundColor: status == 'error' ? Colors.red : Colors.green,
         textColor: Colors.white,
         fontSize: 16.0);

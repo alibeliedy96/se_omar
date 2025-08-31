@@ -1,14 +1,20 @@
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+
 import '../../../../../../core/get_it/get_it.dart';
 import '../../../../utils/base_cubit/base_cubit.dart';
 import '../../../../utils/help_me.dart';
+import '../../../../utils/uti.dart';
 import '../../domain/models/bulk_pricing_response.dart';
+import '../../domain/models/create_reservatons_response.dart';
 import '../../domain/models/reserved_days_response.dart';
 
 import '../../domain/request/bulk_pricing_request.dart';
+import '../../domain/request/create_reservation_request.dart';
 import '../../domain/services/choose_days_and_book_service.dart';
 
 
-enum ChooseDaysAndBookApiTypes {  loadInitialData,  reservedDays ,bulkPricing}
+enum ChooseDaysAndBookApiTypes {  loadInitialData,  reservedDays ,bulkPricing,createReservation}
 
 class ChooseDaysAndBookCubit extends BaseCubit<ChooseDaysAndBookApiTypes>   {
   final ChooseDaysAndBookService  repo;
@@ -55,6 +61,27 @@ class ChooseDaysAndBookCubit extends BaseCubit<ChooseDaysAndBookApiTypes>   {
     },
     onFailure: (l) {
       printLog("l is");
+      },
+  );
+  }
+
+ /// create Reservation
+
+  Future createReservation({required CreateReservationRequest createReservationRequest,
+    required Function(CreateReservationsResponse response)  onSuccess }) async {
+
+   await fastFire<CreateReservationsResponse>(
+    type: ChooseDaysAndBookApiTypes.createReservation,
+    fun: () {
+      return repo.createReservation(createReservationRequest: createReservationRequest);
+    },
+    onSuccess: (r) {
+     if(r.success == true ){
+       onSuccess.call(r);
+     }
+    },
+    onFailure: (l) {
+      UTI.showSnackBar(Get.context, l.message, "error");
       },
   );
   }
