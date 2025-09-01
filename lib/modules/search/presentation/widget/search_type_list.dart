@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:mr_omar/widgets/common_card.dart';
-import '../../models/hotel_list_data.dart';
+import '../../../../models/hotel_list_data.dart';
 
 class SearchTypeListView extends StatefulWidget {
   const SearchTypeListView({Key? key}) : super(key: key);

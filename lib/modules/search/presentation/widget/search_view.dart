@@ -6,7 +6,7 @@ import 'package:mr_omar/models/hotel_list_data.dart';
 import 'package:mr_omar/widgets/common_card.dart';
 import 'package:mr_omar/widgets/list_cell_animation_view.dart';
 
-import '../../routes/route_names.dart';
+import '../../../../routes/route_names.dart';
 
 class SearchView extends StatelessWidget {
   final HotelListData hotelInfo;

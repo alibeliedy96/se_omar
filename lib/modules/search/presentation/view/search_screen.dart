@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:mr_omar/constants/themes.dart';
 import 'package:mr_omar/language/app_localizations.dart';
-import 'package:mr_omar/modules/unit_details/search_view.dart';
+import 'package:mr_omar/modules/search/presentation/widget/search_view.dart';
 import 'package:mr_omar/widgets/common_appbar_view.dart';
 import 'package:mr_omar/widgets/common_card.dart';
 import 'package:mr_omar/widgets/common_search_bar.dart';
 import 'package:mr_omar/widgets/remove_focuse.dart';
-import '../../models/hotel_list_data.dart';
-import 'search_type_list.dart';
+import '../../../../models/hotel_list_data.dart';
+import '../widget/search_type_list.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({Key? key}) : super(key: key);
@@ -72,50 +72,7 @@ class _SearchScreenState extends State<SearchScreen>
                             ),
                           ),
                         ),
-                        // const SearchTypeListView(),
-                        // Padding(
-                        //   padding: const EdgeInsets.only(
-                        //       left: 24, right: 24, top: 8),
-                        //   child: Row(
-                        //     children: <Widget>[
-                        //       Expanded(
-                        //         child: Text(
-                        //           Loc.alized.last_search,
-                        //           style: const TextStyle(
-                        //             fontWeight: FontWeight.w600,
-                        //             fontSize: 16,
-                        //             letterSpacing: 0.5,
-                        //           ),
-                        //         ),
-                        //       ),
-                        //       Material(
-                        //         color: Colors.transparent,
-                        //         child: InkWell(
-                        //           borderRadius: const BorderRadius.all(
-                        //               Radius.circular(4.0)),
-                        //           onTap: () {},
-                        //           child: Padding(
-                        //             padding: const EdgeInsets.all(8),
-                        //             child: Row(
-                        //               children: <Widget>[
-                        //                 Text(
-                        //                   Loc.alized.clear_all,
-                        //                   textAlign: TextAlign.left,
-                        //                   style: TextStyle(
-                        //                     fontWeight: FontWeight.w600,
-                        //                     fontSize: 14,
-                        //                     color:
-                        //                         Theme.of(context).primaryColor,
-                        //                   ),
-                        //                 ),
-                        //               ],
-                        //             ),
-                        //           ),
-                        //         ),
-                        //       )
-                        //     ],
-                        //   ),
-                        // ),
+
                       ] +
                       getPList() +
                       [

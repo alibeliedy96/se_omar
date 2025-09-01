@@ -16,7 +16,7 @@ import '../modules/choose_available_days_to_book/presentation/view/choose_availa
 import '../modules/unit_details/view/unit_details.dart';
 import '../modules/unit_details/reviews_list_screen.dart';
 import '../modules/unit_details/room_booking_screen.dart';
-import '../modules/unit_details/search_screen.dart';
+import '../modules/search/presentation/view/search_screen.dart';
 import '../modules/login/view/forgot_password/forgot_password.dart';
 import '../modules/login/view/register/sign_up_Screen.dart';
 import '../modules/profile/view/hepl_center_screen.dart';

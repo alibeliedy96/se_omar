@@ -16,14 +16,14 @@ import 'package:mr_omar/routes/routes.dart';
 
 import 'l10n/app_localization.dart';
 
-class MotelApp extends StatefulWidget {
-  const MotelApp({Key? key}) : super(key: key);
+class SiOmarApp extends StatefulWidget {
+  const SiOmarApp({Key? key}) : super(key: key);
 
   @override
-  State<MotelApp> createState() => _MotelAppState();
+  State<SiOmarApp> createState() => _SiOmarAppState();
 }
 
-class _MotelAppState extends State<MotelApp> {
+class _SiOmarAppState extends State<SiOmarApp> {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<ThemeController>(
