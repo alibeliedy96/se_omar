@@ -41,10 +41,10 @@ class _ConfirmedListViewState extends State<ConfirmedListView> {
     return  CustomSmartRefresher(
 
       onRefresh: () {
-      return  _controller.onRefresh(status: "pending");
+      return  _controller.onRefresh(status: widget.type);
       },
       onLoadMore: () {
-       return _controller.onLoadMore(status: "pending");
+       return _controller.onLoadMore(status:  widget.type);
       },
       isLastPage: () => _controller.isLastPage,
       child: SingleChildScrollView(

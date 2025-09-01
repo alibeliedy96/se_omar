@@ -200,20 +200,17 @@ class _HomeExploreScreenState extends State<HomeExploreScreen> with TickerProvid
       },
     );
   }
-
+  TextEditingController searchController=TextEditingController();
   Widget searchUI() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
       child: CommonCard(
         radius: 36,
-        child: InkWell(
-          borderRadius: const BorderRadius.all(Radius.circular(38)),
-          onTap: () => _controller.navigateToSearch(context),
-          child: CommonSearchBar(
-            iconData: FontAwesomeIcons.magnifyingGlass,
-            enabled: false,
-            text: Loc.alized.where_are_you_going,
-          ),
+        child: SearchTextFieldWidget(
+
+          onChanged: (p0) => _controller.navigateToSearch(context,searchKey: searchController.text),
+          controller: searchController,
+          hintText: Loc.alized.where_are_you_going,
         ),
       ),
     );

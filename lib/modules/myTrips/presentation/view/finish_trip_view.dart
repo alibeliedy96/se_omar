@@ -43,10 +43,10 @@ class _FinishTripViewState extends State<FinishTripView> {
     return CustomSmartRefresher(
 
       onRefresh: () {
-        return  _controller.onRefresh(status: "pending");
+        return  _controller.onRefresh(status: "completed");
       },
       onLoadMore: () {
-        return _controller.onLoadMore(status: "pending");
+        return _controller.onLoadMore(status: "completed");
       },
       isLastPage: () => _controller.isLastPage,
       child: SingleChildScrollView(

@@ -42,10 +42,10 @@ class _CancelledListViewState extends State<CancelledListView> {
     return CustomSmartRefresher(
 
       onRefresh: () {
-        return  _controller.onRefresh(status: "pending");
+        return  _controller.onRefresh(status: "cancelled");
       },
       onLoadMore: () {
-        return _controller.onLoadMore(status: "pending");
+        return _controller.onLoadMore(status: "cancelled");
       },
       isLastPage: () => _controller.isLastPage,
       child: SingleChildScrollView(

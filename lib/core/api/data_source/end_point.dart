@@ -8,6 +8,8 @@ class EndPoints {
    static const String REGISTRATION_URI = '/api/register';
    static const String LOGIN_URI = '/api/login';
    static const String sliders = '/api/sliders';
+   static const String settings = '/api/settings';
+   static const String search = '/api/search/units?q=';
    static String unitDetails(String unitId) {
       return '/api/units/$unitId';
    }

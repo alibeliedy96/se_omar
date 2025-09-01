@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:dotted_border/dotted_border.dart';
+import 'package:mr_omar/modules/login/logic/auth_cubit/auth_cubit.dart';
 import 'package:mr_omar/utils/color_resources.dart';
 import '../../../../../language/app_localizations.dart';
 import '../../../domain/models/bulk_pricing_response.dart';
@@ -59,7 +60,12 @@ class _CreateReservationBottomSheetState extends State<CreateReservationBottomSh
                     ),
                   ),
 
+                    Text(AuthCubit.get().settingData?.defaultReservationNotes??"",
+                        textAlign: TextAlign.center,
+                        style:   TextStyle(fontSize: 18, fontWeight: FontWeight.bold,color: Theme.of(context).primaryColor)),
+                  const SizedBox(height: 5),
                     Text(Loc.alized.transfer_data, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+
                   const SizedBox(height: 12),
 
                   _buildTextField(controller: _controller.transferAmountController, label: Loc.alized.transferred_amount, keyboardType: TextInputType.number),

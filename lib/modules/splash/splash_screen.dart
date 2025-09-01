@@ -95,6 +95,7 @@
 // }
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:mr_omar/modules/login/logic/auth_cubit/auth_cubit.dart';
 import '../../../main.dart';
 import '../../constants/localfiles.dart';
 import '../../routes/route_names.dart';
@@ -145,9 +146,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
 
     _controller.forward();
 
-    Future.delayed(const Duration(seconds: 3), () {
-      NavigationServices(context).navigateAndFinish(context, const BottomTabScreen());
-    });
+    AuthCubit.get().getSettings(context: context);
   }
 
   @override

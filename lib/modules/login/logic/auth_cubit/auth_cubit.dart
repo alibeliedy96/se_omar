@@ -9,12 +9,13 @@ import '../../../../utils/uti.dart';
 import '../../../bottom_tab/bottom_tab_screen.dart';
 import '../../domain/models/forgot_password_response.dart';
 import '../../domain/models/login_or_register_response.dart';
+import '../../domain/models/settings_response.dart';
 import '../../domain/request/login_request.dart';
 import '../../domain/request/register_request.dart';
 import '../../domain/services/auth_service.dart';
 
 
-enum AuthApiTypes {  loadInitialData,  login,forgotPassword,resendCode,verifyOtp,register }
+enum AuthApiTypes {  loadInitialData,  login,forgotPassword,getSettings,resendCode,verifyOtp,register }
 
 class AuthCubit extends BaseCubit<AuthApiTypes>   {
   final AuthService  repo;
@@ -126,7 +127,42 @@ class AuthCubit extends BaseCubit<AuthApiTypes>   {
       }  ,
     );
   }
+  SettingsData? settingData;
+  Future<void> getSettings({ required context }) async {
+    await  fastFire<SettingsResponse>(
+      type: AuthApiTypes.getSettings,
+      fun: repo.getSettings,
+      onSuccess: (r) {
+        if (r.data != null) {
+          settingData=r.data;
+          NavigationServices(context).navigateAndFinish(context, const BottomTabScreen());
+          // String? minimumVersionString;
+          // if (Platform.isAndroid) {
+          //   minimumVersionString = r.data?.androidVersion;
+          //
+          // }
+          // else if (Platform.isIOS) {
+          //   minimumVersionString = r.data?.iosVersion;
+          //
+          // }
+          // try {
+          //   final currentVersion = Version.parse(normalizeVersionString(AppConstants.appVersion));
+          //   final minRequiredVersion = Version.parse(normalizeVersionString(minimumVersionString));
+          //
+          //   if (currentVersion < minRequiredVersion ) {
+          //     showUpdateBottomSheet();
+          //     return;
+          //   }else{
+          //     _route();
+          //   }
+          // } catch (e) {
+          //   print("Version parsing error: $e");
+          // }
+        }
+      },
+    );
 
+  }
 
 }
 

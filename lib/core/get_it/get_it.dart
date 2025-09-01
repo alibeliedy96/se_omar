@@ -17,6 +17,11 @@ import '../../modules/myTrips/domain/repositories/reservations_repository_interf
 import '../../modules/myTrips/domain/services/reservations_service.dart';
 import '../../modules/myTrips/domain/services/reservations_service_interface.dart';
 import '../../modules/myTrips/logic/reservations_cubit/reservations_cubit.dart';
+import '../../modules/search/domain/repositories/search_repository.dart';
+import '../../modules/search/domain/repositories/search_repository_interface.dart';
+import '../../modules/search/domain/services/search_service.dart';
+import '../../modules/search/domain/services/search_service_interface.dart';
+import '../../modules/search/logic/search_cubit/search_cubit.dart';
 import '../../modules/unit_details/domain/repositories/unit_details_repository.dart';
 import '../../modules/unit_details/domain/repositories/unit_details_repository_interface.dart';
 import '../../modules/unit_details/domain/services/unit_details_service.dart';
@@ -64,6 +69,7 @@ void initRepositories() {
   sl.registerLazySingleton(() => UnitDetailsRepository());
   sl.registerLazySingleton(() => ChooseDaysAndBookRepository());
   sl.registerLazySingleton(() => ReservationsRepository());
+  sl.registerLazySingleton(() => SearchRepository());
 
 
 }
@@ -111,6 +117,13 @@ void initInterfaces() {
   sl.registerLazySingleton(() => reservationsServiceInterface);
 
 
+  SearchRepositoryInterface  searchRepositoryInterface = SearchRepository();
+  sl.registerLazySingleton(() => searchRepositoryInterface);
+
+  SearchServiceInterface searchServiceInterface = SearchService( searchRepositoryInterface: sl());
+  sl.registerLazySingleton(() => searchServiceInterface);
+
+
 
 }
 // ========================== 🔥 Services 🔥 ==========================
@@ -123,6 +136,7 @@ void initService() {
   sl.registerLazySingleton(() => UnitDetailsService(unitDetailsRepositoryInterface : sl()));
   sl.registerLazySingleton(() => ChooseDaysAndBookService(chooseDaysAndBookRepositoryInterface : sl()));
   sl.registerLazySingleton(() => ReservationsService(reservationsRepositoryInterface : sl()));
+  sl.registerLazySingleton(() => SearchService(searchRepositoryInterface : sl()));
 
 }
 // ========================== 🔥 cubits 🔥 ==========================
@@ -134,5 +148,6 @@ void initCubits() {
   getIt.registerLazySingleton<UnitDetailsCubit>(() => UnitDetailsCubit(repo: sl()));
   getIt.registerLazySingleton<ChooseDaysAndBookCubit>(() => ChooseDaysAndBookCubit(repo: sl()));
   getIt.registerLazySingleton<ReservationsCubit>(() => ReservationsCubit(repo: sl()));
+  getIt.registerLazySingleton<SearchCubit>(() => SearchCubit(repo: sl()));
 
 }

@@ -2,7 +2,8 @@
 import 'dart:math';
 import '../modules/explore/domain/models/slider_response.dart';
 import '../modules/explore/domain/models/units_response.dart';
-import '../modules/myTrips/domain/models/get_reservations_response.dart';
+import '../modules/myTrips/domain/models/get_reservations_response.dart' hide RatingStatistics;
+import '../modules/search/domain/models/search_response.dart';
 import '../modules/unit_details/domain/models/unit_details_response.dart';
 
 class FakeDataGenerator {
@@ -136,4 +137,38 @@ class FakeDataGenerator {
     });
   }
 
+  /// Generates a list of fake search data.
+  static List<SearchData> generateFakeSearchResponse({int count = 10}) {
+    final random = Random();
+    final statuses = ["available", "booked", "maintenance"];
+    final unitTypes = ["Apartment", "Villa", "Studio", "Penthouse"];
+    final amenitiesList = ["WiFi", "Pool", "Parking", "AC", "Gym"];
+
+    return List.generate(count, (index) {
+      return SearchData(
+        id: index + 1,
+        name: "Luxury Unit ${index + 1}",
+        unitNumber: "A-${100 + index}",
+        description:
+        "This is a modern and fully furnished unit with all amenities included. Perfect for families and travelers.",
+        status: statuses[random.nextInt(statuses.length)],
+        bedrooms: "${1 + random.nextInt(4)}",
+        bathrooms: "${1 + random.nextInt(3)}",
+        maxGuests: "${2 + random.nextInt(6)}",
+        size: "${80 + random.nextInt(120)} sqm",
+        address: "Street ${10 + index}, Cairo, Egypt",
+        unitType: UnitType(id: index, name: unitTypes[random.nextInt(unitTypes.length)]),
+
+        amenities: amenitiesList
+            .map((a) => Amenities(id: random.nextInt(1000), name: a))
+            .toList(),
+
+        minimumReservationDays: "${1 + random.nextInt(5)}",
+        createdAt: DateTime.now().subtract(Duration(days: random.nextInt(100))).toIso8601String(),
+        updatedAt: DateTime.now().toIso8601String(),
+
+      );
+    });
+  }
 }
+

@@ -54,8 +54,8 @@ class HomeExploreController extends ChangeNotifier {
   // ==========================
   //      Navigation
   // ==========================
-  void navigateToSearch(BuildContext context) {
-    NavigationServices(context).gotoSearchScreen();
+  void navigateToSearch(BuildContext context,{required String searchKey}) {
+    NavigationServices(context).gotoSearchScreen(searchKey:searchKey);
   }
 
   void navigateToUnitDetails(BuildContext context, UnitsData unit) {

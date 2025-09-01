@@ -77,8 +77,8 @@ class NavigationServices {
     ));
   }
 
-  Future<dynamic> gotoSearchScreen() async {
-    return await _pushMaterialPageRoute(const SearchScreen());
+  Future<dynamic> gotoSearchScreen({required String searchKey}) async {
+    return await _pushMaterialPageRoute(  SearchScreen(searchKey: searchKey,));
   }
 
   // Future<dynamic> gotoHotelHomeScreen() async {
