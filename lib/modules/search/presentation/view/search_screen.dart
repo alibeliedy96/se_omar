@@ -73,18 +73,52 @@ class _SearchScreenState extends State<SearchScreen>
               body: (_) {
                 final notifications = _controller.reservations;
                 if (  notifications.isEmpty){
-                  return UTI.errorWidget();
+                  return
+                    _errorWidget(context);
                 }else {
                   return _searchList( context, loading: false);
                 }
               },
-              error: (_) => UTI.errorWidget(),
+              error: (_) => _errorWidget(context),
               loading: (_) => _searchList(context,  loading: true),
             ),
           ),
         ),
       ),
     );
+  }
+
+  Column _errorWidget(BuildContext context) {
+    return Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      CommonAppbarView(
+                        iconData: Icons.close,
+                        onBackClick: () {
+                          Navigator.pop(context);
+                        },
+                        titleText: Loc.alized.search_hotel,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            left: 24, right: 24, top: 16, bottom: 16),
+                        child: CommonCard(
+                          color: AppTheme.backgroundColor,
+                          radius: 36,
+                          child: SearchTextFieldWidget(
+
+                            controller: _controller.searchController,
+                            onChanged: (searchKey) {
+                              _controller.init(searchKey: _controller.searchController.text);
+                            },
+                            hintText: Loc.alized.where_are_you_going,
+                          ),
+                        ),
+                      ),
+                      UTI.errorWidget(),
+                    ],
+                  );
   }
 
   Widget _searchList(BuildContext context, {required bool loading}) {
