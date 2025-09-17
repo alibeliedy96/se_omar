@@ -121,11 +121,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Plan your trips'**
   String get plan_your_trips;
-  String get add_review;
-  String get show_more;
-  String get please_provide_an_overall_rating;
-  String get please_add_a_short_comment;
-  String get add_your_review;
 
   /// No description provided for @book_one_of_your.
   ///
@@ -678,6 +673,7 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Number of beds'**
   String get number_of_beds;
+  String get your_review_will_help_others_make_informed_decisions;
 
   /// No description provided for @km_to_city.
   ///
@@ -762,9 +758,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Photo'**
   String get room_photo;
-  String get submit_review;
-  String get write_a_short_review;
-  String get your_review_will_help_others_make_informed_decisions;
 
   /// No description provided for @last_update.
   ///
@@ -1108,17 +1101,59 @@ abstract class AppLocalizations {
   /// **'Payment'**
   String get payment_text;
 
+  /// No description provided for @submit_review.
+  ///
+  /// In en, this message translates to:
+  /// **'Your review will help others make informed decisions.'**
+  String get submit_review;
+
   /// No description provided for @setting_text.
   ///
   /// In en, this message translates to:
   /// **'Setting'**
   String get setting_text;
 
+  /// No description provided for @write_a_short_review.
+  ///
+  /// In en, this message translates to:
+  /// **'Write a short review...'**
+  String get write_a_short_review;
+
+  /// No description provided for @add_your_review.
+  ///
+  /// In en, this message translates to:
+  /// **'Add your review'**
+  String get add_your_review;
+
+  /// No description provided for @show_more.
+  ///
+  /// In en, this message translates to:
+  /// **'Show more'**
+  String get show_more;
+
+  /// No description provided for @please_add_a_short_comment.
+  ///
+  /// In en, this message translates to:
+  /// **'Please add a short comment.'**
+  String get please_add_a_short_comment;
+
+  /// No description provided for @please_provide_an_overall_rating.
+  ///
+  /// In en, this message translates to:
+  /// **'Please provide an overall rating.'**
+  String get please_provide_an_overall_rating;
+
   /// No description provided for @cancel.
   ///
   /// In en, this message translates to:
   /// **'Cancel'**
   String get cancel;
+
+  /// No description provided for @add_review.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Review'**
+  String get add_review;
 
   /// No description provided for @yes_cancel.
   ///

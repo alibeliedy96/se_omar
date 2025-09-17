@@ -45,25 +45,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get maximum_number_of_people => 'Maximum number of people';
-  @override
-  String get add_review => 'Add Review';
-  @override
-  String get show_more => 'Show more';
-  @override
-  String get please_provide_an_overall_rating => 'Please provide an overall rating.';
 
   @override
   String get confirmed => 'Confirmed';
-  @override
-  String get your_review_will_help_others_make_informed_decisions => 'Your review will help others make informed decisions.';
-  @override
-  String get submit_review => 'Submit Review';
-  @override
-  String get write_a_short_review => 'Write a short review...';
-  @override
-  String get add_your_review => 'Add your review';
-  @override
-  String get please_add_a_short_comment => 'Please add a short comment.';
 
   @override
   String get cancelled => 'Cancelled';
@@ -343,6 +327,8 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get less => 'less';
+  @override
+  String get your_review_will_help_others_make_informed_decisions => 'Your review will help others make informed decisions.';
 
   @override
   String get overall_rating => 'Overall rating';
@@ -541,10 +527,33 @@ class AppLocalizationsEn extends AppLocalizations {
   String get payment_text => 'Payment';
 
   @override
+  String get submit_review =>
+      'Your review will help others make informed decisions.';
+
+  @override
   String get setting_text => 'Setting';
 
   @override
+  String get write_a_short_review => 'Write a short review...';
+
+  @override
+  String get add_your_review => 'Add your review';
+
+  @override
+  String get show_more => 'Show more';
+
+  @override
+  String get please_add_a_short_comment => 'Please add a short comment.';
+
+  @override
+  String get please_provide_an_overall_rating =>
+      'Please provide an overall rating.';
+
+  @override
   String get cancel => 'Cancel';
+
+  @override
+  String get add_review => 'Add Review';
 
   @override
   String get yes_cancel => 'Yes, Cancel';
