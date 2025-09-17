@@ -4,6 +4,7 @@ import 'package:mr_omar/constants/helper.dart';
 import 'package:mr_omar/constants/text_styles.dart';
 import 'package:mr_omar/constants/themes.dart';
 import 'package:mr_omar/language/app_localizations.dart';
+import 'package:mr_omar/modules/explore/domain/models/units_response.dart';
 import 'package:mr_omar/widgets/common_card.dart';
 import 'package:mr_omar/widgets/list_cell_animation_view.dart';
 import '../../../../widgets/base_cached_image_widget.dart';
@@ -44,17 +45,11 @@ class CancelledListViewItem extends StatelessWidget {
                     children: [
                       AspectRatio(
                         aspectRatio: 0.90,
-                        child: reservationsData.unit?.images != null &&
-                            reservationsData.unit!.images!.isNotEmpty
-                            ? CachedImageWidget(
+                        child:   CachedImageWidget(
                           imageUrl: reservationsData
-                              .unit!.images!.first.imagePath ??
+                              .unit?.primaryImage?.imageUrl ??
                               "",
                           fit: BoxFit.cover,
-                        )
-                            : Container(
-                          color: Colors.grey.shade300,
-                          child: const Icon(Icons.image, size: 40),
                         ),
                       ),
                       Expanded(

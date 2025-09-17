@@ -38,7 +38,7 @@ class FakeDataGenerator {
         unitType: UnitType(id: 1, name: 'شقة', isActive: true),
         images: List.generate(3, (i) => Images(
           id: (index * 10) + i,
-          imagePath: 'https://via.placeholder.com/400x300.png/009688?text=Unit+Image+${i + 1}',
+          imageUrl: 'https://via.placeholder.com/400x300.png/009688?text=Unit+Image+${i + 1}',
           isPrimary: i == 0,
         )),
         amenities: [
@@ -75,7 +75,7 @@ class FakeDataGenerator {
       images: List.generate(5, (i) => Images(
         id: (unitId * 10) + i,
         unitId: unitId,
-        imagePath: 'https://via.placeholder.com/800x600.png/009688?text=Chalet+View+${i + 1}',
+        imageUrl: 'https://via.placeholder.com/800x600.png/009688?text=Chalet+View+${i + 1}',
         caption: 'منظر ${i + 1}',
         order: i,
         isPrimary: i == 0,

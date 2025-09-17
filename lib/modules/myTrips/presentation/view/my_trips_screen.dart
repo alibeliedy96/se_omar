@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:mr_omar/constants/text_styles.dart';
 import 'package:mr_omar/constants/themes.dart';
 import 'package:mr_omar/language/app_localizations.dart';
 import 'package:mr_omar/widgets/bottom_top_move_animation_view.dart';
 import 'package:mr_omar/widgets/common_card.dart';
+import '../../../../core/cache/cache_helper.dart';
+import '../../../../utils/app_constants.dart';
+import '../../../../widgets/show_login_dialog.dart';
 import 'cancelled_list_view.dart';
 import 'confirmed_list_view.dart';
 import 'finish_trip_view.dart';
@@ -38,6 +43,36 @@ class _MyTripsScreenState extends State<MyTripsScreen>
 
   @override
   Widget build(BuildContext context) {
+    return FutureBuilder(
+      future: CacheHelper.getData(key: AppConstants.token),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        }
+
+        final token = snapshot.data;
+
+        return Stack(
+          children: [
+            _buildTripsContent(),
+            if (token == null)
+              Positioned.fill(
+                child: IgnorePointer(
+                  ignoring: false,
+                  child: Container(
+                    color:Get.isDarkMode?Colors.black: Colors.white,
+                    alignment: Alignment.center,
+                    child: const LoginOrRegisterDialog(isClose: false),
+                  ),
+                ),
+              ),
+          ],
+        );
+      },
+    );
+  }
+
+  Widget _buildTripsContent() {
     return BottomTopMoveAnimationView(
       animationController: widget.animationController,
       child: Column(
@@ -72,6 +107,8 @@ class _MyTripsScreenState extends State<MyTripsScreen>
       ),
     );
   }
+
+
 
   Widget _buildTabs() {
     return Padding(

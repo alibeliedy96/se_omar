@@ -57,7 +57,7 @@ class ReviewsView extends StatelessWidget {
                             const BorderRadius.all(Radius.circular(8.0)),
                         child: AspectRatio(
                           aspectRatio: 1,
-                          child:CachedImageWidget(imageUrl:reviewsList.user?.profileImage??"", fit: BoxFit.cover,),
+                          child:CachedImageWidget(imageUrl:reviewsList.user?.profileImageUrl??"", fit: BoxFit.cover,),
                         ),
                       ),
                     ),

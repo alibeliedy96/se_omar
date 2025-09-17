@@ -26,6 +26,7 @@ class GetProfileData {
   String? name;
   String? email;
   String? phoneNumber;
+  String? profileImageUrl;
   String? emailVerifiedAt;
   String? createdAt;
   String? updatedAt;
@@ -44,6 +45,7 @@ class GetProfileData {
     name = json['name'];
     email = json['email'];
     phoneNumber = json['phone_number'];
+    profileImageUrl = json['profile_image_url'];
     emailVerifiedAt = json['email_verified_at'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];

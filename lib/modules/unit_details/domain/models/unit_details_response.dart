@@ -195,6 +195,7 @@ class User {
   int? id;
   String? name;
   String? profileImage;
+  String? profileImageUrl;
 
   User({this.id, this.name, this.profileImage});
 
@@ -202,6 +203,7 @@ class User {
     id = json['id'];
     name = json['name'];
     profileImage = json['profile_image'];
+    profileImageUrl = json['profile_image_url'];
   }
 
   Map<String, dynamic> toJson() {

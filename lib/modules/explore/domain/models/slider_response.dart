@@ -28,6 +28,7 @@ class SliderData {
   int? id;
   String? title;
   String? image;
+  String? imageUrl;
   int? order;
 
   SliderData({this.id, this.title, this.image, this.order});
@@ -37,6 +38,7 @@ class SliderData {
     title = json['title'];
     image = json['image'];
     order = json['order'];
+    imageUrl = json['image_url'];
   }
 
   Map<String, dynamic> toJson() {

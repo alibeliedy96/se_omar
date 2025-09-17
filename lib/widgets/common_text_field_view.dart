@@ -67,13 +67,15 @@ class _CommonTextFieldViewState extends State<CommonTextFieldView> {
             validator: widget.validator,
             decoration: InputDecoration(
               filled: true,
-              fillColor: Colors.white,
+              fillColor: Theme.of(context).brightness == Brightness.light
+                  ? Colors.white
+                  : Theme.of(context).cardColor,
               contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
               ),
               hintText: widget.hintText,
-              hintStyle: TextStyle(color: Theme.of(context).disabledColor),
+              hintStyle: TextStyle(color: Theme.of(context).hintColor.withOpacity(0.6)),
               suffixIcon: widget.isObscureText
                   ? IconButton(
                 icon: Icon(
@@ -88,6 +90,8 @@ class _CommonTextFieldViewState extends State<CommonTextFieldView> {
               )
                   : null,
             ),
+
+
             keyboardType: widget.keyboardType,
           ),
         ],

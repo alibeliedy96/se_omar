@@ -73,7 +73,7 @@ class ProfileController extends ChangeNotifier {
       case 1:
         goToHelpCenter(context);
         break;
-      case 3:
+      case 2:
         goToSettings(context);
         break;
     }
@@ -85,7 +85,7 @@ class ProfileController extends ChangeNotifier {
         // case 1:
         //   goToHelpCenter(context);
         //  break;
-        case 2:
+        case 1:
           goToSettings(context);
           break;
       }

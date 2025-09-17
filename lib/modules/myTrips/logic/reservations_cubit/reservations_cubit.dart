@@ -1,11 +1,15 @@
+import 'package:flutter/cupertino.dart';
+
 import '../../../../../../core/get_it/get_it.dart';
 import '../../../../utils/base_cubit/base_cubit.dart';
 import '../../../../utils/help_me.dart';
+import '../../../../utils/uti.dart';
+import '../../domain/models/cancel_reservsations_response.dart';
 import '../../domain/models/get_reservations_response.dart';
 import '../../domain/services/reservations_service.dart';
 
 
-enum ReservationsApiTypes {  loadInitialData,reservations  }
+enum ReservationsApiTypes {  loadInitialData,reservations ,cancelReservations }
 
 class ReservationsCubit extends BaseCubit<ReservationsApiTypes>   {
   final ReservationsService  repo;
@@ -30,6 +34,32 @@ class ReservationsCubit extends BaseCubit<ReservationsApiTypes>   {
         toMeta: (r) => r.pagination,
 
         paginationMethod: paginationMethod);
+  }
+
+
+
+  Future cancelReservations({required BuildContext context,required String id }) async {
+
+    return await fastFire<CancelReservationsResponse>(
+      type: ReservationsApiTypes.cancelReservations,
+      fun: () {
+        return repo.cancelReservations(id:id);
+      },
+      onSuccess: (r) {
+        if(r.success==true){
+          Navigator.of(context).pop();
+
+          getReservations(paginationMethod: PaginationMethod.refresh,status: "pending");
+        }
+      },
+      onFailure: (l) {
+        printLog("l is");
+
+
+        UTI.showSnackBar(context, l.message, 'error');
+
+      }  ,
+    );
   }
 
 

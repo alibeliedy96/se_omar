@@ -73,18 +73,26 @@ class _HomeExploreScreenState extends State<HomeExploreScreen> with TickerProvid
 
     return BottomTopMoveAnimationView(
       animationController: widget.animationController,
-      child:BlockBuilderWidget<ExploreCubit, ExploreApiTypes>(
-        types: const [ExploreApiTypes.loadInitialData ],
-        body: (_) {
-          if((_controller.sliders.isEmpty)&&(_controller.units.isEmpty)) {
-            return  UTI.errorWidget();
-          }else{
-            return _buildContent( loading: false);
-          }
-
+      child:RefreshIndicator(
+        onRefresh: () async {
+          ExploreCubit.get().slider.clear();
+          ExploreCubit.get().units.clear();
+            _controller.init( );
+          setState(() {});
         },
-        error: (_) => UTI.errorWidget(),
-        loading: (_) => _buildContent( loading: true),
+        child: BlockBuilderWidget<ExploreCubit, ExploreApiTypes>(
+          types: const [ExploreApiTypes.loadInitialData ],
+          body: (_) {
+            if((_controller.sliders.isEmpty)&&(_controller.units.isEmpty)) {
+              return  UTI.errorWidget();
+            }else{
+              return _buildContent( loading: false);
+            }
+
+          },
+          error: (_) => UTI.errorWidget(),
+          loading: (_) => _buildContent( loading: true),
+        ),
       ),
     );
   }
@@ -207,12 +215,16 @@ class _HomeExploreScreenState extends State<HomeExploreScreen> with TickerProvid
       child: CommonCard(
         radius: 36,
         child: SearchTextFieldWidget(
-
-          onChanged: (p0) => _controller.navigateToSearch(context,searchKey: searchController.text),
+          onChanged: (p0) {
+            if (searchController.text.trim().isNotEmpty) {
+              _controller.navigateToSearch(context, searchKey: searchController.text.trim());
+            }
+          },
           controller: searchController,
           hintText: Loc.alized.where_are_you_going,
         ),
       ),
     );
   }
+
 }

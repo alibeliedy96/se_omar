@@ -45,7 +45,7 @@ class UnitsListViewPage extends StatelessWidget {
                         aspectRatio: 0.90,
                         child: unitData.images != null &&
                             unitData.images!.isNotEmpty
-                            ? CachedImageWidget(imageUrl: unitData.images!.first.imagePath ?? "", fit: BoxFit.cover,)
+                            ? CachedImageWidget(imageUrl:unitData.images?.primaryImageUrl ?? "" , fit: BoxFit.cover,)
 
                             : Container(
                           color: Colors.grey.shade300,

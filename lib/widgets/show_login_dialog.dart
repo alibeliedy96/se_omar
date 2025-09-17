@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 import '../common/common.dart';
@@ -7,24 +6,25 @@ import '../language/app_localizations.dart';
 import '../routes/route_names.dart';
 import '../utils/uti.dart';
 
-
-void showLoginDialog() {
+void showLoginDialog({bool dismissible = true}) {
   showDialog(
     context: navigatorKey.currentContext!,
-    builder: (_) => AlertDialog(
-      backgroundColor: Colors.white,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      // alignment: Alignment.bottomCenter,
-      // insetPadding: EdgeInsets.zero,
-      contentPadding: EdgeInsets.zero,
-      content: const LoginOrRegisterDialog(),
+    barrierDismissible: dismissible,
+    builder: (_) => WillPopScope(
+      onWillPop: () async => dismissible,
+      child: AlertDialog(
+        backgroundColor: Colors.white,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        contentPadding: EdgeInsets.zero,
+        content: LoginOrRegisterDialog(isClose: dismissible),
+      ),
     ),
   );
 }
 
 class LoginOrRegisterDialog extends StatelessWidget {
-    final bool isClose;
-  const LoginOrRegisterDialog({super.key,   this.isClose=true});
+  final bool isClose;
+  const LoginOrRegisterDialog({super.key, this.isClose = true});
 
   @override
   Widget build(BuildContext context) {
@@ -33,15 +33,15 @@ class LoginOrRegisterDialog extends StatelessWidget {
       child: SingleChildScrollView(
         child: Column(
           children: [
-           if(isClose==true)
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                UTI.closWidget(),
-              ],
-            ),
+            if (isClose)
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  UTI.closWidget(),
+                ],
+              ),
             // text
-            Text(Loc.alized.to_display_your_data ),
+            Text(Loc.alized.to_display_your_data),
             const SizedBox(height: 20),
             // login
             CustomButtonWithBorder(
@@ -49,19 +49,19 @@ class LoginOrRegisterDialog extends StatelessWidget {
               fillColor: true,
               onTap: () {
                 Navigator.of(context).pop();
-                // AppNavigation.navigateTo(null, const LoginScreen());
-                NavigationServices(navigatorKey.currentContext!).gotoLoginScreen();
+                NavigationServices(navigatorKey.currentContext!)
+                    .gotoLoginScreen();
               },
             ),
             const SizedBox(height: 20),
             CustomButtonWithBorder(
-                txt: Loc.alized.create_account,
-                fillColor: false,
-                onTap: () {
-                  Navigator.of(context).pop();
-                  NavigationServices(context).gotoSignScreen();
-                }),
-            // register
+              txt: Loc.alized.create_account,
+              fillColor: false,
+              onTap: () {
+                Navigator.of(context).pop();
+                NavigationServices(context).gotoSignScreen();
+              },
+            ),
           ],
         ),
       ),

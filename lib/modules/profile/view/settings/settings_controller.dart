@@ -8,6 +8,7 @@ import 'package:mr_omar/constants/text_styles.dart';
 import 'package:mr_omar/constants/themes.dart';
 import 'package:mr_omar/language/app_localizations.dart';
 import 'package:mr_omar/logic/controllers/theme_provider.dart';
+import 'package:mr_omar/modules/login/logic/auth_cubit/auth_cubit.dart';
 import 'package:mr_omar/routes/route_names.dart';
 import '../../../../core/cache/cache_helper.dart';
 import '../../../../models/enum.dart';
@@ -26,6 +27,8 @@ class SettingsController extends ChangeNotifier {
   final Loc _loc = Get.find<Loc>();
   final ProfileCubit _profileCubit = ProfileCubit.get();
 
+
+
   // ==========================
   //      Public Methods
   // ==========================
@@ -36,19 +39,22 @@ class SettingsController extends ChangeNotifier {
       case 0:
         // NavigationServices(context).gotoChangepasswordScreen();
         break;
+
       case 1:
-        // NavigationServices(context).gotoHeplCenterScreen();
-        break;
-      case 2:
         _showFontDialog(context);
         break;
-      case 3:
+      case 2:
         _showColorDialog(context);
         break;
-      case 4:
+      case 3:
         _showLanguageDialog(context);
+      case 4:
+          NavigationServices(context).goToTermsAndPrivacyScreen(title:Loc.alized.terms_of_services ,content:AuthCubit.get().settingData?.termsOfService??"");
         break;
-      case 8: // Assuming Logout is at index 8
+      case 5:
+        NavigationServices(context).goToTermsAndPrivacyScreen(title:Loc.alized.privacy_policy ,content:AuthCubit.get().settingData?.privacyPolicy??"");
+        break;
+      case 6: // Assuming Logout is at index 8
         await logoutOrLogin(context);
         break;
     // Add other cases as needed

@@ -121,6 +121,11 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Plan your trips'**
   String get plan_your_trips;
+  String get add_review;
+  String get show_more;
+  String get please_provide_an_overall_rating;
+  String get please_add_a_short_comment;
+  String get add_your_review;
 
   /// No description provided for @book_one_of_your.
   ///
@@ -757,6 +762,9 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Photo'**
   String get room_photo;
+  String get submit_review;
+  String get write_a_short_review;
+  String get your_review_will_help_others_make_informed_decisions;
 
   /// No description provided for @last_update.
   ///
@@ -1105,6 +1113,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Setting'**
   String get setting_text;
+
+  /// No description provided for @cancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cancel;
+
+  /// No description provided for @yes_cancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Yes, Cancel'**
+  String get yes_cancel;
+
+  /// No description provided for @cancel_reservation.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel Reservation'**
+  String get cancel_reservation;
 
   /// No description provided for @notifications.
   ///

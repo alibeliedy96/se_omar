@@ -169,6 +169,7 @@ class Unit {
   ReservationsUnitType? unitType;
   List<MonthlyPricing>? monthlyPricing;
   int? minimumReservationDays;
+  PrimaryImage? primaryImage;
   String? createdAt;
   String? updatedAt;
   RatingStatistics? ratingStatistics;
@@ -223,6 +224,9 @@ class Unit {
         images!.add(Images.fromJson(v));
       });
     }
+    primaryImage = json['primary_image'] != null
+        ?   PrimaryImage.fromJson(json['primary_image'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -253,7 +257,54 @@ class Unit {
     return data;
   }
 }
+class PrimaryImage {
+  int? id;
+  String? imagePath;
+  String? imageUrl;
+  String? caption;
+  int? order;
+  bool? isPrimary;
+  bool? isActive;
+  String? createdAt;
+  String? updatedAt;
 
+  PrimaryImage(
+      {this.id,
+        this.imagePath,
+        this.imageUrl,
+        this.caption,
+        this.order,
+        this.isPrimary,
+        this.isActive,
+        this.createdAt,
+        this.updatedAt});
+
+  PrimaryImage.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    imagePath = json['image_path'];
+    imageUrl = json['image_url'];
+    caption = json['caption'];
+    order = json['order'];
+    isPrimary = json['is_primary'];
+    isActive = json['is_active'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['image_path'] = imagePath;
+    data['image_url'] = imageUrl;
+    data['caption'] = caption;
+    data['order'] = order;
+    data['is_primary'] = isPrimary;
+    data['is_active'] = isActive;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    return data;
+  }
+}
 class ReservationsUnitType {
   int? id;
   String? name;

@@ -10,8 +10,11 @@ class EndPoints {
    static const String sliders = '/api/sliders';
    static const String settings = '/api/settings';
    static const String search = '/api/search/units?q=';
+   static const String createReview = '/api/reviews';
    static String unitDetails(String unitId) {
       return '/api/units/$unitId';
+   } static String cancelReservations(String id) {
+      return '/api/reservations/$id/cancel';
    }
    static const String units = '/api/units';
    static const String reservations = '/api/reservations';

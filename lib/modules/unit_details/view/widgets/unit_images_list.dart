@@ -37,7 +37,7 @@ class _UnitImagesListState extends State<UnitImagesList> {
                 borderRadius: const BorderRadius.all(Radius.circular(8.0)),
                 child: AspectRatio(
                   aspectRatio: 1,
-                  child:CachedImageWidget(imageUrl:widget.images?[index].imagePath??"", fit: BoxFit.cover,),
+                  child:CachedImageWidget(imageUrl:widget.images?[index].imageUrl??"", fit: BoxFit.cover,),
                 ),
               ),
             ),

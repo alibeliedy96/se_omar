@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mr_omar/constants/text_styles.dart';
 import 'package:mr_omar/constants/themes.dart';
+import 'package:mr_omar/modules/explore/domain/models/units_response.dart';
 import 'package:mr_omar/widgets/common_card.dart';
 import 'package:mr_omar/widgets/list_cell_animation_view.dart';
 import '../../../../constants/helper.dart';
@@ -46,7 +47,7 @@ class SearchView extends StatelessWidget {
                       aspectRatio: 1.5,
                       child: unit.images != null &&
                           unit.images!.isNotEmpty
-                          ? CachedImageWidget(imageUrl: unit.images!.first.imagePath ?? "", fit: BoxFit.cover,)
+                          ? CachedImageWidget(imageUrl: unit.images?.primaryImageUrl ?? "", fit: BoxFit.cover,)
 
                           : Container(
                         color: Colors.grey.shade300,

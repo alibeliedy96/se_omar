@@ -69,7 +69,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     separatorBuilder: (context, index) => const Divider(height: 1),
                     itemBuilder: (context, index) {
                       // 2. The theme UI is now built using the controller.
-                      if (index == 1) {
+                      if (index == 0) {
                         return _controller.buildThemePopupMenu(context);
                       }
 
@@ -79,7 +79,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         child: Padding(
                           padding: const EdgeInsets.only(left: 8, right: 16),
                           child: Row(
-                            children: <Widget>[
+                            children: [
                               Expanded(
                                 child: Padding(
                                   padding: const EdgeInsets.all(16.0),

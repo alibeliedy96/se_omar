@@ -111,7 +111,7 @@ class PagePopup extends StatelessWidget {
           height: (MediaQuery.of(context).size.width * 1.3),
           width: MediaQuery.of(context).size.width,
           child: Image.network(
-            sliderData.image ?? "",
+            sliderData.imageUrl ?? "",
             fit: BoxFit.cover,
             errorBuilder: (_, __, ___) => Container(
               color: Colors.grey,

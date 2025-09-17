@@ -171,7 +171,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ),
                         );
                       } else {
-                        return const SizedBox.shrink(); // مش هيظهر غير لو فيه لوجين
+                        return const SizedBox.shrink();
                       }
                     },
                   ),
@@ -187,7 +187,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
               height: 70,
               child: ClipRRect(
                 borderRadius: const BorderRadius.all(Radius.circular(40.0)),
-                child: Image.asset(Localfiles.appIcon),
+                child:CachedImageWidget(imageUrl:  profileData?.profileImageUrl ?? "",
+                  fit: BoxFit.cover,),
               ),
             ),
           ),

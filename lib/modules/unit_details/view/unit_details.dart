@@ -8,9 +8,11 @@ import 'package:mr_omar/constants/localfiles.dart';
 import 'package:mr_omar/constants/text_styles.dart';
 import 'package:mr_omar/constants/themes.dart';
 import 'package:mr_omar/language/app_localizations.dart';
+import 'package:mr_omar/modules/explore/domain/models/units_response.dart';
 import 'package:mr_omar/modules/unit_details/domain/models/unit_details_response.dart';
 import 'package:mr_omar/modules/unit_details/review_data_view.dart';
 import 'package:mr_omar/modules/unit_details/view/unit_details_controller.dart';
+import 'package:mr_omar/modules/unit_details/view/widgets/create_review_dialog.dart';
 import 'package:mr_omar/routes/route_names.dart';
 import 'package:mr_omar/widgets/common_button.dart';
 import 'package:mr_omar/widgets/common_card.dart';
@@ -30,8 +32,8 @@ import '../rating_view.dart';
 
 class HotelDetails extends StatefulWidget {
   final String unitId  ;
-
-  const HotelDetails({Key? key, required this.unitId,  }) : super(key: key);
+  final  bool? isFinished;
+  const HotelDetails({Key? key, required this.unitId,   this.isFinished,  }) : super(key: key);
   @override
   State<HotelDetails> createState() => _HotelDetailsState();
 }
@@ -40,10 +42,6 @@ class _HotelDetailsState extends State<HotelDetails>
     with TickerProviderStateMixin {
   ScrollController scrollController = ScrollController(initialScrollOffset: 0);
   late final UnitDetailsController _controller;
-  // var hoteltext1 =
-  //     "Featuring a fitness center, Grand Royale Park Hote is located in Sweden, 4.7 km frome National Museum...";
-  // var hoteltext2 =
-  //     "Featuring a fitness center, Grand Royale Park Hote is located in Sweden, 4.7 km frome National Museum a fitness center, Grand Royale Park Hote is located in Sweden, 4.7 km frome National Museum a fitness center, Grand Royale Park Hote is located in Sweden, 4.7 km frome National Museum";
   bool isFav = false;
 
   late AnimationController animationController;
@@ -183,24 +181,97 @@ class _HotelDetailsState extends State<HotelDetails>
                 ),
 
                 // Hotel inside photo view
-                  UnitImagesList(images:unit.images),
-                _getPhotoReviewUi(Loc.alized.reviews, Loc.alized.view_all,
-                    Icons.arrow_forward, () {
-                      NavigationServices(context).gotoReviewsListScreen();
-                    }),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    UnitImagesList(images: unit.images),
 
-                // feedback&Review data view
-                for (var i = 0; i < (unit.reviews?.length ?? 0); i++)
-                  ReviewsView(
-                    reviewsList: unit.reviews![i],
-                    animation: animationController,
-                    animationController: animationController,
-                    callback: () {},
-                  ),
+                    _getPhotoReviewUi(
+                      Loc.alized.reviews,
+                      Loc.alized.view_all,
+                      Icons.arrow_forward,
+                          () {
+                        // تقدر تسيبها تروح للـ Reviews Screen لو عايز
+                        NavigationServices(context).gotoReviewsListScreen();
+                      },
+                    ),
 
-                const SizedBox(
-                  height: 16,
+                    // --- Reviews List ---
+                    if ((unit.reviews?.isNotEmpty ?? false)) ...[
+                      // اعرض 3 بس
+                      for (var i = 0; i < (unit.reviews!.length > 3 ? 3 : unit.reviews!.length); i++)
+                        ReviewsView(
+                          reviewsList: unit.reviews![i],
+                          animation: animationController,
+                          animationController: animationController,
+                          callback: () {},
+                        ),
+
+                      // زر Show More لو في أكتر من 3
+                      if (unit.reviews!.length > 3)
+                        Center(
+                          child: TextButton(
+                            onPressed: () {
+                              showModalBottomSheet(
+                                context: context,
+                                isScrollControlled: true,
+                                shape: const RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+                                ),
+                                builder: (ctx) => DraggableScrollableSheet(
+                                  expand: false,
+                                  initialChildSize: 0.8,
+                                  minChildSize: 0.5,
+                                  maxChildSize: 0.95,
+                                  builder: (_, scrollController) => ListView.builder(
+                                    controller: scrollController,
+                                    padding: const EdgeInsets.all(16),
+                                    itemCount: unit.reviews!.length,
+                                    itemBuilder: (_, index) => ReviewsView(
+                                      reviewsList: unit.reviews![index],
+                                      animation: animationController,
+                                      animationController: animationController,
+                                      callback: () {},
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                            child: Text(
+                              Loc.alized.show_more,
+                              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                color: Theme.of(context).colorScheme.primary,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ),
+                        ),
+                    ],
+
+                    const SizedBox(height: 16),
+
+                    // --- Add Review button لو isFinished = true ---
+                    if (widget.isFinished == true)
+                      Center(
+                        child: ElevatedButton.icon(
+                          icon: const Icon(Icons.rate_review),
+                          label:   Text(Loc.alized.add_review),
+                          style: ElevatedButton.styleFrom(
+                            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                          ),
+                          onPressed: () {
+                            showAddReviewDialog(
+                              context: context,
+                              unitId: unit.id ?? 0,
+
+                            );
+                          },
+                        ),
+                      ),
+                  ],
                 ),
+                const SizedBox(height: 5,),
                 InkWell(
                   onTap: () async {
                     const url = "https://www.google.com/maps/place/Si+Omar+resort/@31.3695203,27.2168471,17z/data=!4m6!3m5!1s0x1461ff268a06a247:0x984ed973b4e3297b!8m2!3d31.3694701!4d27.2168201!16s%2Fg%2F11c551dtsz?hl=en&entry=ttu&g_ep=EgoyMDI1MDgxOS4wIKXMDSoASAFQAw%3D%3D";
@@ -402,7 +473,7 @@ class _HotelDetailsState extends State<HotelDetails>
                           width: MediaQuery.of(context).size.width,
                           child:unit.images != null &&
                               unit.images!.isNotEmpty
-                              ? CachedImageWidget(imageUrl: unit.images!.first.imagePath ?? "", fit: BoxFit.cover,)
+                              ? CachedImageWidget(imageUrl: unit.images?.primaryImageUrl ?? "", fit: BoxFit.cover,)
 
                               : Container(
                             color: Colors.grey.shade300,

@@ -4,6 +4,7 @@ import 'package:mr_omar/constants/helper.dart';
 import 'package:mr_omar/constants/text_styles.dart';
 import 'package:mr_omar/constants/themes.dart';
 import 'package:mr_omar/language/app_localizations.dart';
+import 'package:mr_omar/modules/explore/domain/models/units_response.dart';
 import 'package:mr_omar/widgets/common_card.dart';
 import 'package:mr_omar/widgets/list_cell_animation_view.dart';
 
@@ -54,10 +55,8 @@ class FinishedReservationListViewItem extends StatelessWidget {
                       aspectRatio: 1.0,
                       child: CachedImageWidget(
                         imageUrl:
-                        reservationsData.unit?.images?.isNotEmpty == true
-                            ? reservationsData.unit!.images!.first.imagePath ?? ""
-                            :
-                        "",
+                       reservationsData.unit?.primaryImage?.imageUrl ?? ""
+                          ,
                         fit: BoxFit.cover,
                       ),
                     ),

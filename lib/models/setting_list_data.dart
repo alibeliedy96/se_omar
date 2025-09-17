@@ -53,11 +53,11 @@ class SettingsListData {
           isSelected: false,
           iconData: FontAwesomeIcons.circleInfo,
         ),
-        SettingsListData(
-          titleTxt: Loc.alized.payment_text,
-          isSelected: false,
-          iconData: FontAwesomeIcons.wallet,
-        ),
+        // SettingsListData(
+        //   titleTxt: Loc.alized.payment_text,
+        //   isSelected: false,
+        //   iconData: FontAwesomeIcons.wallet,
+        // ),
         SettingsListData(
           titleTxt: Loc.alized.setting_text,
           isSelected: false,
@@ -68,11 +68,11 @@ class SettingsListData {
     final token = await CacheHelper.getData(key: AppConstants.token);
 
     final list = [
-      SettingsListData(
-        titleTxt: Loc.alized.notifications,
-        isSelected: false,
-        iconData: FontAwesomeIcons.solidBell,
-      ),
+      // SettingsListData(
+      //   titleTxt: Loc.alized.notifications,
+      //   isSelected: false,
+      //   iconData: FontAwesomeIcons.solidBell,
+      // ),
       SettingsListData(
         titleTxt: Loc.alized.theme_mode,
         isSelected: false,
@@ -107,13 +107,13 @@ class SettingsListData {
             ? Icons.keyboard_arrow_left
             : Icons.keyboard_arrow_right,
       ),
-      SettingsListData(
-        titleTxt: Loc.alized.give_us_feedbacks,
-        isSelected: false,
-        iconData: Directionality.of(Get.context!) == TextDirection.rtl
-            ? Icons.keyboard_arrow_left
-            : Icons.keyboard_arrow_right,
-      ),
+      // SettingsListData(
+      //   titleTxt: Loc.alized.give_us_feedbacks,
+      //   isSelected: false,
+      //   iconData: Directionality.of(Get.context!) == TextDirection.rtl
+      //       ? Icons.keyboard_arrow_left
+      //       : Icons.keyboard_arrow_right,
+      // ),
     ];
 
 

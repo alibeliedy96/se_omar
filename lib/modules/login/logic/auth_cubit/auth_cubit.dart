@@ -31,22 +31,13 @@ class AuthCubit extends BaseCubit<AuthApiTypes>   {
       return repo.login(loginBody:loginBody);
     },
     onSuccess: (r) {
-      printLog("success   is ${r.message}");
+      printLog("success is ${r.message}");
 
       if(r.success ==true) {
-
-
-
         UTI.showSnackBar(context, r.message, 'success');
         saveUserData(r.data!);
         NavigationServices(context).navigateAndFinish(context, const BottomTabScreen());
-
-
-
-
-
-
-      }
+       }
     },
     onFailure: (l) {
       printLog("l is");
@@ -163,7 +154,12 @@ class AuthCubit extends BaseCubit<AuthApiTypes>   {
     );
 
   }
+  @override
+  Future<void> close() {
+    print("LoginCubit is being disposed! Cleaning up controllers.");
 
+    return super.close();
+  }
 }
 
 

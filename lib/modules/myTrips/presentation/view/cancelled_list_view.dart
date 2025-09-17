@@ -53,20 +53,29 @@ class _CancelledListViewState extends State<CancelledListView> {
           types: const [ReservationsApiTypes.reservations],
           // The body and loading states now call the same builder method
           body: (_) {
-            final notifications = _controller.reservations;
-            if (  notifications.isEmpty){
-              return UTI.errorWidget();
+            final reservations = _controller.reservations;
+            if (  reservations.isEmpty){
+              return _errorWidget();
             }else {
               return _buildListView(  loading: false);
             }
           },
-          error: (_) => UTI.errorWidget(),
+          error: (_) => _errorWidget(),
           loading: (_) => _buildListView(  loading: true),
         ),
       ),
     );
   }
-
+  Column _errorWidget() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        const SizedBox(height: 100,),
+        UTI.errorWidget(),
+      ],
+    );
+  }
   Widget _buildListView({required bool loading}) {
     return Skeletonizer(
       enabled: loading,
@@ -87,7 +96,8 @@ class _CancelledListViewState extends State<CancelledListView> {
         return CancelledListViewItem(
           callback: () {
             NavigationServices(context)
-                .gotoHotelDetails(unitId:_controller.reservations[index].unit!.id.toString());
+                .gotoHotelDetails(unitId:_controller.reservations[index].unit!.id.toString(),
+            isFinished: false);
           },
           reservationsData: _controller.reservations[index] ,
           animation: animation,

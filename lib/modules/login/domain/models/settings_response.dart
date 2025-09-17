@@ -1,12 +1,13 @@
 class SettingsResponse {
   bool? success;
+
   SettingsData? data;
 
   SettingsResponse({this.success, this.data});
 
   SettingsResponse.fromJson(Map<String, dynamic> json) {
     success = json['success'];
-    data = json['data'] != null ? SettingsData.fromJson(json['data']) : null;
+    data = json['data'] != null ?   SettingsData.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -26,6 +27,16 @@ class SettingsData {
   bool? reservationAutoApprove;
   bool? requireDepositForApproval;
   int? minimumReservationDays;
+  String? appName;
+  String? appVersion;
+  String? contactEmail;
+  String? contactPhone;
+  String? privacyPolicy;
+  String? termsOfService;
+  String? privacyPolicyLastUpdated;
+  String? termsOfServiceLastUpdated;
+  String? cancellationPolicy;
+  String? cancellationPolicyLastUpdated;
 
   SettingsData(
       {this.defaultReservationNotes,
@@ -33,7 +44,17 @@ class SettingsData {
         this.defaultMinimumDepositAmount,
         this.reservationAutoApprove,
         this.requireDepositForApproval,
-        this.minimumReservationDays});
+        this.minimumReservationDays,
+        this.appName,
+        this.appVersion,
+        this.contactEmail,
+        this.contactPhone,
+        this.privacyPolicy,
+        this.termsOfService,
+        this.privacyPolicyLastUpdated,
+        this.termsOfServiceLastUpdated,
+        this.cancellationPolicy,
+        this.cancellationPolicyLastUpdated});
 
   SettingsData.fromJson(Map<String, dynamic> json) {
     defaultReservationNotes = json['default_reservation_notes'];
@@ -42,6 +63,16 @@ class SettingsData {
     reservationAutoApprove = json['reservation_auto_approve'];
     requireDepositForApproval = json['require_deposit_for_approval'];
     minimumReservationDays = json['minimum_reservation_days'];
+    appName = json['app_name'];
+    appVersion = json['app_version'];
+    contactEmail = json['contact_email'];
+    contactPhone = json['contact_phone'];
+    privacyPolicy = json['privacy_policy'];
+    termsOfService = json['terms_of_service'];
+    privacyPolicyLastUpdated = json['privacy_policy_last_updated'];
+    termsOfServiceLastUpdated = json['terms_of_service_last_updated'];
+    cancellationPolicy = json['cancellation_policy'];
+    cancellationPolicyLastUpdated = json['cancellation_policy_last_updated'];
   }
 
   Map<String, dynamic> toJson() {
@@ -52,6 +83,17 @@ class SettingsData {
     data['reservation_auto_approve'] = reservationAutoApprove;
     data['require_deposit_for_approval'] = requireDepositForApproval;
     data['minimum_reservation_days'] = minimumReservationDays;
+    data['app_name'] = appName;
+    data['app_version'] = appVersion;
+    data['contact_email'] = contactEmail;
+    data['contact_phone'] = contactPhone;
+    data['privacy_policy'] = privacyPolicy;
+    data['terms_of_service'] = termsOfService;
+    data['privacy_policy_last_updated'] = privacyPolicyLastUpdated;
+    data['terms_of_service_last_updated'] = termsOfServiceLastUpdated;
+    data['cancellation_policy'] = cancellationPolicy;
+    data['cancellation_policy_last_updated'] =
+        cancellationPolicyLastUpdated;
     return data;
   }
 }

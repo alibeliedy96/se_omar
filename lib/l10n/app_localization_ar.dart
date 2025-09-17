@@ -16,9 +16,25 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get get_started => 'البدء';
+  @override
+  String get your_review_will_help_others_make_informed_decisions => 'مراجعتك ستساعد الآخرين على اتخاذ قرارات مستنيرة.';
+  @override
+  String get submit_review => 'إرسال التقييم';
+  @override
+  String get add_your_review => 'أضف تقييمك';
+  @override
+  String get write_a_short_review => 'اكتب تقييمك...';
+  @override
+  String get show_more => 'عرض المزيد';
+  @override
+  String get please_add_a_short_comment => 'من فضلك أضف تعليقًا قصيرًا.';
+  @override
+  String get please_provide_an_overall_rating => 'يرجى تقديم تقييم عام.';
 
   @override
   String get plan_your_trips => 'خطط لرحلاتك';
+  @override
+  String get add_review => 'اضف تقييمك';
 
   @override
   String get book_one_of_your => 'احجز أحد فنادقك الفريدة \n لتتخطى المألوف';
@@ -525,6 +541,15 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get setting_text => 'الاعدادات';
+
+  @override
+  String get cancel => 'الغاء';
+
+  @override
+  String get yes_cancel => 'نعم، إلغاء';
+
+  @override
+  String get cancel_reservation => 'إلغاء الحجز';
 
   @override
   String get notifications => 'إشعارات';

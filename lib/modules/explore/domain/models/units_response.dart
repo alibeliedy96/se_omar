@@ -173,7 +173,7 @@ class UnitType {
 class Images {
   int? id;
   int? unitId;
-  String? imagePath;
+  String? imageUrl;
   String? caption;
   int? order;
   bool? isPrimary;
@@ -184,21 +184,21 @@ class Images {
   Images(
       {this.id,
         this.unitId,
-        this.imagePath,
         this.caption,
         this.order,
         this.isPrimary,
         this.isActive,
         this.createdAt,
+        this.imageUrl,
         this.updatedAt});
 
   Images.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     unitId = json['unit_id'];
-    imagePath = json['image_path'];
     caption = json['caption'];
     order = json['order'];
     isPrimary = json['is_primary'];
+    imageUrl = json['image_url'];
     isActive = json['is_active'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
@@ -208,7 +208,6 @@ class Images {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
     data['unit_id'] = unitId;
-    data['image_path'] = imagePath;
     data['caption'] = caption;
     data['order'] = order;
     data['is_primary'] = isPrimary;
@@ -367,5 +366,18 @@ class Averages {
     data['pricing'] = pricing;
     data['location'] = location;
     return data;
+  }
+}
+extension PrimaryImageExtension on List<Images>? {
+  String? get primaryImageUrl {
+    if (this == null || this!.isEmpty) return null;
+
+
+    final primary = this!.firstWhere(
+          (img) => img.isPrimary == true && img.imageUrl != null,
+      orElse: () => this!.first,
+    );
+
+    return primary.imageUrl;
   }
 }

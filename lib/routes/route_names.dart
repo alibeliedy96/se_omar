@@ -13,6 +13,7 @@ import 'package:mr_omar/routes/routes.dart';
 import '../modules/choose_available_days_to_book/domain/models/bulk_pricing_response.dart';
 import '../modules/choose_available_days_to_book/presentation/view/booking_summary_screen.dart';
 import '../modules/choose_available_days_to_book/presentation/view/choose_available_days_screen.dart';
+import '../modules/profile/view/settings/terms_and_privcy_screen.dart';
 import '../modules/unit_details/view/unit_details.dart';
 import '../modules/unit_details/reviews_list_screen.dart';
 import '../modules/unit_details/room_booking_screen.dart';
@@ -71,9 +72,10 @@ class NavigationServices {
     return await _pushMaterialPageRoute(const ForgotPasswordScreen());
   }
 
-  Future<dynamic> gotoHotelDetails({required String unitId}) async {
+  Future<dynamic> gotoHotelDetails({required String unitId,   bool? isFinished}) async {
     return await _pushMaterialPageRoute(HotelDetails(
       unitId: unitId,
+        isFinished:isFinished
     ));
   }
 
@@ -119,6 +121,9 @@ class NavigationServices {
 
   Future<dynamic> gotoChangepasswordScreen() async {
     return await _pushMaterialPageRoute(const ChangePasswordScreen());
+  }
+  Future<dynamic> goToTermsAndPrivacyScreen({required String title, required String content}) async {
+    return await _pushMaterialPageRoute(  TermsAndPrivacyScreen(title:title ,content:content));
   }
 
 
