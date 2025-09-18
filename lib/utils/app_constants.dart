@@ -11,7 +11,7 @@ class AppConstants {
   static const String paginationQuery = "page";
   static String? timezone = '';
   static const String APP_NAME = 'سي عمر';
-
+  static String? fcmToken;
   static  String?  countryCode = 'sa';
   static  String  ar = 'ar';
   static  String   en = 'en';

@@ -314,6 +314,10 @@ class AppLocalizationsAr extends AppLocalizations {
   String get reviews => 'المراجعات';
 
   @override
+  String get your_review_will_help_others_make_informed_decisions =>
+      'مراجعتك ستساعد الآخرين على اتخاذ قرارات مستنيرة.';
+
+  @override
   String get book_now => ' احجز الآن';
 
   @override
@@ -324,8 +328,6 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get read_more => 'اقرأ أكثر';
-  @override
-  String get your_review_will_help_others_make_informed_decisions => 'مراجعتك ستساعد الآخرين على اتخاذ قرارات مستنيرة.';
 
   @override
   String get less => 'أقل';

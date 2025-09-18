@@ -673,7 +673,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Number of beds'**
   String get number_of_beds;
-  String get your_review_will_help_others_make_informed_decisions;
 
   /// No description provided for @km_to_city.
   ///
@@ -692,6 +691,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Reviews'**
   String get reviews;
+
+  /// No description provided for @your_review_will_help_others_make_informed_decisions.
+  ///
+  /// In en, this message translates to:
+  /// **'Your review will help others make informed decisions.'**
+  String get your_review_will_help_others_make_informed_decisions;
 
   /// No description provided for @book_now.
   ///

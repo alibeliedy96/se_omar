@@ -1,7 +1,8 @@
 class Localfiles {
   static const String baseImageUrl = 'assets/images/';
 
-  static const String appIcon = '${baseImageUrl}appIcon.jpeg';
+   static const String appIcon = '${baseImageUrl}appIcon.jpeg';
+  // static const String appIcon = '${baseImageUrl}appIcon.png';
   static const String image_404 = '${baseImageUrl}image_404.png';
   static const String holder = '${baseImageUrl}holder.webp';
   static const String avatar1 = '${baseImageUrl}avatar1.jpg';
